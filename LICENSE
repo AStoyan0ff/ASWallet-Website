@@ -1,0 +1,130 @@
+ASWALLET PROPRIETARY LICENSE
+Version 1.0, 2026
+
+Copyright (c) 2026 Andrey Stoyanov
+All Rights Reserved.
+
+1. OWNERSHIP
+
+The ASWallet project, including all associated source code, website code,
+software components, documentation, visual materials, branding, designs,
+graphics, logos, text content, database structures, workflows, configurations,
+and implementation details, is the exclusive intellectual property of
+Andrey Stoyanov.
+
+All ownership rights, copyright rights, and other applicable intellectual
+property rights remain exclusively with Andrey Stoyanov.
+
+2. PERMITTED USE
+
+This project is made publicly accessible solely for viewing, demonstration,
+educational review, portfolio presentation, and evaluation purposes.
+
+Public availability of the source code does not grant any licence or permission
+to copy, modify, reproduce, distribute, publish, sublicense, sell, commercially
+use, or create derivative works based on this project.
+
+3. PROHIBITED ACTIONS
+
+Without prior explicit written permission from Andrey Stoyanov, no person,
+company, organisation, or other legal entity may:
+
+- Copy, reproduce, download, republish, or redistribute any substantial part
+  of the source code or project materials.
+
+- Modify, adapt, translate, transform, or create derivative works based on
+  the source code, website, application, documentation, or visual design.
+
+- Reuse or reproduce the specific implementation of the application's
+  business logic, algorithms, workflows, software architecture, database
+  structure, user interface, or security mechanisms.
+
+- Sell, rent, sublicense, monetise, commercially exploit, or otherwise use
+  this project or any part of it for commercial purposes.
+
+- Present the project, source code, design, documentation, or any modified
+  version of them as their own work.
+
+- Remove, conceal, modify, or misrepresent any copyright notice, ownership
+  notice, author attribution, licence notice, or project identification.
+
+- Use the ASWallet name, logo, branding, visual identity, domain name, or
+  associated materials without prior written permission.
+
+- Reverse engineer, decompile, disassemble, or attempt to derive protected
+  implementation details from any distributed version of the software,
+  except where such restriction is prohibited by applicable law.
+
+4. NO OPEN-SOURCE LICENCE
+
+This project is proprietary software.
+
+It is not licensed under the MIT License, Apache License, GNU General Public
+License, BSD License, or any other open-source or free-software licence.
+
+No rights are granted by implication, estoppel, public repository access,
+source-code visibility, or otherwise.
+
+5. THIRD-PARTY COMPONENTS
+
+Third-party libraries, frameworks, fonts, icons, images, tools, and other
+dependencies used by the project remain subject to their respective licences,
+copyright notices, and terms of use.
+
+This licence applies only to the original work owned by Andrey Stoyanov and
+does not replace or override the licences of third-party components.
+
+6. COPYRIGHT LIMITATIONS
+
+This licence protects the original expression and implementation contained in
+the ASWallet project to the maximum extent permitted by applicable law.
+
+Abstract ideas, general concepts, software functionality, and principles that
+are not independently protected by applicable intellectual-property law are
+not claimed as exclusive property merely by this licence.
+
+7. NO WARRANTY
+
+THE SOFTWARE AND ALL ASSOCIATED MATERIALS ARE PROVIDED "AS IS", WITHOUT
+WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+NON-INFRINGEMENT, AVAILABILITY, SECURITY, OR ERROR-FREE OPERATION.
+
+THE OWNER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGE, LOSS, OR OTHER LIABILITY
+ARISING FROM THE USE OF, INABILITY TO USE, OR RELIANCE UPON THIS SOFTWARE OR
+ANY ASSOCIATED MATERIALS.
+
+8. ENFORCEMENT
+
+Any unauthorised copying, modification, distribution, publication,
+misrepresentation, commercial exploitation, or other prohibited use may
+constitute an infringement of copyright or other applicable intellectual
+property rights.
+
+The owner reserves the right to pursue all available legal remedies under
+applicable law.
+
+9. PERMISSION REQUESTS
+
+Permission for use, licensing, collaboration, reproduction, or commercial
+application must be obtained in writing from the copyright owner.
+
+Copyright Owner:
+Andrey Stoyanov
+
+Project:
+ASWallet
+
+Official Website:
+https://aswallet.eu
+
+GitHub:
+https://github.com/AStoyan0ff
+
+10. FINAL NOTICE
+
+No permission is granted unless it is expressly provided in a separate written
+agreement signed or otherwise explicitly approved by Andrey Stoyanov.
+
+Copyright (c) 2026 Andrey Stoyanov.
+All Rights Reserved.
