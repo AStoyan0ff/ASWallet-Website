@@ -11,22 +11,27 @@
     <meta name="author" content="Andrey Stoyanov">
     <meta name="keywords" content="ASWallet, Digital Wallet, Banking, Finance, Payments, Transfers">
 
+    <!-- Base -->
     <link rel="stylesheet" href="css/base/reset.css">
     <link rel="stylesheet" href="css/base/variables.css">
     <link rel="stylesheet" href="css/base/global.css">
 
+    <!-- Layout -->
     <link rel="stylesheet" href="css/layout/header.css">
 
+    <!-- Components -->
     <link rel="stylesheet" href="css/components/buttons.css">
 
+    <!-- Sections -->
     <link rel="stylesheet" href="css/sections/hero.css">
 
-    <link rel="stylesheet" href="css/animations.css">
+    <!-- Shared -->
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
+    <!-- Header -->
     <header class="site-header">
         <div class="container header-container">
 
@@ -91,9 +96,43 @@
             </button>
 
         </div>
+
+        <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+
+            <ul class="mobile-navigation-list">
+                <li>
+                    <a href="#home" class="mobile-navigation-link">Home</a>
+                </li>
+                <li>
+                    <a href="#features" class="mobile-navigation-link">Features</a>
+                </li>
+                <li>
+                    <a href="#security" class="mobile-navigation-link">Security</a>
+                </li>
+                <li>
+                    <a href="#roadmap" class="mobile-navigation-link">Roadmap</a>
+                </li>
+                <li>
+                    <a href="#about" class="mobile-navigation-link">About</a>
+                </li>
+            </ul>
+
+            <div class="mobile-navigation-actions">
+                <a href="https://github.com/AStoyan0ff/ASWallet-Vol.2" class="header-link" target="_blank"
+                    rel="noopener noreferrer">
+                    GitHub
+                </a>
+
+                <a href="#demo" class="button button-primary">
+                    Explore ASWallet
+                </a>
+            </div>
+        </nav>
     </header>
 
     <main>
+
+        <!-- Hero -->
         <section class="hero" id="home">
 
             <div class="container hero-container">
@@ -178,13 +217,15 @@
                 </div>
             </div>
         </section>
+
     </main>
 
+    <!-- Footer -->
     <footer>
 
     </footer>
 
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 
 </body>
 
