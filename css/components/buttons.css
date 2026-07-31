@@ -1,0 +1,35 @@
+.button {
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 22px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-small);
+    font-weight: 700;
+
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-normal),
+        background var(--transition-normal);
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+
+    color: #111111;
+
+    background: linear-gradient(135deg,
+            var(--color-gold-light),
+            var(--color-gold));
+
+    box-shadow: 0 12px 32px rgba(214, 180, 106, 0.16);
+}
+
+.button-primary:hover {
+    box-shadow: 0 16px 42px rgba(214, 180, 106, 0.28);
+}

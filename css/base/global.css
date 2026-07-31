@@ -1,0 +1,19 @@
+body {
+
+    min-height: 100vh;
+
+    color: var(--color-text-primary);
+    background:
+        radial-gradient(circle at top right,
+            rgba(214, 180, 106, 0.10),
+            transparent 32%),
+        var(--color-background);
+
+    font-family: var(--font-primary);
+}
+
+.container {
+
+    width: min(100% - 2 * var(--container-padding), var(--container-width));
+    margin-inline: auto;
+}

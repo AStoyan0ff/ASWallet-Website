@@ -1,0 +1,32 @@
+:root {
+
+    --color-background: #070707;
+    --color-background-soft: #101010;
+    --color-surface: rgba(255, 255, 255, 0.05);
+
+    --color-text-primary: #f5f1e8;
+    --color-text-secondary: #b9b1a3;
+    --color-text-muted: #7f786d;
+
+    --color-gold: #d6b46a;
+    --color-gold-light: #f1d28a;
+    --color-gold-dark: #9f7d39;
+
+    --color-border: rgba(214, 180, 106, 0.22);
+    --color-border-strong: rgba(214, 180, 106, 0.45);
+
+    --font-primary: "Inter", Arial, Helvetica, sans-serif;
+    --font-display: "Arial Black", Arial, Helvetica, sans-serif;
+
+    --header-height: 72px;
+
+    --container-width: 1200px;
+    --container-padding: 24px;
+
+    --border-radius-small: 10px;
+    --border-radius-medium: 16px;
+    --border-radius-large: 24px;
+
+    --transition-fast: 180ms ease;
+    --transition-normal: 280ms ease;
+}

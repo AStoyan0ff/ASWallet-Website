@@ -1,0 +1,454 @@
+   /* Hero Section */
+
+.hero {
+
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    align-items: center;
+    padding: 96px 0 110px;
+}
+
+.hero::before {
+
+    content: "";
+    position: absolute;
+    top: -220px;
+    right: -180px;
+    width: 620px;
+    height: 620px;
+    background: rgba(214, 180, 106, 0.14);
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+}
+
+.hero::after {
+
+    content: "";
+    position: absolute;
+    bottom: -260px;
+    left: -220px;
+    width: 560px;
+    height: 560px;
+    background: rgba(159, 125, 57, 0.08);
+    border-radius: 50%;
+    filter: blur(130px);
+    pointer-events: none;
+}
+
+   /* Hero Layout */
+
+.hero-container {
+
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    align-items: center;
+    gap: 80px;
+}
+
+.hero-content {
+    max-width: 700px;
+    animation: hero-fade-up 700ms ease-out forwards;
+}
+
+   /* Hero Tag */
+
+.hero-tag {
+
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: var(--color-gold-light);
+    background: rgba(214, 180, 106, 0.07);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+   /* Hero Typography */
+
+.hero-title {
+
+    margin-top: 14px;
+    max-width: 760px;
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 6.4vw, 6.8rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+}
+
+.hero-title span {
+
+    display: block;
+    margin-top: 6px;
+    padding-bottom: 0.12em;
+    color: transparent;
+
+    background: linear-gradient(
+        135deg,
+        var(--color-gold-light) 0%,
+        var(--color-gold) 48%,
+        var(--color-gold-dark) 100%
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-text {
+
+    max-width: 620px;
+    margin-top: 30px;
+    color: var(--color-text-secondary);
+    font-size: 1.08rem;
+    line-height: 1.85;
+}
+
+   /* Hero Buttons */
+
+.hero-buttons {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+   /* Hero Stats */
+
+.hero-stats {
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 50px;
+}
+
+.stat {
+
+    position: relative;
+    padding-left: 17px;
+}
+
+.stat::before {
+
+    content: "";
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 0;
+    width: 1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--color-gold-light),
+            rgba(214, 180, 106, 0.08)
+        );
+}
+
+.stat strong,
+.stat span {
+
+    display: block;
+}
+
+.stat strong {
+
+    color: var(--color-text-primary);
+    font-size: 0.92rem;
+    font-weight: 750;
+}
+
+.stat span {
+
+    margin-top: 7px;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+   /* Hero Visual */
+
+.hero-visual {
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 560px;
+    perspective: 1200px;
+}
+
+.hero-glow {
+
+    position: absolute;
+    width: 420px;
+    height: 420px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(214, 180, 106, 0.26),
+            rgba(214, 180, 106, 0.07) 42%,
+            transparent 72%
+        );
+
+    border-radius: 50%;
+    filter: blur(26px);
+    animation: hero-glow-pulse 5s ease-in-out infinite;
+}
+
+   /* Wallet Card */
+
+.wallet-card {
+
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    width: min(100%, 470px);
+    min-height: 310px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    color: #181208;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5db98 0%,
+            #d6b46a 35%,
+            #aa843f 68%,
+            #72521f 100%
+        );
+
+    border: 1px solid rgba(255, 246, 213, 0.40);
+    border-radius: 28px;
+
+    box-shadow:
+        0 45px 110px rgba(0, 0, 0, 0.62),
+        0 18px 50px rgba(214, 180, 106, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+
+    transform:
+        rotateX(6deg)
+        rotateY(-8deg)
+        rotateZ(2deg);
+
+    transition:
+        transform 500ms ease,
+        box-shadow 500ms ease;
+}
+
+.wallet-card::before {
+
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -35%;
+    width: 46%;
+    height: 210%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.28),
+            transparent
+        );
+
+    transform: rotate(18deg);
+    animation: card-shine 6s ease-in-out infinite;
+}
+
+.wallet-card::after {
+
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255, 255, 255, 0.24),
+            transparent 35%
+        );
+
+    pointer-events: none;
+}
+
+.wallet-card:hover {
+
+    transform:
+        rotateX(1deg)
+        rotateY(-2deg)
+        rotateZ(0deg)
+        translateY(-8px);
+
+    box-shadow:
+        0 55px 130px rgba(0, 0, 0, 0.68),
+        0 25px 70px rgba(214, 180, 106, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.46);
+}
+
+   /* Wallet Header */
+
+.wallet-header {
+
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.wallet-header span:last-child {
+
+    padding: 7px 10px;
+    color: rgba(24, 18, 8, 0.78);
+    background: rgba(255, 255, 255, 0.17);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    letter-spacing: 0.10em;
+}
+
+   /* Wallet Balance */
+
+.wallet-balance {
+
+    position: relative;
+    z-index: 1;
+    margin-top: 52px;
+}
+
+.wallet-balance small {
+
+    display: block;
+    color: rgba(24, 18, 8, 0.66);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.wallet-balance h2 {
+
+    margin-top: 8px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+}
+
+   /* Wallet Actions */
+
+.wallet-actions {
+
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 34px;
+}
+
+.wallet-actions div {
+
+    padding: 12px 8px;
+    text-align: center;
+    color: rgba(24, 18, 8, 0.82);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    backdrop-filter: blur(8px);
+}
+
+  /* Wallet Footer */
+
+.wallet-footer {
+
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 34px;
+    color: rgba(24, 18, 8, 0.80);
+}
+
+.wallet-footer span {
+
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.wallet-footer strong {
+
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+}
+
+   /* Hero Animations */
+
+@keyframes hero-glow-pulse {
+
+    0%,
+    100% {
+        transform: scale(0.95);
+        opacity: 0.72;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+@keyframes card-shine {
+
+    0%,
+    18% {
+        left: -55%;
+    }
+
+    42%,
+    100% {
+        left: 125%;
+    }
+}
+
+/* Hero Intro Animation */
+
+@keyframes hero-fade-up {
+
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
