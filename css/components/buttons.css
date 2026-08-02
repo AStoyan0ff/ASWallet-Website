@@ -7,12 +7,15 @@
     padding: 0 22px;
     border: 1px solid transparent;
     border-radius: var(--border-radius-small);
+    font-family: var(--font-primary);
     font-weight: 700;
 
     transition:
         transform var(--transition-fast),
         box-shadow var(--transition-normal),
-        background var(--transition-normal);
+        background var(--transition-normal),
+        border-color var(--transition-normal),
+        color var(--transition-normal);
 }
 
 .button:hover {
@@ -32,4 +35,19 @@
 
 .button-primary:hover {
     box-shadow: 0 16px 42px rgba(214, 180, 106, 0.28);
+}
+
+.button-secondary {
+
+    color: var(--color-text-primary);
+    background: transparent;
+    border-color: var(--color-border-strong);
+    box-shadow: none;
+}
+
+.button-secondary:hover {
+    color: var(--color-gold-light);
+    border-color: var(--color-gold-light);
+    background: rgba(214, 180, 106, 0.08);
+    box-shadow: 0 12px 32px rgba(214, 180, 106, 0.10);
 }

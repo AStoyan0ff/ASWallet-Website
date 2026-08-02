@@ -15,8 +15,8 @@
     --color-border: rgba(214, 180, 106, 0.22);
     --color-border-strong: rgba(214, 180, 106, 0.45);
 
-    --font-primary: "Inter", Arial, Helvetica, sans-serif;
-    --font-display: "Arial Black", Arial, Helvetica, sans-serif;
+    --font-primary: "DM Sans", system-ui, sans-serif;
+    --font-display: "Sora", system-ui, sans-serif;
 
     --header-height: 72px;
 
