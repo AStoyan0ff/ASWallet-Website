@@ -213,7 +213,8 @@
 }
 
 .mobile-navigation-link:hover,
-.mobile-navigation-link:focus-visible {
+.mobile-navigation-link:focus-visible,
+.mobile-navigation-link.active {
     color: var(--color-gold-light);
 }
 

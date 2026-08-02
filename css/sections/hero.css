@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;
     padding: 96px 0 110px;
+    scroll-margin-top: var(--header-height);
 }
 
 .hero::before {
