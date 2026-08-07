@@ -15,8 +15,8 @@
 
 .about-panel {
 
-    --about-mx: 72%;
-    --about-my: 38%;
+    --about-mx: 70%;
+    --about-my: 40%;
 
     position: relative;
     isolation: isolate;
@@ -45,16 +45,17 @@
     z-index: 0;
     pointer-events: none;
     background: radial-gradient(
-        520px circle at var(--about-mx) var(--about-my),
-        rgba(241, 210, 138, 0.16) 0%,
-        rgba(214, 180, 106, 0.06) 28%,
-        transparent 62%
+        460px circle at var(--about-mx) var(--about-my),
+        rgba(255, 246, 213, 0.26) 0%,
+        rgba(241, 210, 138, 0.14) 24%,
+        rgba(214, 180, 106, 0.05) 46%,
+        transparent 70%
     );
-    opacity: 0.55;
-    transition: opacity 320ms ease;
+    opacity: 0.4;
+    transition: opacity 280ms ease;
+    mix-blend-mode: screen;
 }
 
-.about-panel:hover .about-glare,
 .about-panel.is-active .about-glare {
     opacity: 1;
 }
@@ -116,10 +117,11 @@
 
     position: relative;
     justify-self: center;
-    width: min(100%, 340px);
+    width: min(100%, 360px);
     aspect-ratio: 1;
     display: grid;
     place-items: center;
+    overflow: visible;
 }
 
 .about-orbit-ring {
@@ -127,15 +129,16 @@
     position: absolute;
     inset: 18%;
     border-radius: 50%;
-    border: 1px solid rgba(214, 180, 106, 0.16);
+    border: 1px solid rgba(214, 180, 106, 0.20);
     pointer-events: none;
 }
 
 .about-orbit-ring--soft {
 
-    inset: 6%;
-    border-color: rgba(214, 180, 106, 0.08);
+    inset: 4%;
+    border-color: rgba(214, 180, 106, 0.10);
     border-style: dashed;
+    animation: about-orbit-spin 36s linear infinite;
 }
 
 .about-core {
@@ -147,12 +150,13 @@
     gap: 0;
     padding: 18px 22px;
     border-radius: 999px;
-    border: 1px solid rgba(214, 180, 106, 0.28);
+    border: 1px solid rgba(214, 180, 106, 0.34);
     background:
-        radial-gradient(circle at 30% 25%, rgba(255, 246, 213, 0.12), transparent 55%),
-        rgba(10, 10, 10, 0.88);
+        radial-gradient(circle at 30% 25%, rgba(255, 246, 213, 0.16), transparent 55%),
+        rgba(10, 10, 10, 0.92);
     box-shadow:
-        0 0 0 8px rgba(214, 180, 106, 0.05),
+        0 0 0 8px rgba(214, 180, 106, 0.06),
+        0 0 36px rgba(214, 180, 106, 0.12),
         0 12px 40px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
     font-family: var(--font-display);
@@ -175,20 +179,27 @@
     top: 50%;
     left: 50%;
     z-index: 1;
-    color: var(--color-text-secondary);
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    margin: 0;
+    color: rgba(241, 210, 138, 0.78);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     white-space: nowrap;
-    text-shadow: 0 0 18px rgba(214, 180, 106, 0.12);
+    pointer-events: none;
+    text-shadow: 0 0 18px rgba(214, 180, 106, 0.18);
     will-change: transform;
-    transition: color 220ms ease, text-shadow 220ms ease;
+    transform: translate(-50%, -50%);
 }
 
 .about-panel.is-active .about-word {
     color: var(--color-gold-light);
-    text-shadow: 0 0 22px rgba(214, 180, 106, 0.28);
+    text-shadow: 0 0 24px rgba(214, 180, 106, 0.42);
+}
+
+@keyframes about-orbit-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Footer line + tagline */
@@ -231,8 +242,8 @@
         transition: none;
     }
 
-    .about-word {
-        transition: none;
+    .about-orbit-ring--soft {
+        animation: none;
     }
 }
 
