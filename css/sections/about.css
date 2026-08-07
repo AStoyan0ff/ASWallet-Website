@@ -211,6 +211,8 @@
     margin-top: clamp(36px, 5vw, 56px);
     display: grid;
     gap: 18px;
+    justify-items: center;
+    text-align: center;
 }
 
 .about-line {

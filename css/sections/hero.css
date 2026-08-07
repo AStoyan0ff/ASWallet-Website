@@ -356,7 +356,16 @@
     text-transform: uppercase;
 }
 
-.wallet-header span:last-child {
+.wallet-header .brand-mark,
+.wallet-header .brand-name {
+    letter-spacing: inherit;
+}
+
+.wallet-header .brand-name {
+    color: #181208;
+}
+
+.wallet-header > span:last-child {
 
     padding: 7px 10px;
     color: rgba(24, 18, 8, 0.78);
