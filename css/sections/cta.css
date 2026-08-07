@@ -1,0 +1,214 @@
+/* Final CTA / Explore Section */
+
+.cta {
+
+    --cta-mx: 50%;
+    --cta-my: 52%;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(140px, 18vw, 220px) 0;
+    border-top: 1px solid rgba(214, 180, 106, 0.10);
+    scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+.cta-bg {
+
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.cta-glow {
+
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        520px circle at var(--cta-mx) var(--cta-my),
+        rgba(194, 59, 59, 0.14) 0%,
+        rgba(212, 122, 74, 0.10) 18%,
+        rgba(214, 180, 106, 0.12) 36%,
+        rgba(241, 210, 138, 0.04) 52%,
+        transparent 70%
+    );
+    opacity: 0.55;
+    transition: opacity 320ms ease;
+    mix-blend-mode: screen;
+}
+
+.cta.is-active .cta-glow {
+    opacity: 1;
+}
+
+.cta-lines {
+
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.55;
+}
+
+.cta-lines-group path {
+
+    fill: none;
+    stroke: rgba(214, 180, 106, 0.10);
+    stroke-width: 1;
+    stroke-linecap: round;
+}
+
+.cta-lines-group path:nth-child(3n) {
+    stroke: rgba(194, 59, 59, 0.07);
+}
+
+.cta-lines-group path:nth-child(3n + 1) {
+    stroke: rgba(241, 210, 138, 0.09);
+}
+
+.cta-container {
+
+    position: relative;
+    z-index: 1;
+    width: min(100% - 2 * var(--container-padding), 880px);
+    display: grid;
+    gap: clamp(40px, 6vw, 64px);
+    justify-items: center;
+    text-align: center;
+}
+
+.cta-header {
+    max-width: 720px;
+    display: grid;
+    gap: 18px;
+}
+
+.cta-title {
+
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+}
+
+.cta-title .brand-mark,
+.cta-title .brand-name {
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+}
+
+.roadmap-title .brand-mark,
+.roadmap-title .brand-name {
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+}
+
+.cta-text {
+
+    margin-inline: auto;
+    max-width: 520px;
+    color: var(--color-text-secondary);
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    line-height: 1.75;
+}
+
+.cta-action {
+
+    display: grid;
+    gap: 22px;
+    justify-items: center;
+}
+
+.cta-button-wrap {
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-button-aura {
+
+    position: absolute;
+    inset: -28px;
+    border-radius: 999px;
+    background: radial-gradient(
+        circle at var(--cta-mx) var(--cta-my),
+        rgba(194, 59, 59, 0.28) 0%,
+        rgba(214, 180, 106, 0.22) 34%,
+        rgba(241, 210, 138, 0.08) 58%,
+        transparent 72%
+    );
+    filter: blur(18px);
+    opacity: 0.55;
+    transition: opacity 320ms ease, transform 500ms ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cta.is-active .cta-button-aura {
+    opacity: 0.95;
+    transform: scale(1.06);
+}
+
+.cta-button {
+
+    position: relative;
+    z-index: 1;
+    min-height: 58px;
+    padding: 0 36px;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    box-shadow:
+        0 16px 40px rgba(214, 180, 106, 0.22),
+        0 0 0 1px rgba(255, 246, 213, 0.18);
+}
+
+.cta-button:hover {
+    box-shadow:
+        0 20px 52px rgba(214, 180, 106, 0.34),
+        0 0 0 1px rgba(255, 246, 213, 0.28);
+}
+
+.cta-note {
+
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cta-glow,
+    .cta-button-aura {
+        transition: none;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .cta {
+        padding: 110px 0 120px;
+    }
+
+    .cta-title {
+        font-size: clamp(2rem, 9vw, 2.6rem);
+    }
+
+    .cta-button {
+        min-height: 52px;
+        padding: 0 28px;
+        font-size: 0.98rem;
+    }
+
+    .cta-lines {
+        opacity: 0.4;
+    }
+}

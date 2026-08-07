@@ -166,11 +166,11 @@
 }
 
 .about-core-mark {
-    color: var(--color-gold-light);
+    color: var(--color-brand-red);
 }
 
 .about-core-name {
-    color: var(--color-text-primary);
+    color: var(--color-gold-light);
 }
 
 .about-word {

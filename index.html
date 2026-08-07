@@ -22,9 +22,11 @@
 
     <!-- Layout -->
     <link rel="stylesheet" href="css/layout/header.css">
+    <link rel="stylesheet" href="css/layout/footer.css">
 
     <!-- Components -->
     <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/modal.css">
 
     <!-- Sections -->
     <link rel="stylesheet" href="css/sections/hero.css">
@@ -32,6 +34,7 @@
     <link rel="stylesheet" href="css/sections/security.css">
     <link rel="stylesheet" href="css/sections/roadmap.css">
     <link rel="stylesheet" href="css/sections/about.css">
+    <link rel="stylesheet" href="css/sections/cta.css">
 
     <!-- Shared -->
     <link rel="stylesheet" href="css/responsive.css">
@@ -90,8 +93,8 @@
                     GitHub
                 </a>
 
-                <a href="#demo" class="button button-primary">
-                    Explore ASWallet
+                <a href="/explore" class="button button-primary" data-explore-trigger>
+                    Explore <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
                 </a>
             </div>
 
@@ -131,8 +134,8 @@
                     GitHub
                 </a>
 
-                <a href="#demo" class="button button-primary">
-                    Explore ASWallet
+                <a href="/explore" class="button button-primary" data-explore-trigger>
+                    Explore <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
                 </a>
             </div>
         </nav>
@@ -166,8 +169,8 @@
 
                     <div class="hero-buttons">
 
-                        <a href="#features" class="button button-primary">
-                            Explore ASWallet
+                        <a href="/explore" class="button button-primary" data-explore-trigger>
+                            Explore <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
                         </a>
 
                         <a href="https://github.com/AStoyan0ff/ASWallet-Vol.2" target="_blank" rel="noopener noreferrer"
@@ -203,7 +206,7 @@
                     <div class="wallet-card">
 
                         <div class="wallet-header">
-                            <span>ASWallet</span>
+                            <span><span class="brand-mark">AS</span><span class="brand-name">Wallet</span></span>
                             <span>Premium</span>
                         </div>
 
@@ -236,7 +239,7 @@
                     <span class="features-eyebrow">Features</span>
                     <h2 class="features-title">Built for everyday money moves</h2>
                     <p class="features-text">
-                        ASWallet keeps the essentials sharp — transfer, deposit
+                        <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> keeps the essentials sharp — transfer, deposit
                         and stay in control without the clutter.
                     </p>
                 </header>
@@ -293,7 +296,7 @@
                         <div class="security-body">
                             <h3 class="security-item-title">Protected by design</h3>
                             <p class="security-item-description">
-                                ASWallet is a proprietary original project — built with
+                                <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> is a proprietary original project — built with
                                 deliberate boundaries so your money flow stays private,
                                 controlled and intentional.
                             </p>
@@ -328,7 +331,7 @@
                     <span class="security-eyebrow">Security</span>
                     <h2 class="security-title">Security without the noise</h2>
                     <p class="security-text">
-                        ASWallet treats trust as part of the product — protected by
+                        <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> treats trust as part of the product — protected by
                         design, built on solid architecture, kept under your control.
                     </p>
                 </header>
@@ -345,7 +348,7 @@
 
                 <header class="roadmap-header">
                     <span class="roadmap-eyebrow">Roadmap</span>
-                    <h2 class="roadmap-title">Where <span class="roadmap-brand">ASWallet</span> is headed</h2>
+                    <h2 class="roadmap-title">Where <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> is headed</h2>
                     <p class="roadmap-text">
                         A clear path from today's platform to a complete digital
                         banking ecosystem — one milestone at a time.
@@ -646,11 +649,110 @@
             </div>
         </section>
 
+        <!-- CTA / Explore -->
+        <section class="cta" id="demo" data-cta>
+            <div class="cta-bg" aria-hidden="true">
+                <div class="cta-glow" data-cta-glow></div>
+                <svg class="cta-lines" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+                    <g class="cta-lines-group">
+                        <path d="M60 40 L600 350" />
+                        <path d="M220 20 L600 350" />
+                        <path d="M400 10 L600 350" />
+                        <path d="M800 10 L600 350" />
+                        <path d="M980 20 L600 350" />
+                        <path d="M1140 40 L600 350" />
+                        <path d="M40 180 L600 350" />
+                        <path d="M1160 180 L600 350" />
+                        <path d="M30 350 L600 350" />
+                        <path d="M1170 350 L600 350" />
+                        <path d="M40 520 L600 350" />
+                        <path d="M1160 520 L600 350" />
+                        <path d="M60 660 L600 350" />
+                        <path d="M220 680 L600 350" />
+                        <path d="M400 690 L600 350" />
+                        <path d="M800 690 L600 350" />
+                        <path d="M980 680 L600 350" />
+                        <path d="M1140 660 L600 350" />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="container cta-container">
+                <header class="cta-header">
+                    <h2 class="cta-title">Ready to experience <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>?</h2>
+                    <p class="cta-text">
+                        Explore a smarter, safer way to manage your money.
+                    </p>
+                </header>
+
+                <div class="cta-action">
+                    <div class="cta-button-wrap">
+                        <span class="cta-button-aura" data-cta-aura aria-hidden="true"></span>
+                        <a href="/explore" class="button button-primary cta-button" data-explore-trigger>
+                            Explore <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
+                        </a>
+                    </div>
+                    <p class="cta-note">
+                        No registration required. Explore the demo safely.
+                    </p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer>
+    <!-- Explore coming soon modal -->
+    <div class="modal" id="explore-modal" hidden data-explore-modal>
+        <div class="modal-backdrop" data-explore-close tabindex="-1"></div>
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="explore-modal-title">
+            <button class="modal-close" type="button" data-explore-close aria-label="Close dialog">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span class="modal-eyebrow">Coming soon</span>
+            <h2 class="modal-title" id="explore-modal-title"><span class="brand-mark">AS</span><span class="brand-name">Wallet</span> Demo is coming soon.</h2>
+            <p class="modal-text">
+                We’re building an interactive experience that will let you explore
+                <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> safely - without registration or real financial data.
+            </p>
+            <button class="button button-primary modal-action" type="button" data-explore-close>
+                Got it
+            </button>
+        </div>
+    </div>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+
+            <div class="footer-top">
+
+                <div class="footer-brand-block">
+                    <a href="#home" class="footer-brand" aria-label="ASWallet home">
+                        <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
+                    </a>
+                    <p class="footer-tagline">A smarter way to manage your money.</p>
+                </div>
+
+                <nav class="footer-nav" aria-label="Footer navigation">
+                    <a href="#features" class="footer-nav-link">Features</a>
+                    <a href="#security" class="footer-nav-link">Security</a>
+                    <a href="#roadmap" class="footer-nav-link">Roadmap</a>
+                    <a href="#about" class="footer-nav-link">About</a>
+                </nav>
+
+                <p class="footer-status">
+                    <span class="footer-status-dot" aria-hidden="true"></span>
+                    All systems operational
+                </p>
+
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-line" aria-hidden="true"></div>
+                <p class="footer-copy">© 2026 <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>. All rights reserved.</p>
+            </div>
+
+        </div>
     </footer>
 
     <script type="module" src="js/app.js"></script>

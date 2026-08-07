@@ -37,6 +37,14 @@
     box-shadow: 0 16px 42px rgba(214, 180, 106, 0.28);
 }
 
+.button-primary .brand-mark {
+    color: #9e1f1f;
+}
+
+.button-primary .brand-name {
+    color: #181208;
+}
+
 .button-secondary {
 
     color: var(--color-text-primary);

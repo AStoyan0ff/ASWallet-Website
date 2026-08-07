@@ -45,12 +45,15 @@
 }
 
 .brand-mark {
-    color: var(--color-gold-light);
-    font-size: 1.20em;
+    color: var(--color-brand-red);
 }
 
 .brand-name {
-    color: var(--color-text-primary);
+    color: var(--color-gold-light);
+}
+
+.brand .brand-mark {
+    font-size: 1.20em;
 }
 
 /* Navigation */
