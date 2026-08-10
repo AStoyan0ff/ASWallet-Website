@@ -1,0 +1,154 @@
+/* Recent transactions */
+
+.transactions-card {
+
+    margin-top: 20px;
+    padding: clamp(18px, 2.5vw, 24px);
+    border: 1px solid rgba(214, 180, 106, 0.16);
+    border-radius: 22px;
+    background:
+        linear-gradient(160deg,
+            rgba(255, 255, 255, 0.04) 0%,
+            rgba(12, 12, 12, 0.72) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.transactions-card-top {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.transactions-title {
+
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.transactions-note {
+
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+}
+
+.transactions-table-wrap {
+    overflow-x: auto;
+}
+
+.transactions-table {
+
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 520px;
+}
+
+.transactions-table th,
+.transactions-table td {
+
+    padding: 14px 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.transactions-table th {
+
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(214, 180, 106, 0.12);
+}
+
+.transactions-table td {
+
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.transactions-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.transactions-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.transactions-table tbody tr:hover {
+    background: rgba(214, 180, 106, 0.04);
+}
+
+.transactions-table tbody tr.is-new {
+    animation: transaction-highlight 1.8s ease;
+}
+
+@keyframes transaction-highlight {
+
+    0% {
+        background: rgba(214, 180, 106, 0.22);
+        box-shadow: inset 3px 0 0 var(--color-gold-light);
+    }
+
+    45% {
+        background: rgba(214, 180, 106, 0.10);
+        box-shadow: inset 3px 0 0 var(--color-gold);
+    }
+
+    100% {
+        background: transparent;
+        box-shadow: inset 3px 0 0 transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .transactions-table tbody tr.is-new {
+        animation: none;
+    }
+}
+
+.tx-name {
+
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.tx-amount {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+}
+
+.tx-amount.is-in {
+    color: #8fe0b4;
+}
+
+.tx-amount.is-out {
+    color: #e08a8a;
+}
+
+.tx-status {
+
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    color: #8fe0b4;
+    background: rgba(62, 207, 142, 0.10);
+    border: 1px solid rgba(62, 207, 142, 0.22);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}

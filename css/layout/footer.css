@@ -19,18 +19,17 @@
 
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr);
+    grid-template-areas:
+        "brand brand brand"
+        "tagline nav status";
     align-items: end;
-    gap: 32px 48px;
-}
-
-.footer-brand-block {
-    display: grid;
-    gap: 12px;
-    max-width: 280px;
+    gap: 14px 48px;
 }
 
 .footer-brand {
 
+    grid-area: brand;
+    justify-self: center;
     display: inline-flex;
     align-items: baseline;
     width: fit-content;
@@ -50,6 +49,9 @@
 
 .footer-tagline {
 
+    grid-area: tagline;
+    margin: 0;
+    max-width: 280px;
     color: var(--color-text-secondary);
     font-size: 0.95rem;
     line-height: 1.6;
@@ -57,6 +59,7 @@
 
 .footer-nav {
 
+    grid-area: nav;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -106,6 +109,7 @@
 
 .footer-status {
 
+    grid-area: status;
     justify-self: end;
     align-self: end;
     display: inline-flex;
@@ -160,9 +164,18 @@
 
     .footer-top {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "brand"
+            "tagline"
+            "nav"
+            "status";
         align-items: start;
-        gap: 28px;
+        gap: 20px;
         justify-items: start;
+    }
+
+    .footer-brand {
+        justify-self: center;
     }
 
     .footer-nav {

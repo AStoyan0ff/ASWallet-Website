@@ -6,18 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>ASWallet Demo | Interactive Wallet Dashboard</title>
-    <meta name="description" content="Explore ASWallet safely in an interactive demo - no registration or real financial data.">
+    <meta name="description"
+        content="Explore ASWallet safely in an interactive demo - no registration or real financial data.">
     <meta name="robots" content="noindex">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Sora:wght@600;700;800&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="../css/base/reset.css">
     <link rel="stylesheet" href="../css/base/variables.css">
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/layout/header.css">
-    <link rel="stylesheet" href="../css/demo/demo.css">
+    <!-- <link rel="stylesheet" href="../css/demo/demo.css"> -->
+
+    <link rel="stylesheet" href="../css/demo/demo-shell.css">
+    <link rel="stylesheet" href="../css/demo/demo-dashboard.css">
+    <link rel="stylesheet" href="../css/demo/demo-actions.css">
+    <link rel="stylesheet" href="../css/demo/demo-transactions.css">
+    <link rel="stylesheet" href="../css/demo/demo-transfer.css">
+    <link rel="stylesheet" href="../css/demo/demo-history.css">
+    <link rel="stylesheet" href="../css/demo/demo-modal.css">
+    <link rel="stylesheet" href="../css/demo/demo-responsive.css">
 </head>
 
 <body class="demo-page">
@@ -76,8 +88,10 @@
                     <div class="demo-topbar-right">
                         <button class="demo-notify" type="button" aria-label="Notifications">
                             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                                <path d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                                <path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z" stroke="currentColor"
+                                    stroke-width="1.6" stroke-linejoin="round" />
+                                <path d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z" stroke="currentColor"
+                                    stroke-width="1.6" stroke-linejoin="round" />
                             </svg>
                             <span class="demo-notify-dot" aria-hidden="true"></span>
                         </button>
@@ -96,335 +110,896 @@
 
                 <main class="demo-main">
 
-                <section class="demo-view is-active" data-demo-view="dashboard">
-                    <header class="demo-view-header">
-                        <h1 class="demo-view-title">Dashboard</h1>
-                        <p class="demo-view-text">
-                            Your money at a glance - demo data only.
-                        </p>
-                    </header>
-
-                    <div class="dashboard-hero">
-
-                    <article class="balance-card" data-balance-card>
-
-                        <div class="balance-card-shine" aria-hidden="true"></div>
-
-                        <div class="balance-card-header">
-                            <span class="balance-card-brand">
-                                <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
-                            </span>
-                            <span class="balance-card-badge">Premium</span>
-                        </div>
-
-                        <div class="balance-card-body">
-                            <div class="balance-card-top">
-                                <span class="balance-label">Total Balance</span>
-                                <button
-                                    class="balance-toggle"
-                                    type="button"
-                                    data-balance-toggle
-                                    aria-pressed="false"
-                                    aria-label="Hide balance"
-                                >
-                                    <svg class="balance-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.6"/>
-                                        <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/>
-                                        <path class="balance-icon-slash" d="M4 4l16 16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <p class="balance-amount" data-balance-amount data-visible="€12,480.75" data-hidden="••••••••">
-                                €12,480.75
+                    <section class="demo-view is-active" data-demo-view="dashboard">
+                        <header class="demo-view-header">
+                            <h1 class="demo-view-title">Dashboard</h1>
+                            <p class="demo-view-text">
+                                Your money at a glance - demo data only.
                             </p>
+                        </header>
 
-                            <p class="balance-change">+8.4% this month</p>
+                        <div class="dashboard-hero">
+
+                            <article class="balance-card" data-balance-card>
+
+                                <div class="balance-card-shine" aria-hidden="true"></div>
+
+                                <div class="balance-card-header">
+                                    <span class="balance-card-brand">
+                                        <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
+                                    </span>
+                                    <span class="balance-card-badge">Premium</span>
+                                </div>
+
+                                <div class="balance-card-body">
+                                    <div class="balance-card-top">
+                                        <span class="balance-label">Total Balance</span>
+                                        <button class="balance-toggle" type="button" data-balance-toggle
+                                            aria-pressed="false" aria-label="Hide balance">
+                                            <svg class="balance-icon" viewBox="0 0 24 24" fill="none"
+                                                aria-hidden="true">
+                                                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+                                                    stroke="currentColor" stroke-width="1.6" />
+                                                <circle cx="12" cy="12" r="3.2" stroke="currentColor"
+                                                    stroke-width="1.6" />
+                                                <path class="balance-icon-slash" d="M4 4l16 16" stroke="currentColor"
+                                                    stroke-width="1.7" stroke-linecap="round" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <p class="balance-amount" data-balance-amount data-visible="€12,480.75"
+                                        data-hidden="••••••••">
+                                        €12,480.75
+                                    </p>
+
+                                    <p class="balance-change">+8.4% this month</p>
+                                </div>
+
+                                <div class="balance-iban">
+                                    <span class="balance-iban-label">IBAN</span>
+                                    <span class="balance-iban-value">BG•• •••• •••• 4582</span>
+                                </div>
+
+                                <div class="balance-card-footer">
+                                    <span>•••• 4582</span>
+                                    <strong>MASTERCARD</strong>
+                                </div>
+
+                            </article>
+
+                            <aside class="spending-card" aria-label="Spending overview">
+                                <div class="spending-card-top">
+                                    <div>
+                                        <h2 class="spending-title">Spending Overview</h2>
+                                        <p class="spending-subtitle">Last 7 days</p>
+                                    </div>
+                                    <div class="spending-total">
+                                        <span class="spending-total-label">Total spent</span>
+                                        <strong class="spending-total-value">€1,284.30</strong>
+                                    </div>
+                                </div>
+
+                                <div class="spending-chart" aria-hidden="true">
+                                    <div class="spending-bar" style="--spend: 42%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Mon</span>
+                                    </div>
+                                    <div class="spending-bar" style="--spend: 68%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Tue</span>
+                                    </div>
+                                    <div class="spending-bar" style="--spend: 35%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Wed</span>
+                                    </div>
+                                    <div class="spending-bar" style="--spend: 84%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Thu</span>
+                                    </div>
+                                    <div class="spending-bar" style="--spend: 56%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Fri</span>
+                                    </div>
+                                    <div class="spending-bar" style="--spend: 92%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Sat</span>
+                                    </div>
+                                    <div class="spending-bar" style="--spend: 48%">
+                                        <span class="spending-col"></span>
+                                        <span class="spending-day">Sun</span>
+                                    </div>
+                                </div>
+
+                                <ul class="spending-categories">
+                                    <li>
+                                        <span class="spending-dot spending-dot--shopping"></span>
+                                        <span>Shopping</span>
+                                        <strong>€412.00</strong>
+                                    </li>
+                                    <li>
+                                        <span class="spending-dot spending-dot--food"></span>
+                                        <span>Food</span>
+                                        <strong>€356.40</strong>
+                                    </li>
+                                    <li>
+                                        <span class="spending-dot spending-dot--bills"></span>
+                                        <span>Bills</span>
+                                        <strong>€298.90</strong>
+                                    </li>
+                                    <li>
+                                        <span class="spending-dot spending-dot--transport"></span>
+                                        <span>Transport</span>
+                                        <strong>€217.00</strong>
+                                    </li>
+                                </ul>
+                            </aside>
+
                         </div>
 
-                        <div class="balance-iban">
-                            <span class="balance-iban-label">IBAN</span>
-                            <span class="balance-iban-value">BG•• •••• •••• 4582</span>
+                        <section class="quick-actions" aria-label="Quick actions">
+                            <button class="quick-action quick-action--send" type="button" data-quick-action="send">
+                                <span class="quick-action-glow" aria-hidden="true"></span>
+                                <span class="quick-action-top">
+                                    <span class="quick-action-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M4 12h12" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                            <path d="M12 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="quick-action-chart" aria-hidden="true">
+                                        <i style="--h:38%"></i>
+                                        <i style="--h:62%"></i>
+                                        <i style="--h:48%"></i>
+                                        <i style="--h:84%"></i>
+                                        <i style="--h:56%"></i>
+                                    </span>
+                                </span>
+                                <span class="quick-action-copy">
+                                    <span class="quick-action-label">Send</span>
+                                    <span class="quick-action-hint">Transfer out</span>
+                                </span>
+                            </button>
+
+                            <button class="quick-action quick-action--deposit" type="button"
+                                data-quick-action="deposit">
+                                <span class="quick-action-glow" aria-hidden="true"></span>
+                                <span class="quick-action-top">
+                                    <span class="quick-action-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 4v12" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                            <path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 20h14" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="quick-action-chart" aria-hidden="true">
+                                        <i style="--h:28%"></i>
+                                        <i style="--h:44%"></i>
+                                        <i style="--h:58%"></i>
+                                        <i style="--h:72%"></i>
+                                        <i style="--h:90%"></i>
+                                    </span>
+                                </span>
+                                <span class="quick-action-copy">
+                                    <span class="quick-action-label">Deposit</span>
+                                    <span class="quick-action-hint">Add funds</span>
+                                </span>
+                            </button>
+
+                            <button class="quick-action quick-action--withdraw" type="button"
+                                data-quick-action="withdraw">
+                                <span class="quick-action-glow" aria-hidden="true"></span>
+                                <span class="quick-action-top">
+                                    <span class="quick-action-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 20V8" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                            <path d="M7 13l5-5 5 5" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 4h14" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="quick-action-chart" aria-hidden="true">
+                                        <i style="--h:88%"></i>
+                                        <i style="--h:70%"></i>
+                                        <i style="--h:54%"></i>
+                                        <i style="--h:40%"></i>
+                                        <i style="--h:26%"></i>
+                                    </span>
+                                </span>
+                                <span class="quick-action-copy">
+                                    <span class="quick-action-label">Withdraw</span>
+                                    <span class="quick-action-hint">Cash out</span>
+                                </span>
+                            </button>
+
+                            <button class="quick-action quick-action--request" type="button"
+                                data-quick-action="request">
+                                <span class="quick-action-glow" aria-hidden="true"></span>
+                                <span class="quick-action-top">
+                                    <span class="quick-action-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 5v10" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                            <path d="M8 9l4-4 4 4" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M5 19h14" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="quick-action-chart" aria-hidden="true">
+                                        <i style="--h:46%"></i>
+                                        <i style="--h:34%"></i>
+                                        <i style="--h:68%"></i>
+                                        <i style="--h:52%"></i>
+                                        <i style="--h:78%"></i>
+                                    </span>
+                                </span>
+                                <span class="quick-action-copy">
+                                    <span class="quick-action-label">Request</span>
+                                    <span class="quick-action-hint">Ask for money</span>
+                                </span>
+                            </button>
+                        </section>
+
+                        <section class="transactions-card" aria-label="Recent transactions">
+                            <div class="transactions-card-top">
+                                <h2 class="transactions-title">Recent Transactions</h2>
+                                <span class="transactions-note">Demo data</span>
+                            </div>
+
+                            <div class="transactions-table-wrap">
+                                <table class="transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Transaction</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-dashboard-transactions>
+                                        <tr>
+                                            <td data-label="Transaction">
+                                                <span class="tx-name">Netflix</span>
+                                            </td>
+                                            <td data-label="Date">Today</td>
+                                            <td data-label="Amount">
+                                                <span class="tx-amount is-out">−€15.99</span>
+                                            </td>
+                                            <td data-label="Status">
+                                                <span class="tx-status">Completed</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="Transaction">
+                                                <span class="tx-name">Salary</span>
+                                            </td>
+                                            <td data-label="Date">8 Aug</td>
+                                            <td data-label="Amount">
+                                                <span class="tx-amount is-in">+€2,450.00</span>
+                                            </td>
+                                            <td data-label="Status">
+                                                <span class="tx-status">Completed</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="Transaction">
+                                                <span class="tx-name">Maria Petrova</span>
+                                            </td>
+                                            <td data-label="Date">7 Aug</td>
+                                            <td data-label="Amount">
+                                                <span class="tx-amount is-out">−€120.00</span>
+                                            </td>
+                                            <td data-label="Status">
+                                                <span class="tx-status">Completed</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="Transaction">
+                                                <span class="tx-name">Electricity</span>
+                                            </td>
+                                            <td data-label="Date">6 Aug</td>
+                                            <td data-label="Amount">
+                                                <span class="tx-amount is-out">−€84.20</span>
+                                            </td>
+                                            <td data-label="Status">
+                                                <span class="tx-status">Completed</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </section>
+
+                    <section class="demo-view" data-demo-view="transfer" hidden>
+                        <header class="demo-view-header transfer-header">
+                            <h1 class="demo-view-title">Transfer</h1>
+                            <p class="demo-view-text transfer-lead">
+                                Send money securely in a few simple steps.
+                            </p>
+                        </header>
+
+                        <nav class="transfer-steps" data-transfer-steps aria-label="Transfer progress">
+                            <div class="transfer-step is-active" data-transfer-step="1">
+                                <span class="transfer-step-index" aria-hidden="true">
+                                    <span class="transfer-step-num">1</span>
+                                    <svg class="transfer-step-check" viewBox="0 0 20 20" fill="none">
+                                        <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                                <span class="transfer-step-label">Recipient</span>
+                            </div>
+
+                            <span class="transfer-step-line" aria-hidden="true"></span>
+
+                            <div class="transfer-step" data-transfer-step="2">
+                                <span class="transfer-step-index" aria-hidden="true">
+                                    <span class="transfer-step-num">2</span>
+                                    <svg class="transfer-step-check" viewBox="0 0 20 20" fill="none">
+                                        <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                                <span class="transfer-step-label">Details</span>
+                            </div>
+
+                            <span class="transfer-step-line" aria-hidden="true"></span>
+
+                            <div class="transfer-step" data-transfer-step="3">
+                                <span class="transfer-step-index" aria-hidden="true">
+                                    <span class="transfer-step-num">3</span>
+                                    <svg class="transfer-step-check" viewBox="0 0 20 20" fill="none">
+                                        <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                                <span class="transfer-step-label">Review</span>
+                            </div>
+                        </nav>
+
+                        <div class="transfer-flow" data-transfer-flow>
+                            <div class="transfer-panel is-active" data-transfer-panel="1">
+                                <div class="transfer-grid">
+
+                                    <section class="transfer-card" aria-label="Recent recipients">
+                                        <header class="transfer-card-head">
+                                            <h2 class="transfer-card-title">Select recipient</h2>
+                                            <p class="transfer-card-text">Recent recipients</p>
+                                        </header>
+
+                                        <div class="recipient-list" data-recipient-list>
+                                            <button class="recipient-card is-selected" type="button" data-recipient
+                                                data-recipient-id="maria" data-name="Maria Petrova"
+                                                data-iban="BG80 UBBS 9661 1012 3456 78"
+                                                data-iban-mask="BG•• •••• •••• 5678" data-bank="UBB">
+                                                <span class="recipient-avatar">MP</span>
+                                                <span class="recipient-meta">
+                                                    <strong class="recipient-name">Maria Petrova</strong>
+                                                    <span class="recipient-iban">BG•• •••• •••• 5678</span>
+                                                    <span class="recipient-last">Last transfer 7 Aug</span>
+                                                </span>
+                                            </button>
+
+                                            <button class="recipient-card" type="button" data-recipient
+                                                data-recipient-id="georgi" data-name="Georgi Stoyanov"
+                                                data-iban="BG18 FINV 9150 1012 3456 01"
+                                                data-iban-mask="BG•• •••• •••• 5601" data-bank="Fibank">
+                                                <span class="recipient-avatar">GS</span>
+                                                <span class="recipient-meta">
+                                                    <strong class="recipient-name">Georgi Stoyanov</strong>
+                                                    <span class="recipient-iban">BG•• •••• •••• 5601</span>
+                                                    <span class="recipient-last">Last transfer 7 Aug</span>
+                                                </span>
+                                            </button>
+
+                                            <button class="recipient-card" type="button" data-recipient
+                                                data-recipient-id="ivan" data-name="Ivan Kolev"
+                                                data-iban="BG52 STSA 9300 0012 3456 90"
+                                                data-iban-mask="BG•• •••• •••• 5690" data-bank="DSK Bank">
+                                                <span class="recipient-avatar">IK</span>
+                                                <span class="recipient-meta">
+                                                    <strong class="recipient-name">Ivan Kolev</strong>
+                                                    <span class="recipient-iban">BG•• •••• •••• 5690</span>
+                                                    <span class="recipient-last">Last transfer 7 Aug</span>
+                                                </span>
+                                            </button>
+
+                                            <button class="recipient-card recipient-card--new" type="button"
+                                                data-recipient data-recipient-id="new" data-name="" data-iban=""
+                                                data-iban-mask="" data-bank="">
+                                                <span class="recipient-avatar recipient-avatar--new">+</span>
+                                                <span class="recipient-meta">
+                                                    <strong class="recipient-name">New recipient</strong>
+                                                    <span class="recipient-iban">Enter details manually</span>
+                                                    <span class="recipient-last">Create a new contact</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </section>
+
+                                    <section class="transfer-card" aria-label="Recipient details">
+                                        <header class="transfer-card-head">
+                                            <h2 class="transfer-card-title">Recipient details</h2>
+                                            <p class="transfer-card-text">Confirm or edit before continuing</p>
+                                        </header>
+
+                                        <form class="recipient-form" data-recipient-form>
+                                            <label class="demo-field">
+                                                <span>Recipient name</span>
+                                                <input class="demo-input" type="text" name="name"
+                                                    data-recipient-field="name" placeholder="Full name" required>
+                                            </label>
+
+                                            <label class="demo-field">
+                                                <span>IBAN</span>
+                                                <input class="demo-input" type="text" name="iban"
+                                                    data-recipient-field="iban"
+                                                    placeholder="BG00 XXXX 0000 0000 0000 00" required>
+                                            </label>
+
+                                            <label class="demo-field">
+                                                <span>Bank</span>
+                                                <input class="demo-input" type="text" name="bank"
+                                                    data-recipient-field="bank" placeholder="Bank name" required>
+                                            </label>
+
+                                            <button class="transfer-continue" type="submit" data-transfer-continue>
+                                                Continue
+                                            </button>
+                                        </form>
+                                    </section>
+
+                                </div>
+                            </div>
+
+                            <div class="transfer-panel" data-transfer-panel="2" hidden>
+                                <div class="transfer-details-grid">
+
+                                    <section class="transfer-card transfer-details-main" aria-label="Transfer details">
+                                        <header class="transfer-card-head">
+                                            <h2 class="transfer-card-title">Transfer details</h2>
+                                            <p class="transfer-card-text">Choose how much to send</p>
+                                        </header>
+
+                                        <form class="transfer-details-form" data-details-form>
+                                            <label class="amount-field">
+                                                <span class="amount-field-label">Amount</span>
+                                                <span class="amount-display">
+                                                    <span class="amount-currency" aria-hidden="true">€</span>
+                                                    <input class="amount-input" type="text" name="amount"
+                                                        inputmode="decimal" autocomplete="off" spellcheck="false"
+                                                        value="0.00" data-amount-input aria-label="Transfer amount">
+                                                </span>
+                                            </label>
+
+                                            <p class="transfer-available">
+                                                Available balance:
+                                                <strong data-transfer-available-balance>€12,480.75</strong>
+                                            </p>
+
+                                            <p class="transfer-amount-error" data-amount-error role="alert" hidden></p>
+
+                                            <div class="amount-chips" role="group" aria-label="Quick amounts">
+                                                <button class="amount-chip" type="button"
+                                                    data-amount-chip="50">€50</button>
+                                                <button class="amount-chip" type="button"
+                                                    data-amount-chip="100">€100</button>
+                                                <button class="amount-chip" type="button"
+                                                    data-amount-chip="250">€250</button>
+                                                <button class="amount-chip" type="button"
+                                                    data-amount-chip="500">€500</button>
+                                            </div>
+
+                                            <label class="demo-field">
+                                                <span>Description / reference</span>
+                                                <input class="demo-input" type="text" name="reference"
+                                                    data-reference-input placeholder="What is this for?">
+                                            </label>
+
+                                            <div class="transfer-when">
+                                                <span class="transfer-when-label">Date</span>
+                                                <span class="transfer-when-value">Send now</span>
+                                            </div>
+
+                                            <div class="transfer-details-actions">
+                                                <button class="transfer-back" type="button" data-transfer-back>
+                                                    Back
+                                                </button>
+                                                <button class="transfer-continue" type="submit">
+                                                    Continue
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </section>
+
+                                    <aside class="transfer-preview" aria-label="Live transfer preview">
+                                        <div class="transfer-preview-glow" aria-hidden="true"></div>
+                                        <details class="transfer-summary" data-transfer-summary open>
+                                            <summary class="transfer-summary-toggle">
+                                                <span>Transfer summary</span>
+                                                <span class="transfer-summary-chevron" aria-hidden="true"></span>
+                                            </summary>
+
+                                            <header class="transfer-preview-head">
+                                                <span class="transfer-preview-eyebrow">Live preview</span>
+                                                <h3 class="transfer-preview-title">Transfer Preview</h3>
+                                            </header>
+
+                                            <dl class="transfer-preview-list">
+                                                <div>
+                                                    <dt>From</dt>
+                                                    <dd>Alex</dd>
+                                                </div>
+                                                <div>
+                                                    <dt>To</dt>
+                                                    <dd data-preview-to>Maria Petrova</dd>
+                                                </div>
+                                                <div>
+                                                    <dt>Amount</dt>
+                                                    <dd class="transfer-preview-amount" data-preview-amount>€0.00</dd>
+                                                </div>
+                                                <div>
+                                                    <dt>Fee</dt>
+                                                    <dd data-preview-fee>€0.00</dd>
+                                                </div>
+                                                <div>
+                                                    <dt>Arrival</dt>
+                                                    <dd data-preview-arrival>Instantly</dd>
+                                                </div>
+                                            </dl>
+
+                                            <p class="transfer-preview-note" data-preview-note>
+                                                Add a reference to personalize this transfer.
+                                            </p>
+                                        </details>
+                                    </aside>
+
+                                </div>
+                            </div>
+
+                            <div class="transfer-panel" data-transfer-panel="3" hidden>
+                                <div class="transfer-review" data-review-panel>
+                                    <div class="transfer-review-card">
+                                        <div class="transfer-review-avatar" data-review-avatar>MP</div>
+                                        <p class="transfer-review-kicker">You're sending</p>
+                                        <p class="transfer-review-amount" data-review-amount>€0.00</p>
+                                        <p class="transfer-review-to">
+                                            to <strong data-review-name>Maria Petrova</strong>
+                                        </p>
+
+                                        <dl class="transfer-review-list">
+                                            <div>
+                                                <dt>IBAN</dt>
+                                                <dd data-review-iban>BG80 UBBS 9661 1012 3456 78</dd>
+                                            </div>
+                                            <div>
+                                                <dt>Reference</dt>
+                                                <dd data-review-reference>—</dd>
+                                            </div>
+                                            <div>
+                                                <dt>Transfer fee</dt>
+                                                <dd>€0.00</dd>
+                                            </div>
+                                            <div>
+                                                <dt>Remaining balance</dt>
+                                                <dd data-review-remaining>€12,480.75</dd>
+                                            </div>
+                                        </dl>
+
+                                        <div class="transfer-review-actions">
+                                            <button class="transfer-back" type="button" data-transfer-back-details>
+                                                Back
+                                            </button>
+                                            <button class="transfer-confirm" type="button" data-transfer-confirm>
+                                                <span class="transfer-confirm-shine" aria-hidden="true"></span>
+                                                <span>Confirm Transfer</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="transfer-panel" data-transfer-panel="success" hidden>
+                                <div class="transfer-success" data-success-panel>
+                                    <div class="transfer-success-ring" aria-hidden="true">
+                                        <span class="transfer-success-check">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 13l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.4"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                    </div>
+
+                                    <h2 class="transfer-success-title">Transfer completed</h2>
+                                    <p class="transfer-success-text">
+                                        <strong data-success-amount>€0.00</strong>
+                                        was sent to
+                                        <strong data-success-name>Maria Petrova</strong>
+                                    </p>
+                                    <p class="transfer-success-ref">
+                                        Demo reference:
+                                        <span data-success-ref>ASW-DEMO-20260810</span>
+                                    </p>
+
+                                    <div class="transfer-success-actions">
+                                        <button class="transfer-continue" type="button" data-success-view>
+                                            View transaction
+                                        </button>
+                                        <button class="transfer-back" type="button" data-success-dashboard>
+                                            Back to Dashboard
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </section>
 
-                        <div class="balance-card-footer">
-                            <span>•••• 4582</span>
-                            <strong>MASTERCARD</strong>
-                        </div>
+                    <section class="demo-view" data-demo-view="deposit" hidden>
+                        <header class="demo-view-header">
+                            <h1 class="demo-view-title">Deposit / Withdraw</h1>
+                            <p class="demo-view-text">Coming in the next steps.</p>
+                        </header>
+                    </section>
 
-                    </article>
-
-                    <aside class="spending-card" aria-label="Spending overview">
-                        <div class="spending-card-top">
+                    <section class="demo-view transaction-history-view" data-demo-view="transactions" hidden>
+                        <header class="transaction-history-header">
                             <div>
-                                <h2 class="spending-title">Spending Overview</h2>
-                                <p class="spending-subtitle">Last 7 days</p>
+                                <span class="transaction-history-eyebrow">
+                                    Financial activity
+                                </span>
+
+                                <h1 class="demo-view-title">Transactions</h1>
+
+                                <p class="demo-view-text">
+                                    Track every movement in one clear timeline.
+                                </p>
                             </div>
-                            <div class="spending-total">
-                                <span class="spending-total-label">Total spent</span>
-                                <strong class="spending-total-value">€1,284.30</strong>
+
+                            <button class="transaction-export" type="button" data-transactions-export>
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M12 4v11" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path d="m7.5 11 4.5 4.5 4.5-4.5" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M5 20h14" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                </svg>
+
+                                <span>Export</span>
+                            </button>
+                        </header>
+
+                        <section class="transaction-summary-grid" aria-label="Transaction summary">
+                            <article class="transaction-summary-card is-incoming">
+                                <span class="transaction-summary-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 4v12" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" />
+                                        <path d="m7 11 5 5 5-5" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+
+                                <span class="transaction-summary-label">Money in</span>
+
+                                <strong class="transaction-summary-value" data-summary-incoming>
+                                    + €2,450.00
+                                </strong>
+
+                                <span class="transaction-summary-note">
+                                    Incoming transfers
+                                </span>
+                            </article>
+
+                            <article class="transaction-summary-card is-outgoing">
+                                <span class="transaction-summary-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 20V8" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" />
+                                        <path d="m7 13 5-5 5 5" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+
+                                <span class="transaction-summary-label">Money out</span>
+
+                                <strong class="transaction-summary-value" data-summary-outgoing>
+                                    − €220.19
+                                </strong>
+
+                                <span class="transaction-summary-note">
+                                    Payments and transfers
+                                </span>
+                            </article>
+
+                            <article class="transaction-summary-card is-net">
+                                <span class="transaction-summary-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 17 10 12l3 3 6-7" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M15 8h4v4" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+
+                                <span class="transaction-summary-label">Net flow</span>
+
+                                <strong class="transaction-summary-value" data-summary-net>
+                                    + €2,229.81
+                                </strong>
+
+                                <span class="transaction-summary-note">
+                                    Current demo period
+                                </span>
+                            </article>
+                        </section>
+
+                        <section class="transaction-history-panel" aria-label="Transaction history">
+                            <div class="transaction-toolbar">
+                                <label class="transaction-search">
+                                    <span class="sr-only">Search transactions</span>
+
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7" />
+                                        <path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linecap="round" />
+                                    </svg>
+
+                                    <input type="search" placeholder="Search transactions" autocomplete="off"
+                                        data-transactions-search>
+                                </label>
+
+                                <div class="transaction-filters" role="group" aria-label="Filter transactions">
+                                    <button class="transaction-filter is-active" type="button"
+                                        data-transaction-filter="all" aria-pressed="true">
+                                        All
+                                    </button>
+
+                                    <button class="transaction-filter" type="button" data-transaction-filter="incoming"
+                                        aria-pressed="false">
+                                        Incoming
+                                    </button>
+
+                                    <button class="transaction-filter" type="button" data-transaction-filter="outgoing"
+                                        aria-pressed="false">
+                                        Outgoing
+                                    </button>
+
+                                    <button class="transaction-filter" type="button" data-transaction-filter="pending"
+                                        aria-pressed="false">
+                                        Pending
+                                    </button>
+                                </div>
                             </div>
+
+                            <div class="transaction-timeline" data-transactions-list aria-live="polite">
+                                <p class="transaction-list-placeholder">
+                                    Transactions are loading...
+                                </p>
+                            </div>
+
+                            <div class="transaction-empty-state" data-transactions-empty hidden>
+                                <span class="transaction-empty-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 7h14v12H5z" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linejoin="round" />
+                                        <path d="M8 4h8v3H8z" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+
+                                <h2>No transactions found</h2>
+
+                                <p>
+                                    Try another search or select a different filter.
+                                </p>
+                            </div>
+                        </section>
+
+                        <div class="transaction-drawer" data-transaction-drawer hidden>
+                            <button class="transaction-drawer-backdrop" type="button" data-transaction-drawer-close
+                                aria-label="Close transaction details"></button>
+
+                            <aside class="transaction-drawer-panel" role="dialog" aria-modal="true"
+                                aria-labelledby="transaction-drawer-title">
+                                <header class="transaction-drawer-header">
+                                    <div>
+                                        <span class="transaction-drawer-eyebrow">
+                                            Transaction details
+                                        </span>
+
+                                        <h2 class="transaction-drawer-title" id="transaction-drawer-title"
+                                            data-drawer-recipient>
+                                            Maria Petrova
+                                        </h2>
+                                    </div>
+
+                                    <button class="transaction-drawer-close" type="button" data-transaction-drawer-close
+                                        aria-label="Close transaction details">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </header>
+
+                                <div class="transaction-drawer-hero">
+                                    <span class="transaction-drawer-avatar" data-drawer-avatar aria-hidden="true">
+                                        MP
+                                    </span>
+
+                                    <strong class="transaction-drawer-amount" data-drawer-amount>
+                                        − €250.00
+                                    </strong>
+
+                                    <span class="transaction-drawer-status" data-drawer-status>
+                                        Completed
+                                    </span>
+                                </div>
+
+                                <dl class="transaction-drawer-list">
+                                    <div>
+                                        <dt>Description</dt>
+                                        <dd data-drawer-description>Money transfer</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Date</dt>
+                                        <dd data-drawer-date>Today, 14:35</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>IBAN</dt>
+                                        <dd data-drawer-iban>BG•• •••• •••• 5678</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Bank</dt>
+                                        <dd data-drawer-bank>UBB</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Reference</dt>
+                                        <dd data-drawer-reference>Dinner</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Transaction ID</dt>
+                                        <dd data-drawer-id>ASW-DEMO-20260811</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Fee</dt>
+                                        <dd data-drawer-fee>€0.00</dd>
+                                    </div>
+                                </dl>
+
+                                <button class="transaction-drawer-done" type="button" data-transaction-drawer-close>
+                                    Done
+                                </button>
+                            </aside>
                         </div>
-
-                        <div class="spending-chart" aria-hidden="true">
-                            <div class="spending-bar" style="--spend: 42%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Mon</span>
-                            </div>
-                            <div class="spending-bar" style="--spend: 68%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Tue</span>
-                            </div>
-                            <div class="spending-bar" style="--spend: 35%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Wed</span>
-                            </div>
-                            <div class="spending-bar" style="--spend: 84%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Thu</span>
-                            </div>
-                            <div class="spending-bar" style="--spend: 56%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Fri</span>
-                            </div>
-                            <div class="spending-bar" style="--spend: 92%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Sat</span>
-                            </div>
-                            <div class="spending-bar" style="--spend: 48%">
-                                <span class="spending-col"></span>
-                                <span class="spending-day">Sun</span>
-                            </div>
-                        </div>
-
-                        <ul class="spending-categories">
-                            <li>
-                                <span class="spending-dot spending-dot--shopping"></span>
-                                <span>Shopping</span>
-                                <strong>€412.00</strong>
-                            </li>
-                            <li>
-                                <span class="spending-dot spending-dot--food"></span>
-                                <span>Food</span>
-                                <strong>€356.40</strong>
-                            </li>
-                            <li>
-                                <span class="spending-dot spending-dot--bills"></span>
-                                <span>Bills</span>
-                                <strong>€298.90</strong>
-                            </li>
-                            <li>
-                                <span class="spending-dot spending-dot--transport"></span>
-                                <span>Transport</span>
-                                <strong>€217.00</strong>
-                            </li>
-                        </ul>
-                    </aside>
-
-                    </div>
-
-                    <section class="quick-actions" aria-label="Quick actions">
-                        <button class="quick-action quick-action--send" type="button" data-quick-action="send">
-                            <span class="quick-action-glow" aria-hidden="true"></span>
-                            <span class="quick-action-top">
-                                <span class="quick-action-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <path d="M4 12h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                        <path d="M12 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <span class="quick-action-chart" aria-hidden="true">
-                                    <i style="--h:38%"></i>
-                                    <i style="--h:62%"></i>
-                                    <i style="--h:48%"></i>
-                                    <i style="--h:84%"></i>
-                                    <i style="--h:56%"></i>
-                                </span>
-                            </span>
-                            <span class="quick-action-copy">
-                                <span class="quick-action-label">Send</span>
-                                <span class="quick-action-hint">Transfer out</span>
-                            </span>
-                        </button>
-
-                        <button class="quick-action quick-action--deposit" type="button" data-quick-action="deposit">
-                            <span class="quick-action-glow" aria-hidden="true"></span>
-                            <span class="quick-action-top">
-                                <span class="quick-action-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 4v12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                        <path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M5 20h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                    </svg>
-                                </span>
-                                <span class="quick-action-chart" aria-hidden="true">
-                                    <i style="--h:28%"></i>
-                                    <i style="--h:44%"></i>
-                                    <i style="--h:58%"></i>
-                                    <i style="--h:72%"></i>
-                                    <i style="--h:90%"></i>
-                                </span>
-                            </span>
-                            <span class="quick-action-copy">
-                                <span class="quick-action-label">Deposit</span>
-                                <span class="quick-action-hint">Add funds</span>
-                            </span>
-                        </button>
-
-                        <button class="quick-action quick-action--withdraw" type="button" data-quick-action="withdraw">
-                            <span class="quick-action-glow" aria-hidden="true"></span>
-                            <span class="quick-action-top">
-                                <span class="quick-action-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 20V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                        <path d="M7 13l5-5 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M5 4h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                    </svg>
-                                </span>
-                                <span class="quick-action-chart" aria-hidden="true">
-                                    <i style="--h:88%"></i>
-                                    <i style="--h:70%"></i>
-                                    <i style="--h:54%"></i>
-                                    <i style="--h:40%"></i>
-                                    <i style="--h:26%"></i>
-                                </span>
-                            </span>
-                            <span class="quick-action-copy">
-                                <span class="quick-action-label">Withdraw</span>
-                                <span class="quick-action-hint">Cash out</span>
-                            </span>
-                        </button>
-
-                        <button class="quick-action quick-action--request" type="button" data-quick-action="request">
-                            <span class="quick-action-glow" aria-hidden="true"></span>
-                            <span class="quick-action-top">
-                                <span class="quick-action-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 5v10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                        <path d="M8 9l4-4 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M5 19h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                                    </svg>
-                                </span>
-                                <span class="quick-action-chart" aria-hidden="true">
-                                    <i style="--h:46%"></i>
-                                    <i style="--h:34%"></i>
-                                    <i style="--h:68%"></i>
-                                    <i style="--h:52%"></i>
-                                    <i style="--h:78%"></i>
-                                </span>
-                            </span>
-                            <span class="quick-action-copy">
-                                <span class="quick-action-label">Request</span>
-                                <span class="quick-action-hint">Ask for money</span>
-                            </span>
-                        </button>
                     </section>
 
-                    <section class="transactions-card" aria-label="Recent transactions">
-                        <div class="transactions-card-top">
-                            <h2 class="transactions-title">Recent Transactions</h2>
-                            <span class="transactions-note">Demo data</span>
-                        </div>
-
-                        <div class="transactions-table-wrap">
-                            <table class="transactions-table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Transaction</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td data-label="Transaction">
-                                            <span class="tx-name">Netflix</span>
-                                        </td>
-                                        <td data-label="Date">Today</td>
-                                        <td data-label="Amount">
-                                            <span class="tx-amount is-out">−€15.99</span>
-                                        </td>
-                                        <td data-label="Status">
-                                            <span class="tx-status">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td data-label="Transaction">
-                                            <span class="tx-name">Salary</span>
-                                        </td>
-                                        <td data-label="Date">8 Aug</td>
-                                        <td data-label="Amount">
-                                            <span class="tx-amount is-in">+€2,450.00</span>
-                                        </td>
-                                        <td data-label="Status">
-                                            <span class="tx-status">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td data-label="Transaction">
-                                            <span class="tx-name">Maria Petrova</span>
-                                        </td>
-                                        <td data-label="Date">7 Aug</td>
-                                        <td data-label="Amount">
-                                            <span class="tx-amount is-out">−€120.00</span>
-                                        </td>
-                                        <td data-label="Status">
-                                            <span class="tx-status">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td data-label="Transaction">
-                                            <span class="tx-name">Electricity</span>
-                                        </td>
-                                        <td data-label="Date">6 Aug</td>
-                                        <td data-label="Amount">
-                                            <span class="tx-amount is-out">−€84.20</span>
-                                        </td>
-                                        <td data-label="Status">
-                                            <span class="tx-status">Completed</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <section class="demo-view" data-demo-view="reports" hidden>
+                        <header class="demo-view-header">
+                            <h1 class="demo-view-title">Reports</h1>
+                            <p class="demo-view-text">Coming in the next steps.</p>
+                        </header>
                     </section>
-                </section>
 
-                <section class="demo-view" data-demo-view="transfer" hidden>
-                    <header class="demo-view-header">
-                        <h1 class="demo-view-title">Transfer</h1>
-                        <p class="demo-view-text">Coming in the next steps.</p>
-                    </header>
-                </section>
-
-                <section class="demo-view" data-demo-view="deposit" hidden>
-                    <header class="demo-view-header">
-                        <h1 class="demo-view-title">Deposit / Withdraw</h1>
-                        <p class="demo-view-text">Coming in the next steps.</p>
-                    </header>
-                </section>
-
-                <section class="demo-view" data-demo-view="transactions" hidden>
-                    <header class="demo-view-header">
-                        <h1 class="demo-view-title">Transactions</h1>
-                        <p class="demo-view-text">Coming in the next steps.</p>
-                    </header>
-                </section>
-
-                <section class="demo-view" data-demo-view="reports" hidden>
-                    <header class="demo-view-header">
-                        <h1 class="demo-view-title">Reports</h1>
-                        <p class="demo-view-text">Coming in the next steps.</p>
-                    </header>
-                </section>
-
-                <section class="demo-view" data-demo-view="settings" hidden>
-                    <header class="demo-view-header">
-                        <h1 class="demo-view-title">Settings</h1>
-                        <p class="demo-view-text">Coming in the next steps.</p>
-                    </header>
-                </section>
+                    <section class="demo-view" data-demo-view="settings" hidden>
+                        <header class="demo-view-header">
+                            <h1 class="demo-view-title">Settings</h1>
+                            <p class="demo-view-text">Coming in the next steps.</p>
+                        </header>
+                    </section>
 
                 </main>
 
@@ -436,12 +1011,7 @@
 
     <div class="demo-modal" id="quick-action-modal" hidden data-quick-modal>
         <div class="demo-modal-backdrop" data-quick-close tabindex="-1"></div>
-        <div
-            class="demo-modal-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="quick-modal-title"
-        >
+        <div class="demo-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="quick-modal-title">
             <button class="demo-modal-close" type="button" data-quick-close aria-label="Close dialog">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -455,37 +1025,19 @@
             <form class="demo-modal-form" data-quick-form>
                 <label class="demo-field">
                     <span data-quick-field-label="primary">Recipient</span>
-                    <input
-                        class="demo-input"
-                        type="text"
-                        name="primary"
-                        data-quick-field="primary"
-                        placeholder="Name or IBAN"
-                        required
-                    >
+                    <input class="demo-input" type="text" name="primary" data-quick-field="primary"
+                        placeholder="Name or IBAN" required>
                 </label>
 
                 <label class="demo-field">
                     <span>Amount</span>
-                    <input
-                        class="demo-input"
-                        type="text"
-                        name="amount"
-                        inputmode="decimal"
-                        placeholder="€0.00"
-                        required
-                    >
+                    <input class="demo-input" type="text" name="amount" inputmode="decimal" placeholder="€0.00"
+                        required>
                 </label>
 
                 <label class="demo-field">
                     <span data-quick-field-label="note">Note</span>
-                    <input
-                        class="demo-input"
-                        type="text"
-                        name="note"
-                        data-quick-field="note"
-                        placeholder="Optional"
-                    >
+                    <input class="demo-input" type="text" name="note" data-quick-field="note" placeholder="Optional">
                 </label>
 
                 <p class="demo-modal-success" data-quick-success hidden>
