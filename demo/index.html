@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ASWallet Demo | Interactive Wallet Dashboard</title>
+    <meta name="description" content="Explore ASWallet safely in an interactive demo - no registration or real financial data.">
+    <meta name="robots" content="noindex">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/base/reset.css">
+    <link rel="stylesheet" href="../css/base/variables.css">
+    <link rel="stylesheet" href="../css/base/global.css">
+    <link rel="stylesheet" href="../css/layout/header.css">
+    <link rel="stylesheet" href="../css/demo/demo.css">
+</head>
+
+<body class="demo-page">
+
+    <div class="demo-stage">
+
+        <p class="demo-banner">
+            Interactive demo - no real account or financial data
+        </p>
+
+        <div class="demo-shell" data-demo-shell>
+
+            <aside class="demo-sidebar" aria-label="Demo navigation">
+
+                <a href="../index.html" class="demo-brand" aria-label="ASWallet home">
+                    <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
+                </a>
+
+                <nav class="demo-nav">
+                    <button class="demo-nav-link is-active" type="button" data-demo-nav="dashboard">
+                        Dashboard
+                    </button>
+                    <button class="demo-nav-link" type="button" data-demo-nav="transfer">
+                        Transfer
+                    </button>
+                    <button class="demo-nav-link" type="button" data-demo-nav="deposit">
+                        Deposit / Withdraw
+                    </button>
+                    <button class="demo-nav-link" type="button" data-demo-nav="transactions">
+                        Transactions
+                    </button>
+                    <button class="demo-nav-link" type="button" data-demo-nav="reports">
+                        Reports
+                    </button>
+                    <button class="demo-nav-link" type="button" data-demo-nav="settings">
+                        Settings
+                    </button>
+                </nav>
+
+                <a href="../index.html" class="demo-exit">
+                    Exit Demo
+                </a>
+
+            </aside>
+
+            <div class="demo-content">
+
+                <header class="demo-topbar">
+                    <div class="demo-topbar-left">
+                        <p class="demo-welcome">Welcome back, <strong>Alex</strong></p>
+                        <span class="demo-mode-badge" title="This is a simulated experience with fake data">
+                            Demo Mode
+                        </span>
+                    </div>
+
+                    <div class="demo-topbar-right">
+                        <button class="demo-notify" type="button" aria-label="Notifications">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                                <path d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="demo-notify-dot" aria-hidden="true"></span>
+                        </button>
+
+                        <div class="demo-profile" aria-label="Demo profile Alex">
+                            <span class="demo-avatar" aria-hidden="true">
+                                <span class="brand-mark">AS</span>
+                            </span>
+                            <span class="demo-profile-meta">
+                                <span class="demo-profile-name">Alex</span>
+                                <span class="demo-profile-role">Demo user</span>
+                            </span>
+                        </div>
+                    </div>
+                </header>
+
+                <main class="demo-main">
+
+                <section class="demo-view is-active" data-demo-view="dashboard">
+                    <header class="demo-view-header">
+                        <h1 class="demo-view-title">Dashboard</h1>
+                        <p class="demo-view-text">
+                            Your money at a glance - demo data only.
+                        </p>
+                    </header>
+
+                    <div class="dashboard-hero">
+
+                    <article class="balance-card" data-balance-card>
+
+                        <div class="balance-card-shine" aria-hidden="true"></div>
+
+                        <div class="balance-card-header">
+                            <span class="balance-card-brand">
+                                <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
+                            </span>
+                            <span class="balance-card-badge">Premium</span>
+                        </div>
+
+                        <div class="balance-card-body">
+                            <div class="balance-card-top">
+                                <span class="balance-label">Total Balance</span>
+                                <button
+                                    class="balance-toggle"
+                                    type="button"
+                                    data-balance-toggle
+                                    aria-pressed="false"
+                                    aria-label="Hide balance"
+                                >
+                                    <svg class="balance-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.6"/>
+                                        <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/>
+                                        <path class="balance-icon-slash" d="M4 4l16 16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <p class="balance-amount" data-balance-amount data-visible="€12,480.75" data-hidden="••••••••">
+                                €12,480.75
+                            </p>
+
+                            <p class="balance-change">+8.4% this month</p>
+                        </div>
+
+                        <div class="balance-iban">
+                            <span class="balance-iban-label">IBAN</span>
+                            <span class="balance-iban-value">BG•• •••• •••• 4582</span>
+                        </div>
+
+                        <div class="balance-card-footer">
+                            <span>•••• 4582</span>
+                            <strong>MASTERCARD</strong>
+                        </div>
+
+                    </article>
+
+                    <aside class="spending-card" aria-label="Spending overview">
+                        <div class="spending-card-top">
+                            <div>
+                                <h2 class="spending-title">Spending Overview</h2>
+                                <p class="spending-subtitle">Last 7 days</p>
+                            </div>
+                            <div class="spending-total">
+                                <span class="spending-total-label">Total spent</span>
+                                <strong class="spending-total-value">€1,284.30</strong>
+                            </div>
+                        </div>
+
+                        <div class="spending-chart" aria-hidden="true">
+                            <div class="spending-bar" style="--spend: 42%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Mon</span>
+                            </div>
+                            <div class="spending-bar" style="--spend: 68%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Tue</span>
+                            </div>
+                            <div class="spending-bar" style="--spend: 35%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Wed</span>
+                            </div>
+                            <div class="spending-bar" style="--spend: 84%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Thu</span>
+                            </div>
+                            <div class="spending-bar" style="--spend: 56%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Fri</span>
+                            </div>
+                            <div class="spending-bar" style="--spend: 92%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Sat</span>
+                            </div>
+                            <div class="spending-bar" style="--spend: 48%">
+                                <span class="spending-col"></span>
+                                <span class="spending-day">Sun</span>
+                            </div>
+                        </div>
+
+                        <ul class="spending-categories">
+                            <li>
+                                <span class="spending-dot spending-dot--shopping"></span>
+                                <span>Shopping</span>
+                                <strong>€412.00</strong>
+                            </li>
+                            <li>
+                                <span class="spending-dot spending-dot--food"></span>
+                                <span>Food</span>
+                                <strong>€356.40</strong>
+                            </li>
+                            <li>
+                                <span class="spending-dot spending-dot--bills"></span>
+                                <span>Bills</span>
+                                <strong>€298.90</strong>
+                            </li>
+                            <li>
+                                <span class="spending-dot spending-dot--transport"></span>
+                                <span>Transport</span>
+                                <strong>€217.00</strong>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    </div>
+
+                    <section class="quick-actions" aria-label="Quick actions">
+                        <button class="quick-action quick-action--send" type="button" data-quick-action="send">
+                            <span class="quick-action-glow" aria-hidden="true"></span>
+                            <span class="quick-action-top">
+                                <span class="quick-action-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 12h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                        <path d="M12 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                <span class="quick-action-chart" aria-hidden="true">
+                                    <i style="--h:38%"></i>
+                                    <i style="--h:62%"></i>
+                                    <i style="--h:48%"></i>
+                                    <i style="--h:84%"></i>
+                                    <i style="--h:56%"></i>
+                                </span>
+                            </span>
+                            <span class="quick-action-copy">
+                                <span class="quick-action-label">Send</span>
+                                <span class="quick-action-hint">Transfer out</span>
+                            </span>
+                        </button>
+
+                        <button class="quick-action quick-action--deposit" type="button" data-quick-action="deposit">
+                            <span class="quick-action-glow" aria-hidden="true"></span>
+                            <span class="quick-action-top">
+                                <span class="quick-action-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 4v12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                        <path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5 20h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <span class="quick-action-chart" aria-hidden="true">
+                                    <i style="--h:28%"></i>
+                                    <i style="--h:44%"></i>
+                                    <i style="--h:58%"></i>
+                                    <i style="--h:72%"></i>
+                                    <i style="--h:90%"></i>
+                                </span>
+                            </span>
+                            <span class="quick-action-copy">
+                                <span class="quick-action-label">Deposit</span>
+                                <span class="quick-action-hint">Add funds</span>
+                            </span>
+                        </button>
+
+                        <button class="quick-action quick-action--withdraw" type="button" data-quick-action="withdraw">
+                            <span class="quick-action-glow" aria-hidden="true"></span>
+                            <span class="quick-action-top">
+                                <span class="quick-action-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 20V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                        <path d="M7 13l5-5 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5 4h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <span class="quick-action-chart" aria-hidden="true">
+                                    <i style="--h:88%"></i>
+                                    <i style="--h:70%"></i>
+                                    <i style="--h:54%"></i>
+                                    <i style="--h:40%"></i>
+                                    <i style="--h:26%"></i>
+                                </span>
+                            </span>
+                            <span class="quick-action-copy">
+                                <span class="quick-action-label">Withdraw</span>
+                                <span class="quick-action-hint">Cash out</span>
+                            </span>
+                        </button>
+
+                        <button class="quick-action quick-action--request" type="button" data-quick-action="request">
+                            <span class="quick-action-glow" aria-hidden="true"></span>
+                            <span class="quick-action-top">
+                                <span class="quick-action-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                        <path d="M8 9l4-4 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5 19h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <span class="quick-action-chart" aria-hidden="true">
+                                    <i style="--h:46%"></i>
+                                    <i style="--h:34%"></i>
+                                    <i style="--h:68%"></i>
+                                    <i style="--h:52%"></i>
+                                    <i style="--h:78%"></i>
+                                </span>
+                            </span>
+                            <span class="quick-action-copy">
+                                <span class="quick-action-label">Request</span>
+                                <span class="quick-action-hint">Ask for money</span>
+                            </span>
+                        </button>
+                    </section>
+
+                    <section class="transactions-card" aria-label="Recent transactions">
+                        <div class="transactions-card-top">
+                            <h2 class="transactions-title">Recent Transactions</h2>
+                            <span class="transactions-note">Demo data</span>
+                        </div>
+
+                        <div class="transactions-table-wrap">
+                            <table class="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Transaction</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td data-label="Transaction">
+                                            <span class="tx-name">Netflix</span>
+                                        </td>
+                                        <td data-label="Date">Today</td>
+                                        <td data-label="Amount">
+                                            <span class="tx-amount is-out">−€15.99</span>
+                                        </td>
+                                        <td data-label="Status">
+                                            <span class="tx-status">Completed</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-label="Transaction">
+                                            <span class="tx-name">Salary</span>
+                                        </td>
+                                        <td data-label="Date">8 Aug</td>
+                                        <td data-label="Amount">
+                                            <span class="tx-amount is-in">+€2,450.00</span>
+                                        </td>
+                                        <td data-label="Status">
+                                            <span class="tx-status">Completed</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-label="Transaction">
+                                            <span class="tx-name">Maria Petrova</span>
+                                        </td>
+                                        <td data-label="Date">7 Aug</td>
+                                        <td data-label="Amount">
+                                            <span class="tx-amount is-out">−€120.00</span>
+                                        </td>
+                                        <td data-label="Status">
+                                            <span class="tx-status">Completed</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-label="Transaction">
+                                            <span class="tx-name">Electricity</span>
+                                        </td>
+                                        <td data-label="Date">6 Aug</td>
+                                        <td data-label="Amount">
+                                            <span class="tx-amount is-out">−€84.20</span>
+                                        </td>
+                                        <td data-label="Status">
+                                            <span class="tx-status">Completed</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="demo-view" data-demo-view="transfer" hidden>
+                    <header class="demo-view-header">
+                        <h1 class="demo-view-title">Transfer</h1>
+                        <p class="demo-view-text">Coming in the next steps.</p>
+                    </header>
+                </section>
+
+                <section class="demo-view" data-demo-view="deposit" hidden>
+                    <header class="demo-view-header">
+                        <h1 class="demo-view-title">Deposit / Withdraw</h1>
+                        <p class="demo-view-text">Coming in the next steps.</p>
+                    </header>
+                </section>
+
+                <section class="demo-view" data-demo-view="transactions" hidden>
+                    <header class="demo-view-header">
+                        <h1 class="demo-view-title">Transactions</h1>
+                        <p class="demo-view-text">Coming in the next steps.</p>
+                    </header>
+                </section>
+
+                <section class="demo-view" data-demo-view="reports" hidden>
+                    <header class="demo-view-header">
+                        <h1 class="demo-view-title">Reports</h1>
+                        <p class="demo-view-text">Coming in the next steps.</p>
+                    </header>
+                </section>
+
+                <section class="demo-view" data-demo-view="settings" hidden>
+                    <header class="demo-view-header">
+                        <h1 class="demo-view-title">Settings</h1>
+                        <p class="demo-view-text">Coming in the next steps.</p>
+                    </header>
+                </section>
+
+                </main>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="demo-modal" id="quick-action-modal" hidden data-quick-modal>
+        <div class="demo-modal-backdrop" data-quick-close tabindex="-1"></div>
+        <div
+            class="demo-modal-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="quick-modal-title"
+        >
+            <button class="demo-modal-close" type="button" data-quick-close aria-label="Close dialog">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <span class="demo-modal-eyebrow">Demo Mode</span>
+            <h2 class="demo-modal-title" id="quick-modal-title" data-quick-title>Send money</h2>
+            <p class="demo-modal-text" data-quick-text>
+                Sample form only - no real money moves here.
+            </p>
+
+            <form class="demo-modal-form" data-quick-form>
+                <label class="demo-field">
+                    <span data-quick-field-label="primary">Recipient</span>
+                    <input
+                        class="demo-input"
+                        type="text"
+                        name="primary"
+                        data-quick-field="primary"
+                        placeholder="Name or IBAN"
+                        required
+                    >
+                </label>
+
+                <label class="demo-field">
+                    <span>Amount</span>
+                    <input
+                        class="demo-input"
+                        type="text"
+                        name="amount"
+                        inputmode="decimal"
+                        placeholder="€0.00"
+                        required
+                    >
+                </label>
+
+                <label class="demo-field">
+                    <span data-quick-field-label="note">Note</span>
+                    <input
+                        class="demo-input"
+                        type="text"
+                        name="note"
+                        data-quick-field="note"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <p class="demo-modal-success" data-quick-success hidden>
+                    Demo action recorded. No real transaction was made.
+                </p>
+
+                <div class="demo-modal-actions">
+                    <button class="demo-modal-secondary" type="button" data-quick-close>
+                        Cancel
+                    </button>
+                    <button class="demo-modal-primary" type="submit" data-quick-submit>
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../js/demo/demo.js"></script>
+
+</body>
+
+</html>
