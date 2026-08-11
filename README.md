@@ -1,11 +1,11 @@
 <div align="center">
 
-ASWallet Website
+    ASWallet Website
 
-Your Wallet. Your Future.
+    Your Wallet. Your Future.
 
-Modern digital banking presentation and interactive product demo for ASWallet.
-
+    Modern digital banking presentation and interactive product demo for ASWallet.
+</div>
 
 
 </div>
@@ -19,6 +19,8 @@ Modern digital banking presentation and interactive product demo for ASWallet.
     />
   </a>
 </p>
+
+---
 
 Overview
 
@@ -98,6 +100,8 @@ Footer — product navigation and system status
 
 Technology Stack
 
+---
+
 Technology
 
 Purpose
@@ -118,9 +122,13 @@ GitHub Pages
 
 Static deployment
 
+---
+
 Custom Domain
 
 aswallet.eu
+
+---
 
 Project Structure
 
@@ -155,11 +163,14 @@ ASWallet-Website/
 ├── README.md
 └── index.html
 
+---
+
 Run Locally
 
 Clone the repository:
-
 git clone https://github.com/AStoyan0ff/ASWallet-Website.git
+
+---
 
 Start a local static server. For example, with VS Code Live Server, open index.html and choose Open with Live Server.
 
@@ -167,51 +178,49 @@ You can also use Python:
 
 python -m http.server 5500
 
-Then open:
+---
 
+Then open:
 http://localhost:5500/
 
 A local server is recommended because the project uses JavaScript ES modules.
 
+---
+
 Roadmap
 
 Marketing landing page
-
 Responsive navigation and animated sections
-
 Interactive Wallet Dashboard
-
 Transfer Flow connected to shared demo state
-
 Transaction history, search and filters
-
 Transaction details drawer
-
 PDF statement export
-
 Deposit / Withdraw interactive flow
-
 Reports dashboard
-
 Demo settings experience
-
 Mobile application showcase
-
 Related Repositories
 
 ASWallet-Vol.2 — main Java and Spring Boot application
 
 ASWallet-Vol.2-svc — supporting risk assessment service
 
+---
+
 License
 
 This project is proprietary software. Copying, modification, redistribution or commercial use is not permitted without explicit written permission from the author. See the LICENSE file for details.
+
+---
 
 <div align="center">
 
 ASWallet Version 1.0
 
-Author: Andrey Stoyanov (AStoyanoff)
+Made with ❤️ by Andrey Stoyanov (#AStoyanoff)
+
+Powered by coffee ☕, and persistence 💪
 
 ASWallet has not said its last word.
 
