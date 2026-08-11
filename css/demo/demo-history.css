@@ -558,6 +558,10 @@ body.transaction-drawer-open {
     grid-template-columns: 1fr minmax(320px, 420px);
 }
 
+.transaction-drawer.is-payment-request {
+    grid-template-columns: 1fr minmax(680px, 900px);
+}
+
 .transaction-drawer[hidden] {
     display: none;
 }
@@ -645,6 +649,55 @@ body.transaction-drawer-open {
     background: rgba(214, 180, 106, 0.09);
 }
 
+.transaction-drawer-layout {
+    display: grid;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.transaction-drawer.is-payment-request .transaction-drawer-layout {
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(280px, 0.95fr);
+    align-items: stretch;
+}
+
+.transaction-drawer-main {
+    min-width: 0;
+}
+
+.transaction-drawer.is-payment-request .transaction-drawer-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: clamp(20px, 2.6vw, 28px);
+    border: 1px solid rgba(214, 180, 106, 0.16);
+    border-radius: 24px;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(214, 180, 106, 0.08),
+            transparent 38%
+        ),
+        linear-gradient(
+            155deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(10, 10, 10, 0.78)
+        );
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 20px 48px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-drawer.is-payment-request .transaction-drawer-list {
+    margin-bottom: 18px;
+}
+
+.transaction-drawer.is-payment-request .transaction-drawer-done {
+    width: 100%;
+    margin-top: auto;
+}
+
 .transaction-drawer-hero {
 
     display: grid;
@@ -687,6 +740,10 @@ body.transaction-drawer-open {
 
 .transaction-drawer-amount.is-outgoing {
     color: var(--color-text-primary);
+}
+
+.transaction-drawer-amount.is-pending {
+    color: #e3ad54;
 }
 
 .transaction-drawer-status {
@@ -735,7 +792,7 @@ body.transaction-drawer-open {
 
     display: grid;
     gap: 0;
-    margin: 24px 0;
+    margin: 24px 0 0;
 }
 
 .transaction-drawer-list div {
@@ -770,6 +827,7 @@ body.transaction-drawer-open {
 
     width: 100%;
     min-height: 46px;
+    margin-top: 22px;
     border: 0;
     border-radius: 13px;
     color: #181208;
@@ -787,13 +845,36 @@ body.transaction-drawer-open {
 /* Payment request details */
 
 .transaction-request-details {
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(227, 173, 84, 0.14);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100%;
+    margin-top: 0;
+    padding: clamp(20px, 2.6vw, 28px);
+    border: 1px solid rgba(227, 173, 84, 0.22);
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            155deg,
+            rgba(227, 173, 84, 0.1),
+            rgba(13, 13, 13, 0.88) 42%,
+            rgba(8, 8, 8, 0.95)
+        );
+    box-shadow:
+        0 20px 48px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .transaction-request-details[hidden] {
     display: none;
+}
+
+.transaction-request-details .transaction-request-link {
+    margin-top: auto;
+}
+
+.transaction-request-details .transaction-request-pay {
+    margin-top: 18px;
 }
 
 .transaction-request-banner {
@@ -1065,6 +1146,14 @@ body.transaction-drawer-open {
         overflow-x: auto;
         justify-content: flex-start;
     }
+
+    .transaction-drawer.is-payment-request {
+        grid-template-columns: 1fr minmax(0, 1fr);
+    }
+
+    .transaction-drawer.is-payment-request .transaction-drawer-layout {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 560px) {
@@ -1111,6 +1200,14 @@ body.transaction-drawer-open {
     }
 
     .transaction-drawer {
+        grid-template-columns: 1fr;
+    }
+
+    .transaction-drawer.is-payment-request {
+        grid-template-columns: 1fr;
+    }
+
+    .transaction-drawer.is-payment-request .transaction-drawer-layout {
         grid-template-columns: 1fr;
     }
 

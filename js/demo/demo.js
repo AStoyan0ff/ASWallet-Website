@@ -1269,18 +1269,29 @@ function initTransactionDrawer() {
         }
 
         if (amountElement) {
+            const isIncoming =
+                transaction.direction === "incoming" ||
+                transaction.amount >= 0;
+
+            const isPending =
+                transaction.status?.toLowerCase() === "pending";
+
             amountElement.textContent =
                 formatSignedCurrency(transaction.amount);
 
-            amountElement.classList.toggle(
+            amountElement.classList.remove(
                 "is-incoming",
-                transaction.amount >= 0
+                "is-outgoing",
+                "is-pending"
             );
 
-            amountElement.classList.toggle(
-                "is-outgoing",
-                transaction.amount < 0
-            );
+            if (isPending) {
+                amountElement.classList.add("is-pending");
+            } else if (isIncoming) {
+                amountElement.classList.add("is-incoming");
+            } else {
+                amountElement.classList.add("is-outgoing");
+            }
         }
 
         if (statusElement) {
@@ -1339,6 +1350,11 @@ function initTransactionDrawer() {
         const isPaymentRequest =
             transaction.description?.toLowerCase() === "money request" ||
             transaction.bank?.toLowerCase() === "payment request";
+
+        drawer.classList.toggle(
+            "is-payment-request",
+            isPaymentRequest
+        );
 
         if (requestSection)
         {

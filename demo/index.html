@@ -1729,153 +1729,157 @@
                                     </button>
                                 </header>
 
-                                <div class="transaction-drawer-hero">
-                                    <span class="transaction-drawer-avatar" data-drawer-avatar aria-hidden="true">
-                                        MP
-                                    </span>
-
-                                    <strong class="transaction-drawer-amount" data-drawer-amount>
-                                        − €250.00
-                                    </strong>
-
-                                    <span class="transaction-drawer-status" data-drawer-status>
-                                        Completed
-                                    </span>
-                                </div>
-
-                                <dl class="transaction-drawer-list">
-                                    <div>
-                                        <dt>Description</dt>
-                                        <dd data-drawer-description>Money transfer</dd>
-                                    </div>
-
-                                    <div>
-                                        <dt>Date</dt>
-                                        <dd data-drawer-date>Today, 14:35</dd>
-                                    </div>
-
-                                    <div>
-                                        <dt>IBAN</dt>
-                                        <dd data-drawer-iban>BG•• •••• •••• 5678</dd>
-                                    </div>
-
-                                    <div>
-                                        <dt>Bank</dt>
-                                        <dd data-drawer-bank>UBB</dd>
-                                    </div>
-
-                                    <div>
-                                        <dt>Reference</dt>
-                                        <dd data-drawer-reference>Dinner</dd>
-                                    </div>
-
-                                    <div>
-                                        <dt>Transaction ID</dt>
-                                        <dd data-drawer-id>ASW-DEMO-20260811</dd>
-                                    </div>
-
-                                    <div>
-                                        <dt>Fee</dt>
-                                        <dd data-drawer-fee>€0.00</dd>
-                                    </div>
-                                </dl>
-
-                                <section
-                                    class="transaction-request-details"
-                                    data-detail-request-section
-                                    hidden
-                                >
-                                    <div class="transaction-request-banner">
-                                        <span
-                                            class="transaction-request-banner-icon"
-                                            aria-hidden="true"
-                                        >
-                                            ⏳
-                                        </span>
-
-                                        <div>
-                                            <span class="transaction-request-banner-label">
-                                                Payment request
+                                <div class="transaction-drawer-layout">
+                                    <div class="transaction-drawer-main">
+                                        <div class="transaction-drawer-hero">
+                                            <span class="transaction-drawer-avatar" data-drawer-avatar aria-hidden="true">
+                                                MP
                                             </span>
 
-                                            <strong data-detail-request-status>
-                                                Pending
+                                            <strong class="transaction-drawer-amount" data-drawer-amount>
+                                                − €250.00
                                             </strong>
+
+                                            <span class="transaction-drawer-status" data-drawer-status>
+                                                Completed
+                                            </span>
                                         </div>
+
+                                        <dl class="transaction-drawer-list">
+                                            <div>
+                                                <dt>Description</dt>
+                                                <dd data-drawer-description>Money transfer</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Date</dt>
+                                                <dd data-drawer-date>Today, 14:35</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>IBAN</dt>
+                                                <dd data-drawer-iban>BG•• •••• •••• 5678</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Bank</dt>
+                                                <dd data-drawer-bank>UBB</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Reference</dt>
+                                                <dd data-drawer-reference>Dinner</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Transaction ID</dt>
+                                                <dd data-drawer-id>ASW-DEMO-20260811</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Fee</dt>
+                                                <dd data-drawer-fee>€0.00</dd>
+                                            </div>
+                                        </dl>
+
+                                        <button class="transaction-drawer-done" type="button" data-transaction-drawer-close>
+                                            Done
+                                        </button>
                                     </div>
 
-                                    <dl class="transaction-request-list">
-                                        <div>
-                                            <dt>Requested from</dt>
-                                            <dd data-detail-request-person>—</dd>
-                                        </div>
-
-                                        <div>
-                                            <dt>Reason</dt>
-                                            <dd data-detail-request-reason>—</dd>
-                                        </div>
-
-                                        <div>
-                                            <dt>Due date</dt>
-                                            <dd data-detail-request-due>—</dd>
-                                        </div>
-
-                                        <div>
-                                            <dt>Request reference</dt>
-                                            <dd data-detail-request-reference>—</dd>
-                                        </div>
-                                    </dl>
-
-                                    <div class="transaction-request-link">
-                                        <label for="transaction-request-payment-link">
-                                            Payment link
-                                        </label>
-
-                                        <div class="transaction-request-link-control">
-                                            <input
-                                                id="transaction-request-payment-link"
-                                                type="text"
-                                                data-detail-request-link
-                                                readonly
-                                                aria-label="Payment request link"
-                                            >
-
-                                            <button
-                                                class="transaction-request-copy"
-                                                type="button"
-                                                data-detail-request-copy
-                                            >
-                                                Copy
-                                            </button>
-                                        </div>
-
-                                        <span
-                                            class="transaction-request-copy-status"
-                                            data-detail-request-copy-status
-                                            aria-live="polite"
-                                        ></span>
-                                    </div>
-
-                                    <button
-                                        class="transaction-request-pay"
-                                        type="button"
-                                        data-detail-request-pay
+                                    <section
+                                        class="transaction-request-details"
+                                        data-detail-request-section
+                                        hidden
                                     >
-                                        Simulate Payment
-                                    </button>
+                                        <div class="transaction-request-banner">
+                                            <span
+                                                class="transaction-request-banner-icon"
+                                                aria-hidden="true"
+                                            >
+                                                ⏳
+                                            </span>
 
-                                    <p class="transaction-request-demo-note">
-                                        Demo only - no real payment will be processed.
-                                    </p>
+                                            <div>
+                                                <span class="transaction-request-banner-label">
+                                                    Payment request
+                                                </span>
 
-                                    <p class="transaction-request-note">
-                                        Your balance will update only after the payment request is completed.
-                                    </p>
-                                </section>
+                                                <strong data-detail-request-status>
+                                                    Pending
+                                                </strong>
+                                            </div>
+                                        </div>
 
-                                <button class="transaction-drawer-done" type="button" data-transaction-drawer-close>
-                                    Done
-                                </button>
+                                        <dl class="transaction-request-list">
+                                            <div>
+                                                <dt>Requested from</dt>
+                                                <dd data-detail-request-person>—</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Reason</dt>
+                                                <dd data-detail-request-reason>—</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Due date</dt>
+                                                <dd data-detail-request-due>—</dd>
+                                            </div>
+
+                                            <div>
+                                                <dt>Request reference</dt>
+                                                <dd data-detail-request-reference>—</dd>
+                                            </div>
+                                        </dl>
+
+                                        <div class="transaction-request-link">
+                                            <label for="transaction-request-payment-link">
+                                                Payment link
+                                            </label>
+
+                                            <div class="transaction-request-link-control">
+                                                <input
+                                                    id="transaction-request-payment-link"
+                                                    type="text"
+                                                    data-detail-request-link
+                                                    readonly
+                                                    aria-label="Payment request link"
+                                                >
+
+                                                <button
+                                                    class="transaction-request-copy"
+                                                    type="button"
+                                                    data-detail-request-copy
+                                                >
+                                                    Copy
+                                                </button>
+                                            </div>
+
+                                            <span
+                                                class="transaction-request-copy-status"
+                                                data-detail-request-copy-status
+                                                aria-live="polite"
+                                            ></span>
+                                        </div>
+
+                                        <button
+                                            class="transaction-request-pay"
+                                            type="button"
+                                            data-detail-request-pay
+                                        >
+                                            Simulate Payment
+                                        </button>
+
+                                        <p class="transaction-request-demo-note">
+                                            Demo only - no real payment will be processed.
+                                        </p>
+
+                                        <p class="transaction-request-note">
+                                            Your balance will update only after the payment request is completed.
+                                        </p>
+                                    </section>
+                                </div>
                             </aside>
                         </div>
                     </section>
