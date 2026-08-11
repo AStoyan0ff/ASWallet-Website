@@ -27,8 +27,11 @@
     <link rel="stylesheet" href="../css/demo/demo-actions.css">
     <link rel="stylesheet" href="../css/demo/demo-transactions.css">
     <link rel="stylesheet" href="../css/demo/demo-transfer.css">
+    <link rel="stylesheet" href="../css/demo/demo-money.css">
+    <link rel="stylesheet" href="../css/demo/demo-request.css">
     <link rel="stylesheet" href="../css/demo/demo-history.css">
     <link rel="stylesheet" href="../css/demo/demo-modal.css">
+    <link rel="stylesheet" href="../css/demo/demo-payment.css">
     <link rel="stylesheet" href="../css/demo/demo-responsive.css">
 </head>
 
@@ -54,6 +57,13 @@
                     </button>
                     <button class="demo-nav-link" type="button" data-demo-nav="transfer">
                         Transfer
+                    </button>
+                    <button
+                        class="demo-nav-link"
+                        type="button"
+                        data-demo-nav="request"
+                    >
+                        Request Money
                     </button>
                     <button class="demo-nav-link" type="button" data-demo-nav="deposit">
                         Deposit / Withdraw
@@ -743,11 +753,801 @@
                         </div>
                     </section>
 
-                    <section class="demo-view" data-demo-view="deposit" hidden>
-                        <header class="demo-view-header">
-                            <h1 class="demo-view-title">Deposit / Withdraw</h1>
-                            <p class="demo-view-text">Coming in the next steps.</p>
+                    <section
+                        class="demo-view request-money-view"
+                        data-demo-view="request"
+                        hidden
+                    >
+                        <header class="request-money-header">
+                            <div>
+                                <span class="request-money-eyebrow">
+                                    Get paid
+                                </span>
+
+                                <h1 class="demo-view-title">
+                                    Request Money
+                                </h1>
+
+                                <p class="demo-view-text">
+                                    Create a secure payment request in a few simple steps.
+                                </p>
+                            </div>
+
+                            <span class="request-money-badge">
+                                No fee
+                            </span>
                         </header>
+
+                        <div class="request-money-grid" data-request-flow>
+                            <section
+                                class="request-money-card"
+                                aria-label="Create money request"
+                            >
+                                <header class="request-card-header">
+                                    <div>
+                                        <span class="request-card-eyebrow">
+                                            Request details
+                                        </span>
+
+                                        <h2 class="request-card-title">
+                                            Who should pay?
+                                        </h2>
+                                    </div>
+
+                                    <span class="request-pending-badge">
+                                        Pending
+                                    </span>
+                                </header>
+
+                                <form class="request-money-form" data-request-form>
+                                    <fieldset class="request-contacts">
+                                        <legend>Recent contacts</legend>
+
+                                        <div class="request-contact-list">
+                                            <button
+                                                class="request-contact is-selected"
+                                                type="button"
+                                                data-request-contact
+                                                data-request-name="Maria Petrova"
+                                                data-request-initials="MP"
+                                                aria-pressed="true"
+                                            >
+                                                <span class="request-contact-avatar">
+                                                    MP
+                                                </span>
+
+                                                <span>
+                                                    <strong>Maria Petrova</strong>
+                                                    <small>Recent contact</small>
+                                                </span>
+                                            </button>
+
+                                            <button
+                                                class="request-contact"
+                                                type="button"
+                                                data-request-contact
+                                                data-request-name="Georgi Stoyanov"
+                                                data-request-initials="GS"
+                                                aria-pressed="false"
+                                            >
+                                                <span class="request-contact-avatar">
+                                                    GS
+                                                </span>
+
+                                                <span>
+                                                    <strong>Georgi Stoyanov</strong>
+                                                    <small>Recent contact</small>
+                                                </span>
+                                            </button>
+
+                                            <button
+                                                class="request-contact"
+                                                type="button"
+                                                data-request-contact
+                                                data-request-name="Ivan Kolev"
+                                                data-request-initials="IK"
+                                                aria-pressed="false"
+                                            >
+                                                <span class="request-contact-avatar">
+                                                    IK
+                                                </span>
+
+                                                <span>
+                                                    <strong>Ivan Kolev</strong>
+                                                    <small>Recent contact</small>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </fieldset>
+
+                                    <label class="request-amount-field">
+                                        <span class="request-field-label">
+                                            Requested amount
+                                        </span>
+
+                                        <span class="request-amount-display">
+                                            <span
+                                                class="request-amount-currency"
+                                                aria-hidden="true"
+                                            >
+                                                €
+                                            </span>
+
+                                            <input
+                                                class="request-amount-input"
+                                                type="text"
+                                                name="amount"
+                                                value="0.00"
+                                                inputmode="decimal"
+                                                autocomplete="off"
+                                                spellcheck="false"
+                                                data-request-amount
+                                                aria-label="Requested amount"
+                                            >
+                                        </span>
+                                    </label>
+
+                                    <div
+                                        class="request-amount-chips"
+                                        role="group"
+                                        aria-label="Quick request amounts"
+                                    >
+                                        <button
+                                            type="button"
+                                            data-request-chip="25"
+                                        >
+                                            €25
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            data-request-chip="50"
+                                        >
+                                            €50
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            data-request-chip="100"
+                                        >
+                                            €100
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            data-request-chip="250"
+                                        >
+                                            €250
+                                        </button>
+                                    </div>
+
+                                    <label class="demo-field">
+                                        <span>Reason</span>
+
+                                        <input
+                                            class="demo-input"
+                                            type="text"
+                                            name="reason"
+                                            placeholder="Dinner, tickets, shared bill..."
+                                            maxlength="80"
+                                            data-request-reason
+                                        >
+                                    </label>
+
+                                    <label class="demo-field">
+                                        <span>Due date</span>
+
+                                        <select
+                                            class="demo-input request-due-select"
+                                            name="dueDate"
+                                            data-request-due
+                                        >
+                                            <option value="today">
+                                                Today
+                                            </option>
+
+                                            <option value="3-days">
+                                                In 3 days
+                                            </option>
+
+                                            <option value="7-days">
+                                                In 7 days
+                                            </option>
+
+                                            <option value="no-deadline">
+                                                No deadline
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <p
+                                        class="request-money-error"
+                                        data-request-error
+                                        role="alert"
+                                        hidden
+                                    ></p>
+
+                                    <button
+                                        class="request-money-submit"
+                                        type="submit"
+                                        data-request-submit
+                                    >
+                                        Create Money Request
+                                    </button>
+                                </form>
+                            </section>
+
+                            <aside
+                                class="request-preview-card"
+                                aria-label="Money request preview"
+                            >
+                                <div
+                                    class="request-preview-glow"
+                                    aria-hidden="true"
+                                ></div>
+
+                                <header class="request-preview-header">
+                                    <span class="request-preview-eyebrow">
+                                        Live preview
+                                    </span>
+
+                                    <h2 class="request-preview-title">
+                                        Payment Request
+                                    </h2>
+                                </header>
+
+                                <div class="request-preview-person">
+                                    <span
+                                        class="request-preview-avatar"
+                                        data-request-preview-avatar
+                                        aria-hidden="true"
+                                    >
+                                        MP
+                                    </span>
+
+                                    <div>
+                                        <span>Request from</span>
+
+                                        <strong data-request-preview-name>
+                                            Maria Petrova
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="request-preview-amount-block">
+                                    <span>Requested amount</span>
+
+                                    <strong data-request-preview-amount>
+                                        €0.00
+                                    </strong>
+                                </div>
+
+                                <dl class="request-preview-list">
+                                    <div>
+                                        <dt>Requested by</dt>
+                                        <dd>Alex</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Reason</dt>
+                                        <dd data-request-preview-reason>
+                                            No reason added
+                                        </dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Due</dt>
+                                        <dd data-request-preview-due>
+                                            Today
+                                        </dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Status</dt>
+                                        <dd
+                                            class="request-preview-status is-pending"
+                                            data-request-preview-status
+                                            aria-live="polite"
+                                        >
+                                            Pending
+                                        </dd>
+                                    </div>
+                                </dl>
+
+                                <p class="request-preview-note">
+                                    Your balance will not change until the request
+                                    is completed.
+                                </p>
+                            </aside>
+                        </div>
+
+                        <section
+                            class="request-success"
+                            data-request-success
+                            hidden
+                        >
+                            <div
+                                class="request-success-icon"
+                                aria-hidden="true"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M4 12 20 4l-6 16-3-7-7-1Z"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
+
+                            <span class="request-success-eyebrow">
+                                Request created
+                            </span>
+
+                            <h2 class="request-success-title">
+                                Money request is ready
+                            </h2>
+
+                            <p class="request-success-text">
+                                You requested
+
+                                <strong data-request-success-amount>
+                                    €0.00
+                                </strong>
+
+                                from
+
+                                <strong data-request-success-name>
+                                    Maria Petrova
+                                </strong>.
+                            </p>
+
+                            <div class="request-payment-link">
+                                <span>Payment link</span>
+
+                                <div>
+                                    <input
+                                        type="text"
+                                        data-request-payment-link
+                                        readonly
+                                        aria-label="Payment link"
+                                        value="aswallet.eu/pay/ASW-DEMO"
+                                    >
+
+                                    <button
+                                        type="button"
+                                        data-request-copy
+                                    >
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p class="request-copy-status" data-request-copy-status>
+                                Share this demo link with the selected contact.
+                            </p>
+
+                            <div class="request-success-actions">
+                                <button
+                                    class="request-money-submit"
+                                    type="button"
+                                    data-request-new
+                                >
+                                    New request
+                                </button>
+
+                                <button
+                                    class="transfer-back"
+                                    type="button"
+                                    data-request-dashboard
+                                >
+                                    Back to Dashboard
+                                </button>
+                            </div>
+                        </section>
+                    </section>
+
+                    <section
+                        class="demo-view money-flow-view"
+                        data-demo-view="deposit"
+                        hidden
+                    >
+                        <header class="money-flow-header">
+                            <div>
+                                <span class="money-flow-eyebrow">
+                                    Manage funds
+                                </span>
+
+                                <h1 class="demo-view-title">
+                                    Deposit / Withdraw
+                                </h1>
+
+                                <p class="demo-view-text">
+                                    Move money in or out of your wallet securely.
+                                </p>
+                            </div>
+
+                            <span class="money-flow-demo-badge">
+                                Demo transaction
+                            </span>
+                        </header>
+
+                        <div
+                            class="money-mode-switch"
+                            role="group"
+                            aria-label="Select transaction type"
+                        >
+                            <button
+                                class="money-mode-button is-active"
+                                type="button"
+                                data-money-mode="deposit"
+                                aria-pressed="true"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M12 4v12"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="m7 11 5 5 5-5"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                    <path
+                                        d="M5 20h14"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+
+                                <span>
+                                    <strong>Deposit</strong>
+                                    <small>Add money to your wallet</small>
+                                </span>
+                            </button>
+
+                            <button
+                                class="money-mode-button"
+                                type="button"
+                                data-money-mode="withdraw"
+                                aria-pressed="false"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M12 20V8"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="m7 13 5-5 5 5"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                    <path
+                                        d="M5 4h14"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+
+                                <span>
+                                    <strong>Withdraw</strong>
+                                    <small>Move money out securely</small>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="money-flow-grid" data-money-flow>
+                            <section
+                                class="money-flow-card"
+                                aria-label="Deposit or withdraw funds"
+                            >
+                                <header class="money-flow-card-header">
+                                    <div>
+                                        <span class="money-flow-card-eyebrow">
+                                            Transaction details
+                                        </span>
+
+                                        <h2
+                                            class="money-flow-card-title"
+                                            data-money-title
+                                        >
+                                            Deposit funds
+                                        </h2>
+                                    </div>
+
+                                    <span
+                                        class="money-flow-type-badge"
+                                        data-money-type-badge
+                                    >
+                                        Money in
+                                    </span>
+                                </header>
+
+                                <form class="money-flow-form" data-money-form>
+                                    <label class="money-amount-field">
+                                        <span class="money-field-label">
+                                            Amount
+                                        </span>
+
+                                        <span class="money-amount-display">
+                                            <span
+                                                class="money-amount-currency"
+                                                aria-hidden="true"
+                                            >
+                                                €
+                                            </span>
+
+                                            <input
+                                                class="money-amount-input"
+                                                type="text"
+                                                name="amount"
+                                                value="0.00"
+                                                inputmode="decimal"
+                                                autocomplete="off"
+                                                spellcheck="false"
+                                                data-money-amount
+                                                aria-label="Transaction amount"
+                                            >
+                                        </span>
+                                    </label>
+
+                                    <p class="money-current-balance">
+                                        Current wallet balance:
+                                        <strong data-money-current-balance>
+                                            €12,480.75
+                                        </strong>
+                                    </p>
+
+                                    <div
+                                        class="money-amount-chips"
+                                        role="group"
+                                        aria-label="Quick amounts"
+                                    >
+                                        <button
+                                            type="button"
+                                            data-money-chip="50"
+                                        >
+                                            €50
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            data-money-chip="100"
+                                        >
+                                            €100
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            data-money-chip="250"
+                                        >
+                                            €250
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            data-money-chip="500"
+                                        >
+                                            €500
+                                        </button>
+                                    </div>
+
+                                    <label class="demo-field">
+                                        <span data-money-method-label>
+                                            Deposit from
+                                        </span>
+
+                                        <select
+                                            class="demo-input money-method-select"
+                                            name="method"
+                                            data-money-method
+                                            required
+                                        >
+                                            <option value="visa">
+                                                Visa •••• 4582
+                                            </option>
+
+                                            <option value="bank">
+                                                Linked bank account
+                                            </option>
+
+                                            <option value="apple-pay">
+                                                Apple Pay
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <label class="demo-field">
+                                        <span>Reference</span>
+
+                                        <input
+                                            class="demo-input"
+                                            type="text"
+                                            name="reference"
+                                            placeholder="Optional note"
+                                            data-money-reference
+                                        >
+                                    </label>
+
+                                    <p
+                                        class="money-flow-error"
+                                        data-money-error
+                                        role="alert"
+                                        hidden
+                                    ></p>
+
+                                    <button
+                                        class="money-flow-submit"
+                                        type="submit"
+                                        data-money-submit
+                                    >
+                                        Confirm Deposit
+                                    </button>
+                                </form>
+                            </section>
+
+                            <aside
+                                class="money-preview-card"
+                                aria-label="Transaction preview"
+                            >
+                                <div
+                                    class="money-preview-glow"
+                                    aria-hidden="true"
+                                ></div>
+
+                                <header class="money-preview-header">
+                                    <span class="money-preview-eyebrow">
+                                        Live preview
+                                    </span>
+
+                                    <h2 class="money-preview-title">
+                                        Transaction Summary
+                                    </h2>
+                                </header>
+
+                                <div class="money-preview-direction">
+                                    <span
+                                        class="money-preview-wallet"
+                                        aria-hidden="true"
+                                    >
+                                        AS
+                                    </span>
+
+                                    <span
+                                        class="money-preview-line"
+                                        aria-hidden="true"
+                                    >
+                                        <i></i>
+                                    </span>
+
+                                    <span
+                                        class="money-preview-method"
+                                        data-money-preview-method-icon
+                                        aria-hidden="true"
+                                    >
+                                        VC
+                                    </span>
+                                </div>
+
+                                <dl class="money-preview-list">
+                                    <div>
+                                        <dt>Type</dt>
+                                        <dd data-money-preview-type>
+                                            Deposit
+                                        </dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Amount</dt>
+                                        <dd
+                                            class="money-preview-amount"
+                                            data-money-preview-amount
+                                        >
+                                            +€0.00
+                                        </dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Method</dt>
+                                        <dd data-money-preview-method>
+                                            Visa •••• 4582
+                                        </dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>Fee</dt>
+                                        <dd>€0.00</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt>New balance</dt>
+                                        <dd data-money-preview-balance>
+                                            €12,480.75
+                                        </dd>
+                                    </div>
+                                </dl>
+
+                                <p class="money-preview-note">
+                                    This is a simulated transaction. No real
+                                    financial operation will be performed.
+                                </p>
+                            </aside>
+                        </div>
+
+                        <section
+                            class="money-flow-success"
+                            data-money-success
+                            hidden
+                        >
+                            <div
+                                class="money-success-icon"
+                                aria-hidden="true"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="m5 12.5 4.5 4.5L19 7.5"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
+
+                            <span class="money-success-eyebrow">
+                                Demo transaction completed
+                            </span>
+
+                            <h2 class="money-success-title" data-money-success-title>
+                                Deposit completed
+                            </h2>
+
+                            <p class="money-success-text">
+                                <strong data-money-success-amount>
+                                    €0.00
+                                </strong>
+
+                                <span data-money-success-message>
+                                    was added to your ASWallet balance.
+                                </span>
+                            </p>
+
+                            <p class="money-success-reference">
+                                Reference:
+                                <span data-money-success-reference>
+                                    ASW-DEMO-000000
+                                </span>
+                            </p>
+
+                            <div class="money-success-actions">
+                                <button
+                                    class="money-flow-submit"
+                                    type="button"
+                                    data-money-new
+                                >
+                                    New transaction
+                                </button>
+
+                                <button
+                                    class="transfer-back"
+                                    type="button"
+                                    data-money-dashboard
+                                >
+                                    Back to Dashboard
+                                </button>
+                            </div>
+                        </section>
                     </section>
 
                     <section class="demo-view transaction-history-view" data-demo-view="transactions" hidden>
@@ -980,6 +1780,99 @@
                                     </div>
                                 </dl>
 
+                                <section
+                                    class="transaction-request-details"
+                                    data-detail-request-section
+                                    hidden
+                                >
+                                    <div class="transaction-request-banner">
+                                        <span
+                                            class="transaction-request-banner-icon"
+                                            aria-hidden="true"
+                                        >
+                                            ⏳
+                                        </span>
+
+                                        <div>
+                                            <span class="transaction-request-banner-label">
+                                                Payment request
+                                            </span>
+
+                                            <strong data-detail-request-status>
+                                                Pending
+                                            </strong>
+                                        </div>
+                                    </div>
+
+                                    <dl class="transaction-request-list">
+                                        <div>
+                                            <dt>Requested from</dt>
+                                            <dd data-detail-request-person>—</dd>
+                                        </div>
+
+                                        <div>
+                                            <dt>Reason</dt>
+                                            <dd data-detail-request-reason>—</dd>
+                                        </div>
+
+                                        <div>
+                                            <dt>Due date</dt>
+                                            <dd data-detail-request-due>—</dd>
+                                        </div>
+
+                                        <div>
+                                            <dt>Request reference</dt>
+                                            <dd data-detail-request-reference>—</dd>
+                                        </div>
+                                    </dl>
+
+                                    <div class="transaction-request-link">
+                                        <label for="transaction-request-payment-link">
+                                            Payment link
+                                        </label>
+
+                                        <div class="transaction-request-link-control">
+                                            <input
+                                                id="transaction-request-payment-link"
+                                                type="text"
+                                                data-detail-request-link
+                                                readonly
+                                                aria-label="Payment request link"
+                                            >
+
+                                            <button
+                                                class="transaction-request-copy"
+                                                type="button"
+                                                data-detail-request-copy
+                                            >
+                                                Copy
+                                            </button>
+                                        </div>
+
+                                        <span
+                                            class="transaction-request-copy-status"
+                                            data-detail-request-copy-status
+                                            aria-live="polite"
+                                        ></span>
+                                    </div>
+
+                                    <button
+                                        class="transaction-request-pay"
+                                        type="button"
+                                        data-detail-request-pay
+                                    >
+                                        Simulate Payment
+                                    </button>
+
+                                    <p class="transaction-request-demo-note">
+                                        Demo only - no real payment will be processed.
+                                    </p>
+
+                                    <p class="transaction-request-note">
+                                        Your balance will update only after the payment request is completed.
+                                    </p>
+                                </section>
+
                                 <button class="transaction-drawer-done" type="button" data-transaction-drawer-close>
                                     Done
                                 </button>
@@ -1057,6 +1950,145 @@
     </div>
 
     <script type="module" src="../js/demo/demo.js"></script>
+
+    <div
+        class="payment-simulator"
+        data-payment-simulator
+        hidden
+    >
+        <div
+            class="payment-simulator-backdrop"
+            data-payment-simulator-close
+        ></div>
+
+        <section
+            class="payment-simulator-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="payment-simulator-title"
+            tabindex="-1"
+            data-payment-simulator-dialog
+        >
+            <button
+                class="payment-simulator-close"
+                type="button"
+                aria-label="Close payment simulator"
+                data-payment-simulator-close
+            >
+                ×
+            </button>
+
+            <div
+                class="payment-simulator-content"
+                data-payment-simulator-content
+            >
+                <span class="payment-simulator-eyebrow">
+                    Interactive demo
+                </span>
+
+                <div
+                    class="payment-simulator-icon"
+                    aria-hidden="true"
+                >
+                    €
+                </div>
+
+                <h2 id="payment-simulator-title">
+                    Complete Payment Request
+                </h2>
+
+                <p class="payment-simulator-description">
+                    Simulate the completion of this payment request.
+                    No real payment will be processed.
+                </p>
+
+                <div class="payment-simulator-summary">
+                    <div>
+                        <span>Paying</span>
+                        <strong data-payment-simulator-person>—</strong>
+                    </div>
+
+                    <div>
+                        <span>Amount</span>
+                        <strong data-payment-simulator-amount>€0.00</strong>
+                    </div>
+
+                    <div>
+                        <span>Reference</span>
+                        <strong data-payment-simulator-reference>—</strong>
+                    </div>
+                </div>
+
+                <div class="payment-simulator-notice">
+                    <span aria-hidden="true">ⓘ</span>
+
+                    <p>
+                        Completing the simulation will mark the request as
+                        paid and update the demo balance.
+                    </p>
+                </div>
+
+                <div class="payment-simulator-actions">
+                    <button
+                        class="payment-simulator-cancel"
+                        type="button"
+                        data-payment-simulator-close
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="payment-simulator-confirm"
+                        type="button"
+                        data-payment-simulator-confirm
+                    >
+                        Complete Demo Payment
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="payment-simulator-success"
+                data-payment-simulator-success
+                hidden
+            >
+                <div
+                    class="payment-simulator-success-icon"
+                    aria-hidden="true"
+                >
+                    ✓
+                </div>
+
+                <span class="payment-simulator-eyebrow">
+                    Payment completed
+                </span>
+
+                <h2>
+                    Request Paid Successfully
+                </h2>
+
+                <p>
+                    The payment request has been completed and the demo
+                    balance has been updated.
+                </p>
+
+                <strong
+                    class="payment-simulator-success-amount"
+                    data-payment-simulator-success-amount
+                >
+                    + €0.00
+                </strong>
+
+                <button
+                    class="payment-simulator-done"
+                    type="button"
+                    data-payment-simulator-done
+                >
+                    Back to Transactions
+                </button>
+            </div>
+        </section>
+    </div>
 
 </body>
 

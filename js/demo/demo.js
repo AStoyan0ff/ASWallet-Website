@@ -151,18 +151,22 @@ function escapeHtml(value) {
 }
 
 function exportTransactionStatement() {
-    const incoming = demoState.transactions
-        .filter((transaction) => transaction.amount > 0)
+    const completedTransactions = demoState.transactions.filter(
+        (transaction) => transaction.status?.toLowerCase() === "completed"
+    );
+
+    const incoming = completedTransactions
+        .filter((transaction) => transaction.direction === "incoming")
         .reduce(
-            (total, transaction) => total + transaction.amount,
+            (total, transaction) => total + Number(transaction.amount),
             0
         );
 
-    const outgoing = demoState.transactions
-        .filter((transaction) => transaction.amount < 0)
+    const outgoing = completedTransactions
+        .filter((transaction) => transaction.direction === "outgoing")
         .reduce(
             (total, transaction) =>
-                total + Math.abs(transaction.amount),
+                total + Math.abs(Number(transaction.amount)),
             0
         );
 
@@ -879,33 +883,30 @@ function renderTransactionSummary() {
         "[data-summary-net]"
     );
 
-    const incoming = demoState.transactions
-        .filter((transaction) => transaction.amount > 0)
-        .reduce(
-            (total, transaction) => total + transaction.amount,
-            0
-        );
+    const completedTransactions = demoState.transactions.filter(
+        (transaction) => transaction.status?.toLowerCase() === "completed"
+    );
 
-    const outgoing = demoState.transactions
-        .filter((transaction) => transaction.amount < 0)
-        .reduce(
-            (total, transaction) =>
-                total + Math.abs(transaction.amount),
-            0
-        );
+    const moneyIn = completedTransactions
+        .filter((transaction) => transaction.direction === "incoming")
+        .reduce((total, transaction) => total + Number(transaction.amount), 0);
 
-    const net = incoming - outgoing;
+    const moneyOut = completedTransactions
+        .filter((transaction) => transaction.direction === "outgoing")
+        .reduce((total, transaction) => total + Math.abs(Number(transaction.amount)), 0);
+
+    const netFlow = moneyIn - moneyOut;
 
     if (incomingElement) {
-        incomingElement.textContent = formatSignedCurrency(incoming);
+        incomingElement.textContent = formatSignedCurrency(moneyIn);
     }
 
     if (outgoingElement) {
-        outgoingElement.textContent = formatSignedCurrency(-outgoing);
+        outgoingElement.textContent = formatSignedCurrency(-moneyOut);
     }
 
     if (netElement) {
-        netElement.textContent = formatSignedCurrency(net);
+        netElement.textContent = formatSignedCurrency(netFlow);
     }
 }
 
@@ -1140,6 +1141,8 @@ function initTransactionFilters() {
     });
 }
 
+let activeTransactionId = null;
+
 function initTransactionDrawer() {
     const transactionList = document.querySelector(
         "[data-transactions-list]"
@@ -1203,6 +1206,46 @@ function initTransactionDrawer() {
         "[data-drawer-fee]"
     );
 
+    const requestSection = document.querySelector(
+        "[data-detail-request-section]"
+    );
+
+    const requestStatus = document.querySelector(
+        "[data-detail-request-status]"
+    );
+
+    const requestPerson = document.querySelector(
+        "[data-detail-request-person]"
+    );
+
+    const requestReason = document.querySelector(
+        "[data-detail-request-reason]"
+    );
+
+    const requestDue = document.querySelector(
+        "[data-detail-request-due]"
+    );
+
+    const requestReference = document.querySelector(
+        "[data-detail-request-reference]"
+    );
+
+    const requestLink = document.querySelector(
+        "[data-detail-request-link]"
+    );
+
+    const requestCopyButton = document.querySelector(
+        "[data-detail-request-copy]"
+    );
+
+    const requestCopyStatus = document.querySelector(
+        "[data-detail-request-copy-status]"
+    );
+
+    const simulatePaymentButton = document.querySelector(
+        "[data-detail-request-pay]"
+    );
+
     if (!transactionList || !drawer || !drawerPanel) {
         return;
     }
@@ -1211,6 +1254,7 @@ function initTransactionDrawer() {
 
     const openDrawer = (transaction) => {
         lastFocusedElement = document.activeElement;
+        activeTransactionId = transaction.id;
 
         if (recipientElement) {
             recipientElement.textContent =
@@ -1240,14 +1284,19 @@ function initTransactionDrawer() {
         }
 
         if (statusElement) {
+            const normalizedStatus =
+                transaction.status?.toLowerCase() ?? "completed";
+
+            statusElement.classList.remove(
+                "is-completed",
+                "is-pending",
+                "is-declined",
+                "is-failed"
+            );
+
+            statusElement.classList.add(`is-${normalizedStatus}`);
             statusElement.textContent =
                 transaction.status || "Completed";
-
-            statusElement.classList.toggle(
-                "is-pending",
-                transaction.status
-                    ?.toLowerCase() === "pending"
-            );
         }
 
         if (descriptionElement) {
@@ -1287,6 +1336,98 @@ function initTransactionDrawer() {
             feeElement.textContent = formatCurrency(0);
         }
 
+        const isPaymentRequest =
+            transaction.description?.toLowerCase() === "money request" ||
+            transaction.bank?.toLowerCase() === "payment request";
+
+        if (requestSection)
+        {
+            requestSection.hidden = !isPaymentRequest;
+        }
+
+        if (isPaymentRequest)
+        {
+            const transactionReference =
+                transaction.transactionRef ?? transaction.id;
+
+            const paymentUrl =
+                `https://aswallet.eu/pay/${transactionReference}`;
+
+            if (requestStatus)
+            {
+                requestStatus.textContent = transaction.status ?? "Pending";
+            }
+
+            if (requestPerson)
+            {
+                requestPerson.textContent = transaction.recipient ?? "—";
+            }
+
+            if (requestReason)
+            {
+                requestReason.textContent =
+                    transaction.reference || "No reason added";
+            }
+
+            if (requestDue)
+            {
+                requestDue.textContent =
+                    transaction.dueDate || "Today";
+            }
+
+            if (requestReference)
+            {
+                requestReference.textContent = transactionReference;
+            }
+
+            if (requestLink)
+            {
+                requestLink.value = paymentUrl;
+            }
+
+            if (requestCopyButton)
+            {
+                requestCopyButton.dataset.paymentUrl = paymentUrl;
+                requestCopyButton.textContent = "Copy";
+                requestCopyButton.classList.remove("is-copied");
+            }
+
+            if (requestCopyStatus)
+            {
+                requestCopyStatus.textContent = "";
+            }
+        }
+        else
+        {
+            if (requestLink)
+            {
+                requestLink.value = "";
+            }
+
+            if (requestCopyButton)
+            {
+                delete requestCopyButton.dataset.paymentUrl;
+                requestCopyButton.textContent = "Copy";
+                requestCopyButton.classList.remove("is-copied");
+            }
+
+            if (requestCopyStatus)
+            {
+                requestCopyStatus.textContent = "";
+            }
+        }
+
+        const isPendingRequest =
+            isPaymentRequest &&
+            transaction.status?.toLowerCase() === "pending";
+
+        if (simulatePaymentButton)
+        {
+            simulatePaymentButton.hidden = !isPendingRequest;
+            simulatePaymentButton.dataset.transactionId =
+                isPendingRequest ? transaction.id : "";
+        }
+
         drawer.hidden = false;
         document.body.classList.add(
             "transaction-drawer-open"
@@ -1319,6 +1460,54 @@ function initTransactionDrawer() {
             lastFocusedElement.focus();
         }
     };
+
+    requestCopyButton?.addEventListener("click", async () =>
+    {
+        const paymentUrl = requestCopyButton.dataset.paymentUrl;
+
+        if (!paymentUrl)
+        {
+            return;
+        }
+
+        try
+        {
+            await navigator.clipboard.writeText(paymentUrl);
+        }
+        catch
+        {
+            const temporaryInput = document.createElement("textarea");
+
+            temporaryInput.value = paymentUrl;
+            temporaryInput.setAttribute("readonly", "");
+            temporaryInput.style.position = "fixed";
+            temporaryInput.style.opacity = "0";
+
+            document.body.appendChild(temporaryInput);
+            temporaryInput.select();
+            document.execCommand("copy");
+            temporaryInput.remove();
+        }
+
+        requestCopyButton.textContent = "Copied";
+        requestCopyButton.classList.add("is-copied");
+
+        if (requestCopyStatus)
+        {
+            requestCopyStatus.textContent = "Payment link copied.";
+        }
+
+        window.setTimeout(() =>
+        {
+            requestCopyButton.textContent = "Copy";
+            requestCopyButton.classList.remove("is-copied");
+
+            if (requestCopyStatus)
+            {
+                requestCopyStatus.textContent = "";
+            }
+        }, 2200);
+    });
 
     transactionList.addEventListener("click", (event) => {
         const transactionButton = event.target.closest(
@@ -1428,7 +1617,13 @@ function renderDashboardTransactions() {
     const recentTransactions = demoState.transactions.slice(0, 4);
 
     const rows = recentTransactions.map((transaction) => {
+        const normalizedStatus =
+            transaction.status?.toLowerCase() ?? "completed";
+
+        const statusClass = `is-${normalizedStatus}`;
+
         const row = document.createElement("tr");
+        row.classList.add(statusClass);
 
         if (transaction.isNew) {
             row.classList.add("is-new");
@@ -1461,8 +1656,14 @@ function renderDashboardTransactions() {
             transaction.direction === "incoming" ||
             transaction.amount >= 0;
 
-        amount.className = `tx-amount ${isIncoming ? "is-in" : "is-out"
-            }`;
+        const amountStatusClass =
+            normalizedStatus === "pending"
+                ? "is-pending"
+                : isIncoming
+                    ? "is-in"
+                    : "is-out";
+
+        amount.className = `tx-amount ${amountStatusClass}`;
 
         const amountPrefix = isIncoming ? "+  " : "−  ";
 
@@ -1477,7 +1678,8 @@ function renderDashboardTransactions() {
         statusCell.dataset.label = "Status";
 
         const status = document.createElement("span");
-        status.className = "tx-status";
+        status.className = `tx-status ${statusClass}`;
+        status.setAttribute("aria-live", "polite");
         status.textContent = transaction.status;
 
         statusCell.append(status);
@@ -1504,9 +1706,12 @@ export function initDemo() {
     initBalanceToggle();
     initQuickActions();
     initTransferFlow();
+    initMoneyFlow();
+    initRequestMoneyFlow();
     initTransactionFilters();
     initTransactionDrawer();
     initTransactionExport();
+    initPaymentSimulator();
 }
 
 function initDemoNav() {
@@ -1620,7 +1825,107 @@ function initQuickActions() {
 
     triggers.forEach((trigger) => {
         trigger.addEventListener("click", () => {
-            openModal(trigger.dataset.quickAction);
+            const action =
+                trigger.dataset.quickAction;
+
+            if (action === "send") {
+                const transferNav =
+                    document.querySelector(
+                        '[data-demo-nav="transfer"]'
+                    );
+
+                transferNav?.click();
+
+                window.requestAnimationFrame(() => {
+                    const selectedRecipient =
+                        document.querySelector(
+                            "[data-recipient].is-selected"
+                        );
+
+                    const firstRecipient =
+                        document.querySelector(
+                            "[data-recipient]"
+                        );
+
+                    (
+                        selectedRecipient ||
+                        firstRecipient
+                    )?.focus();
+                });
+
+                return;
+            }
+
+            if (action === "request")
+            {
+                const requestNavigationButton = document.querySelector(
+                    '[data-demo-nav="request"]'
+                );
+
+                requestNavigationButton?.click();
+
+                const requestView = document.querySelector(
+                    '[data-demo-view="request"]'
+                );
+
+                const successPanel = requestView?.querySelector(
+                    "[data-request-success]"
+                );
+
+                const newRequestButton = requestView?.querySelector(
+                    "[data-request-new]"
+                );
+
+                if (successPanel && !successPanel.hidden)
+                {
+                    newRequestButton?.click();
+                }
+
+                window.requestAnimationFrame(() =>
+                {
+                    requestView
+                        ?.querySelector("[data-request-contact].is-selected")
+                        ?.focus();
+                });
+
+                return;
+            }
+
+            const isMoneyFlowAction =
+                action === "deposit" ||
+                action === "withdraw";
+
+            if (isMoneyFlowAction) {
+                const moneyFlowNav =
+                    document.querySelector(
+                        '[data-demo-nav="deposit"]'
+                    );
+
+                const moneyModeButton =
+                    document.querySelector(
+                        `[data-money-mode="${action}"]`
+                    );
+
+                moneyFlowNav?.click();
+
+                window.requestAnimationFrame(() => {
+                    moneyModeButton?.click();
+
+                    window.requestAnimationFrame(() => {
+                        const amountInput =
+                            document.querySelector(
+                                "[data-money-amount]"
+                            );
+
+                        amountInput?.focus();
+                        amountInput?.select();
+                    });
+                });
+
+                return;
+            }
+
+            openModal(action);
         });
     });
 
@@ -2166,6 +2471,1292 @@ function initTransferFlow() {
     renderTransferBalance();
     setAmount(0);
     setTransferStep(1, { animate: false });
+}
+
+function initMoneyFlow() {
+    const view = document.querySelector(
+        '[data-demo-view="deposit"]'
+    );
+
+    const modeSwitch = view?.querySelector(
+        ".money-mode-switch"
+    );
+
+    const modeButtons = [
+        ...(view?.querySelectorAll("[data-money-mode]") || []),
+    ];
+
+    const flowGrid = view?.querySelector("[data-money-flow]");
+    const form = view?.querySelector("[data-money-form]");
+    const amountInput = view?.querySelector("[data-money-amount]");
+    const amountDisplay = amountInput?.closest(
+        ".money-amount-display"
+    );
+
+    const amountChips = [
+        ...(view?.querySelectorAll("[data-money-chip]") || []),
+    ];
+
+    const methodLabel = view?.querySelector(
+        "[data-money-method-label]"
+    );
+
+    const methodSelect = view?.querySelector(
+        "[data-money-method]"
+    );
+
+    const referenceInput = view?.querySelector(
+        "[data-money-reference]"
+    );
+
+    const errorElement = view?.querySelector(
+        "[data-money-error]"
+    );
+
+    const titleElement = view?.querySelector(
+        "[data-money-title]"
+    );
+
+    const typeBadge = view?.querySelector(
+        "[data-money-type-badge]"
+    );
+
+    const submitButton = view?.querySelector(
+        "[data-money-submit]"
+    );
+
+    const currentBalanceElement = view?.querySelector(
+        "[data-money-current-balance]"
+    );
+
+    const previewType = view?.querySelector(
+        "[data-money-preview-type]"
+    );
+
+    const previewAmount = view?.querySelector(
+        "[data-money-preview-amount]"
+    );
+
+    const previewMethod = view?.querySelector(
+        "[data-money-preview-method]"
+    );
+
+    const previewMethodIcon = view?.querySelector(
+        "[data-money-preview-method-icon]"
+    );
+
+    const previewBalance = view?.querySelector(
+        "[data-money-preview-balance]"
+    );
+
+    const successPanel = view?.querySelector(
+        "[data-money-success]"
+    );
+
+    const successTitle = view?.querySelector(
+        "[data-money-success-title]"
+    );
+
+    const successAmount = view?.querySelector(
+        "[data-money-success-amount]"
+    );
+
+    const successMessage = view?.querySelector(
+        "[data-money-success-message]"
+    );
+
+    const successReference = view?.querySelector(
+        "[data-money-success-reference]"
+    );
+
+    const newTransactionButton = view?.querySelector(
+        "[data-money-new]"
+    );
+
+    const dashboardButton = view?.querySelector(
+        "[data-money-dashboard]"
+    );
+
+    if (
+        !view ||
+        !form ||
+        !amountInput ||
+        !methodSelect ||
+        !flowGrid
+    ) {
+        return;
+    }
+
+    const moneyState = {
+        mode: "deposit",
+        amount: 0,
+        reference: "",
+        method: "visa",
+    };
+
+    const methodOptions = {
+        deposit: [
+            {
+                value: "visa",
+                label: "Visa •••• 4582",
+                icon: "VC",
+            },
+            {
+                value: "bank",
+                label: "Linked bank account",
+                icon: "BA",
+            },
+            {
+                value: "apple-pay",
+                label: "Apple Pay",
+                icon: "AP",
+            },
+        ],
+
+        withdraw: [
+            {
+                value: "bank",
+                label: "Bank account •••• 2048",
+                icon: "BA",
+            },
+            {
+                value: "visa",
+                label: "Visa •••• 4582",
+                icon: "VC",
+            },
+        ],
+    };
+
+    const parseMoneyAmount = (rawValue) => {
+        const cleanedValue = String(rawValue)
+            .replace(/[^\d.]/g, "");
+
+        const parsedValue = Number.parseFloat(cleanedValue);
+
+        return Number.isFinite(parsedValue)
+            ? parsedValue
+            : 0;
+    };
+
+    const formatMoneyAmount = (value) =>
+        Number(value).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
+    const generateMoneyReference = () => {
+        const now = new Date();
+
+        const datePart = now
+            .toISOString()
+            .slice(0, 10)
+            .replaceAll("-", "");
+
+        const timePart = now
+            .toTimeString()
+            .slice(0, 8)
+            .replaceAll(":", "");
+
+        return `ASW-DEMO-${datePart}-${timePart}`;
+    };
+
+    const getSelectedMethod = () => {
+        const options =
+            methodOptions[moneyState.mode] || [];
+
+        return (
+            options.find(
+                (option) =>
+                    option.value === methodSelect.value
+            ) || options[0]
+        );
+    };
+
+    const clearMoneyError = () => {
+        if (errorElement) {
+            errorElement.textContent = "";
+            errorElement.hidden = true;
+        }
+
+        amountInput.removeAttribute("aria-invalid");
+        amountDisplay?.classList.remove("has-error");
+    };
+
+    const showMoneyError = (message) => {
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.hidden = false;
+        }
+
+        amountInput.setAttribute("aria-invalid", "true");
+        amountDisplay?.classList.add("has-error");
+        amountInput.focus();
+    };
+
+    const calculateNewBalance = () => {
+        if (moneyState.mode === "deposit") {
+            return demoState.balance + moneyState.amount;
+        }
+
+        return demoState.balance - moneyState.amount;
+    };
+
+    const renderMoneyBalance = () => {
+        if (currentBalanceElement) {
+            currentBalanceElement.textContent =
+                formatCurrency(demoState.balance);
+        }
+    };
+
+    const renderMoneyMethods = () => {
+        const options =
+            methodOptions[moneyState.mode] || [];
+
+        const optionElements = options.map((method) => {
+            const option = document.createElement("option");
+
+            option.value = method.value;
+            option.textContent = method.label;
+
+            return option;
+        });
+
+        methodSelect.replaceChildren(...optionElements);
+
+        moneyState.method = options[0]?.value || "";
+        methodSelect.value = moneyState.method;
+    };
+
+    const renderMoneyPreview = () => {
+        const selectedMethod = getSelectedMethod();
+        const isDeposit =
+            moneyState.mode === "deposit";
+
+        const signedAmount = isDeposit
+            ? moneyState.amount
+            : -moneyState.amount;
+
+        const newBalance = calculateNewBalance();
+
+        if (previewType) {
+            previewType.textContent = isDeposit
+                ? "Deposit"
+                : "Withdraw";
+        }
+
+        if (previewAmount) {
+            previewAmount.textContent =
+                formatSignedCurrency(signedAmount);
+        }
+
+        if (previewMethod) {
+            previewMethod.textContent =
+                selectedMethod?.label || "—";
+        }
+
+        if (previewMethodIcon) {
+            previewMethodIcon.textContent =
+                selectedMethod?.icon || "AS";
+        }
+
+        if (previewBalance) {
+            previewBalance.textContent =
+                formatCurrency(
+                    Math.max(0, newBalance)
+                );
+        }
+
+        renderMoneyBalance();
+    };
+
+    const setMoneyAmount = (
+        amount,
+        { updateInput = true } = {}
+    ) => {
+        moneyState.amount = Math.max(0, amount);
+
+        if (updateInput) {
+            amountInput.value =
+                formatMoneyAmount(moneyState.amount);
+        }
+
+        amountChips.forEach((chip) => {
+            const chipAmount =
+                Number(chip.dataset.moneyChip);
+
+            chip.classList.toggle(
+                "is-active",
+                chipAmount === moneyState.amount
+            );
+        });
+
+        clearMoneyError();
+        renderMoneyPreview();
+    };
+
+    const validateMoneyTransaction = () => {
+        if (moneyState.amount <= 0) {
+            showMoneyError(
+                "Enter an amount greater than €0.00."
+            );
+
+            return false;
+        }
+
+        if (
+            moneyState.mode === "withdraw" &&
+            moneyState.amount > demoState.balance
+        ) {
+            showMoneyError(
+                `Insufficient balance. You can withdraw up to ${
+                    formatCurrency(demoState.balance)
+                }.`
+            );
+
+            return false;
+        }
+
+        clearMoneyError();
+
+        return true;
+    };
+
+    const resetMoneyForm = () => {
+        form.reset();
+
+        moneyState.amount = 0;
+        moneyState.reference = "";
+
+        referenceInput.value = "";
+
+        successPanel.hidden = true;
+        flowGrid.hidden = false;
+        modeSwitch.hidden = false;
+
+        renderMoneyMethods();
+        setMoneyAmount(0);
+    };
+
+    const setMoneyMode = (mode) => {
+        moneyState.mode =
+            mode === "withdraw"
+                ? "withdraw"
+                : "deposit";
+
+        const isWithdraw =
+            moneyState.mode === "withdraw";
+
+        view.classList.toggle(
+            "is-withdraw",
+            isWithdraw
+        );
+
+        modeButtons.forEach((button) => {
+            const isActive =
+                button.dataset.moneyMode ===
+                moneyState.mode;
+
+            button.classList.toggle(
+                "is-active",
+                isActive
+            );
+
+            button.setAttribute(
+                "aria-pressed",
+                String(isActive)
+            );
+        });
+
+        if (titleElement) {
+            titleElement.textContent = isWithdraw
+                ? "Withdraw funds"
+                : "Deposit funds";
+        }
+
+        if (typeBadge) {
+            typeBadge.textContent = isWithdraw
+                ? "Money out"
+                : "Money in";
+        }
+
+        if (methodLabel) {
+            methodLabel.textContent = isWithdraw
+                ? "Withdraw to"
+                : "Deposit from";
+        }
+
+        if (submitButton) {
+            submitButton.textContent = isWithdraw
+                ? "Confirm Withdrawal"
+                : "Confirm Deposit";
+        }
+
+        successPanel.hidden = true;
+        flowGrid.hidden = false;
+        modeSwitch.hidden = false;
+
+        renderMoneyMethods();
+        setMoneyAmount(0);
+
+        referenceInput.value = "";
+        moneyState.reference = "";
+    };
+
+    const createMoneyTransaction = (
+        transactionReference
+    ) => {
+        const now = new Date();
+        const isDeposit =
+            moneyState.mode === "deposit";
+
+        const selectedMethod =
+            getSelectedMethod();
+
+        const transactionAmount = isDeposit
+            ? moneyState.amount
+            : -moneyState.amount;
+
+        const transaction = {
+            id: `tx-${Date.now()}`,
+            recipient: isDeposit
+                ? "Wallet Deposit"
+                : "Wallet Withdrawal",
+            description: isDeposit
+                ? `Deposit via ${
+                    selectedMethod?.label || "payment method"
+                }`
+                : `Withdrawal to ${
+                    selectedMethod?.label || "bank account"
+                }`,
+            date: "Today",
+            time: now.toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+            }),
+            amount: transactionAmount,
+            direction: isDeposit
+                ? "incoming"
+                : "outgoing",
+            status: "Completed",
+            reference:
+                moneyState.reference ||
+                (isDeposit
+                    ? "Wallet deposit"
+                    : "Wallet withdrawal"),
+            transactionRef: transactionReference,
+            iban: "—",
+            bank:
+                selectedMethod?.label || "—",
+            isNew: true,
+        };
+
+        demoState.transactions.unshift(transaction);
+    };
+
+    const completeMoneyTransaction = () => {
+        const isDeposit =
+            moneyState.mode === "deposit";
+
+        const transactionReference =
+            generateMoneyReference();
+
+        createMoneyTransaction(
+            transactionReference
+        );
+
+        demoState.balance = Number(
+            calculateNewBalance().toFixed(2)
+        );
+
+        renderDemoBalance();
+        renderDashboardTransactions();
+        renderFilteredTransactions();
+        renderMoneyBalance();
+
+        if (successTitle) {
+            successTitle.textContent = isDeposit
+                ? "Deposit completed"
+                : "Withdrawal completed";
+        }
+
+        if (successAmount) {
+            successAmount.textContent =
+                formatCurrency(moneyState.amount);
+        }
+
+        if (successMessage) {
+            successMessage.textContent = isDeposit
+                ? "was added to your ASWallet balance."
+                : "was withdrawn from your ASWallet balance.";
+        }
+
+        if (successReference) {
+            successReference.textContent =
+                transactionReference;
+        }
+
+        flowGrid.hidden = true;
+        modeSwitch.hidden = true;
+        successPanel.hidden = false;
+    };
+
+    modeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            setMoneyMode(
+                button.dataset.moneyMode
+            );
+        });
+    });
+
+    amountInput.addEventListener("input", () => {
+        moneyState.amount =
+            parseMoneyAmount(amountInput.value);
+
+        amountChips.forEach((chip) => {
+            chip.classList.remove("is-active");
+        });
+
+        clearMoneyError();
+        renderMoneyPreview();
+    });
+
+    amountInput.addEventListener("blur", () => {
+        setMoneyAmount(
+            parseMoneyAmount(amountInput.value)
+        );
+    });
+
+    amountChips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+            setMoneyAmount(
+                Number(chip.dataset.moneyChip)
+            );
+        });
+    });
+
+    methodSelect.addEventListener("change", () => {
+        moneyState.method =
+            methodSelect.value;
+
+        renderMoneyPreview();
+    });
+
+    referenceInput.addEventListener("input", () => {
+        moneyState.reference =
+            referenceInput.value.trim();
+    });
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        setMoneyAmount(
+            parseMoneyAmount(amountInput.value)
+        );
+
+        moneyState.reference =
+            referenceInput.value.trim();
+
+        if (!validateMoneyTransaction()) {
+            return;
+        }
+
+        completeMoneyTransaction();
+    });
+
+    newTransactionButton?.addEventListener(
+        "click",
+        resetMoneyForm
+    );
+
+    dashboardButton?.addEventListener(
+        "click",
+        () => {
+            document
+                .querySelector(
+                    '[data-demo-nav="dashboard"]'
+                )
+                ?.click();
+
+            resetMoneyForm();
+        }
+    );
+
+    setMoneyMode("deposit");
+}
+
+function initRequestMoneyFlow()
+{
+    const view = document.querySelector('[data-demo-view="request"]');
+
+    if (!view)
+    {
+        return;
+    }
+
+    const flow = view.querySelector("[data-request-flow]");
+    const form = view.querySelector("[data-request-form]");
+    const contacts = [...view.querySelectorAll("[data-request-contact]")];
+    const amountInput = view.querySelector("[data-request-amount]");
+    const amountDisplay = amountInput?.closest(".request-amount-display");
+    const amountChips = [...view.querySelectorAll("[data-request-chip]")];
+    const reasonInput = view.querySelector("[data-request-reason]");
+    const dueSelect = view.querySelector("[data-request-due]");
+    const errorElement = view.querySelector("[data-request-error]");
+
+    const previewAvatar = view.querySelector("[data-request-preview-avatar]");
+    const previewPerson = view.querySelector("[data-request-preview-name]");
+    const previewAmount = view.querySelector("[data-request-preview-amount]");
+    const previewReason = view.querySelector("[data-request-preview-reason]");
+    const previewDue = view.querySelector("[data-request-preview-due]");
+
+    const successPanel = view.querySelector("[data-request-success]");
+    const successAmount = view.querySelector("[data-request-success-amount]");
+    const successPerson = view.querySelector("[data-request-success-name]");
+    const paymentLink = view.querySelector("[data-request-payment-link]");
+    const copyButton = view.querySelector("[data-request-copy]");
+    const copyStatus = view.querySelector("[data-request-copy-status]");
+    const newRequestButton = view.querySelector("[data-request-new]");
+    const dashboardButton = view.querySelector("[data-request-dashboard]");
+
+    if (
+        !flow ||
+        !form ||
+        !amountInput ||
+        !reasonInput ||
+        !dueSelect ||
+        !errorElement ||
+        !successPanel
+    )
+    {
+        return;
+    }
+
+    const requestState = {
+        name: "",
+        initials: "",
+        amount: 0,
+        reason: "",
+        dueValue: dueSelect.value,
+        dueLabel: getSelectedOptionLabel(dueSelect),
+        paymentUrl: ""
+    };
+
+    function parseAmount(value)
+    {
+        const normalizedValue = String(value)
+            .replace(/[^\d.]/g, "");
+
+        const amount = Number.parseFloat(normalizedValue);
+
+        return Number.isFinite(amount) ? amount : 0;
+    }
+
+    function formatAmount(amount)
+    {
+        return new Intl.NumberFormat("en-IE", {
+            style: "currency",
+            currency: "EUR",
+            minimumFractionDigits: 2
+        }).format(amount);
+    }
+
+    function getSelectedOptionLabel(selectElement)
+    {
+        return selectElement.options[selectElement.selectedIndex]?.text ?? "Today";
+    }
+
+    function clearError()
+    {
+        errorElement.textContent = "";
+        errorElement.hidden = true;
+        amountDisplay?.classList.remove("has-error");
+        amountInput.removeAttribute("aria-invalid");
+    }
+
+    function showError(message)
+    {
+        errorElement.textContent = message;
+        errorElement.hidden = false;
+        amountDisplay?.classList.add("has-error");
+        amountInput.setAttribute("aria-invalid", "true");
+        amountInput.focus();
+    }
+
+    function renderPreview()
+    {
+        if (previewAvatar)
+        {
+            previewAvatar.textContent = requestState.initials || "—";
+        }
+
+        if (previewPerson)
+        {
+            previewPerson.textContent = requestState.name || "Select a contact";
+        }
+
+        if (previewAmount)
+        {
+            previewAmount.textContent = formatAmount(requestState.amount);
+        }
+
+        if (previewReason)
+        {
+            previewReason.textContent =
+                requestState.reason || "No reason added";
+        }
+
+        if (previewDue)
+        {
+            previewDue.textContent = requestState.dueLabel;
+        }
+    }
+
+    function selectContact(contact)
+    {
+        contacts.forEach((item) =>
+        {
+            const isSelected = item === contact;
+
+            item.classList.toggle("is-selected", isSelected);
+            item.setAttribute("aria-pressed", String(isSelected));
+        });
+
+        requestState.name = contact.dataset.requestName ?? "";
+        requestState.initials = contact.dataset.requestInitials ?? "";
+
+        renderPreview();
+    }
+
+    function setAmount(value)
+    {
+        const amount = parseAmount(value);
+
+        requestState.amount = amount;
+        amountInput.value = amount > 0
+            ? amount.toFixed(2)
+            : "";
+
+        amountChips.forEach((chip) =>
+        {
+            const chipAmount = parseAmount(chip.dataset.requestChip);
+
+            chip.classList.toggle(
+                "is-active",
+                amount > 0 && chipAmount === amount
+            );
+        });
+
+        clearError();
+        renderPreview();
+    }
+
+    function validateRequest()
+    {
+        clearError();
+
+        if (!requestState.name)
+        {
+            errorElement.textContent = "Please select a contact.";
+            errorElement.hidden = false;
+
+            contacts[0]?.focus();
+
+            return false;
+        }
+
+        if (requestState.amount <= 0)
+        {
+            showError("Please enter an amount greater than €0.00.");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    function createRequestReference()
+    {
+        const timestamp = Date.now().toString().slice(-10);
+
+        return `ASW-REQ-${timestamp}`;
+    }
+
+    function getCurrentTime()
+    {
+        return new Intl.DateTimeFormat("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit"
+        }).format(new Date());
+    }
+
+    function showSuccess()
+    {
+        flow.hidden = true;
+        successPanel.hidden = false;
+
+        if (successAmount)
+        {
+            successAmount.textContent = formatAmount(requestState.amount);
+        }
+
+        if (successPerson)
+        {
+            successPerson.textContent = requestState.name;
+        }
+
+        if (paymentLink)
+        {
+            paymentLink.value = requestState.paymentUrl;
+        }
+
+        successPanel.focus?.();
+    }
+
+    function resetRequest()
+    {
+        form.reset();
+
+        requestState.name = "";
+        requestState.initials = "";
+        requestState.amount = 0;
+        requestState.reason = "";
+        requestState.dueValue = dueSelect.value;
+        requestState.dueLabel = getSelectedOptionLabel(dueSelect);
+        requestState.paymentUrl = "";
+
+        amountInput.value = "";
+
+        amountChips.forEach((chip) =>
+        {
+            chip.classList.remove("is-active");
+        });
+
+        clearError();
+
+        copyButton?.classList.remove("is-copied");
+        copyStatus?.classList.remove("is-copied");
+
+        if (copyStatus)
+        {
+            copyStatus.textContent =
+                "Share this demo link with the selected contact.";
+        }
+
+        if (copyButton)
+        {
+            copyButton.textContent = "Copy";
+        }
+
+        successPanel.hidden = true;
+        flow.hidden = false;
+
+        if (contacts[0])
+        {
+            selectContact(contacts[0]);
+        }
+        else
+        {
+            renderPreview();
+        }
+    }
+
+    async function copyPaymentLink()
+    {
+        if (!requestState.paymentUrl)
+        {
+            return;
+        }
+
+        try
+        {
+            await navigator.clipboard.writeText(requestState.paymentUrl);
+        }
+        catch
+        {
+            const temporaryInput = document.createElement("textarea");
+
+            temporaryInput.value = requestState.paymentUrl;
+            temporaryInput.setAttribute("readonly", "");
+            temporaryInput.style.position = "fixed";
+            temporaryInput.style.opacity = "0";
+
+            document.body.appendChild(temporaryInput);
+            temporaryInput.select();
+            document.execCommand("copy");
+            temporaryInput.remove();
+        }
+
+        copyButton?.classList.add("is-copied");
+        copyStatus?.classList.add("is-copied");
+
+        if (copyButton)
+        {
+            copyButton.textContent = "Copied";
+        }
+
+        if (copyStatus)
+        {
+            copyStatus.textContent = "Payment link copied.";
+        }
+
+        window.setTimeout(() =>
+        {
+            copyButton?.classList.remove("is-copied");
+            copyStatus?.classList.remove("is-copied");
+
+            if (copyButton)
+            {
+                copyButton.textContent = "Copy";
+            }
+
+            if (copyStatus)
+            {
+                copyStatus.textContent =
+                    "Share this demo link with the selected contact.";
+            }
+        }, 2200);
+    }
+
+    contacts.forEach((contact) =>
+    {
+        contact.addEventListener("click", () =>
+        {
+            selectContact(contact);
+        });
+    });
+
+    amountChips.forEach((chip) =>
+    {
+        chip.addEventListener("click", () =>
+        {
+            setAmount(chip.dataset.requestChip);
+            amountInput.focus();
+        });
+    });
+
+    amountInput.addEventListener("input", () =>
+    {
+        requestState.amount = parseAmount(amountInput.value);
+
+        amountChips.forEach((chip) =>
+        {
+            const chipAmount = parseAmount(chip.dataset.requestChip);
+
+            chip.classList.toggle(
+                "is-active",
+                requestState.amount > 0 &&
+                chipAmount === requestState.amount
+            );
+        });
+
+        clearError();
+        renderPreview();
+    });
+
+    amountInput.addEventListener("blur", () =>
+    {
+        if (requestState.amount > 0)
+        {
+            amountInput.value = requestState.amount.toFixed(2);
+        }
+    });
+
+    reasonInput.addEventListener("input", () =>
+    {
+        requestState.reason = reasonInput.value.trim();
+
+        renderPreview();
+    });
+
+    dueSelect.addEventListener("change", () =>
+    {
+        requestState.dueValue = dueSelect.value;
+        requestState.dueLabel = getSelectedOptionLabel(dueSelect);
+
+        renderPreview();
+    });
+
+    form.addEventListener("submit", (event) =>
+    {
+        event.preventDefault();
+
+        requestState.amount = parseAmount(amountInput.value);
+        requestState.reason = reasonInput.value.trim();
+        requestState.dueValue = dueSelect.value;
+        requestState.dueLabel = getSelectedOptionLabel(dueSelect);
+
+        if (!validateRequest())
+        {
+            return;
+        }
+
+        const transactionReference = createRequestReference();
+
+        requestState.paymentUrl =
+            `https://aswallet.eu/pay/${transactionReference}`;
+
+        const requestTransaction = {
+            id: `tx-${Date.now()}`,
+            recipient: requestState.name,
+            description: "Money request",
+            date: "Today",
+            time: getCurrentTime(),
+            amount: requestState.amount,
+            direction: "incoming",
+            status: "Pending",
+            reference: requestState.reason || "Money request",
+            transactionRef: transactionReference,
+            iban: "—",
+            bank: "Payment request",
+            dueDate: requestState.dueLabel,
+            isNew: true
+        };
+
+        demoState.transactions.unshift(requestTransaction);
+
+        /*
+         * Не променяме demoState.balance.
+         * Балансът ще се промени едва когато заявката бъде платена.
+         */
+
+        renderDashboardTransactions();
+        renderFilteredTransactions();
+        showSuccess();
+    });
+
+    copyButton?.addEventListener("click", copyPaymentLink);
+
+    newRequestButton?.addEventListener("click", () =>
+    {
+        resetRequest();
+        contacts[0]?.focus();
+    });
+
+    dashboardButton?.addEventListener("click", () =>
+    {
+        document
+            .querySelector('[data-demo-nav="dashboard"]')
+            ?.click();
+    });
+
+    resetRequest();
+}
+
+function initPaymentSimulator()
+{
+    const simulator = document.querySelector(
+        "[data-payment-simulator]"
+    );
+
+    if (!simulator)
+    {
+        return;
+    }
+
+    const dialog = simulator.querySelector(
+        "[data-payment-simulator-dialog]"
+    );
+
+    const content = simulator.querySelector(
+        "[data-payment-simulator-content]"
+    );
+
+    const success = simulator.querySelector(
+        "[data-payment-simulator-success]"
+    );
+
+    const person = simulator.querySelector(
+        "[data-payment-simulator-person]"
+    );
+
+    const amount = simulator.querySelector(
+        "[data-payment-simulator-amount]"
+    );
+
+    const reference = simulator.querySelector(
+        "[data-payment-simulator-reference]"
+    );
+
+    const successAmount = simulator.querySelector(
+        "[data-payment-simulator-success-amount]"
+    );
+
+    const confirmButton = simulator.querySelector(
+        "[data-payment-simulator-confirm]"
+    );
+
+    const doneButton = simulator.querySelector(
+        "[data-payment-simulator-done]"
+    );
+
+    const closeButtons = simulator.querySelectorAll(
+        "[data-payment-simulator-close]"
+    );
+
+    const drawerPaymentButton = document.querySelector(
+        "[data-detail-request-pay]"
+    );
+
+    let transactionId = null;
+    let previousFocus = null;
+
+    function formatPaymentAmount(value)
+    {
+        return new Intl.NumberFormat("en-IE", {
+            style: "currency",
+            currency: "EUR",
+            minimumFractionDigits: 2
+        }).format(Number(value));
+    }
+
+    function findTransaction()
+    {
+        return demoState.transactions.find(
+            (transaction) => transaction.id === transactionId
+        );
+    }
+
+    function openSimulator(selectedTransactionId)
+    {
+        const transaction = demoState.transactions.find(
+            (item) => item.id === selectedTransactionId
+        );
+
+        if (
+            !transaction ||
+            transaction.status?.toLowerCase() !== "pending"
+        )
+        {
+            return;
+        }
+
+        transactionId = transaction.id;
+        previousFocus = document.activeElement;
+
+        if (person)
+        {
+            person.textContent = transaction.recipient ?? "—";
+        }
+
+        if (amount)
+        {
+            amount.textContent = formatPaymentAmount(transaction.amount);
+        }
+
+        if (reference)
+        {
+            reference.textContent =
+                transaction.transactionRef ?? transaction.id;
+        }
+
+        content.hidden = false;
+        success.hidden = true;
+        simulator.hidden = false;
+
+        document.body.classList.add("has-payment-simulator");
+
+        window.requestAnimationFrame(() =>
+        {
+            dialog?.focus();
+        });
+    }
+
+    function closeSimulator()
+    {
+        simulator.hidden = true;
+        document.body.classList.remove("has-payment-simulator");
+
+        transactionId = null;
+        previousFocus?.focus();
+    }
+
+    drawerPaymentButton?.addEventListener("click", () =>
+    {
+        const selectedTransactionId =
+            drawerPaymentButton.dataset.transactionId ||
+            activeTransactionId;
+
+        openSimulator(selectedTransactionId);
+    });
+
+    closeButtons.forEach((button) =>
+    {
+        button.addEventListener("click", closeSimulator);
+    });
+
+    confirmButton?.addEventListener("click", () =>
+    {
+        const transaction = findTransaction();
+
+        if (
+            !transaction ||
+            transaction.status?.toLowerCase() !== "pending"
+        )
+        {
+            return;
+        }
+
+        /*
+         * Защита от двойно добавяне на сумата,
+         * ако бутонът бъде натиснат повече от веднъж.
+         */
+        if (!transaction.balanceApplied)
+        {
+            demoState.balance += Number(transaction.amount);
+            transaction.balanceApplied = true;
+        }
+
+        transaction.status = "Completed";
+        transaction.completedAt = new Date().toISOString();
+        transaction.time = new Intl.DateTimeFormat("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit"
+        }).format(new Date());
+
+        content.hidden = true;
+        success.hidden = false;
+
+        if (successAmount)
+        {
+            successAmount.textContent =
+                `+ ${formatPaymentAmount(transaction.amount)}`;
+        }
+
+        /*
+         * Използвай съществуващата функция от проекта,
+         * която визуализира demoState.balance.
+         */
+        renderDemoBalance();
+        renderDashboardTransactions();
+        renderFilteredTransactions();
+        renderTransactionSummary();
+
+        window.requestAnimationFrame(() =>
+        {
+            doneButton?.focus();
+        });
+    });
+
+    doneButton?.addEventListener("click", () =>
+    {
+        closeSimulator();
+
+        document
+            .querySelector("[data-transaction-drawer-close]")
+            ?.click();
+
+        document
+            .querySelector('[data-demo-nav="transactions"]')
+            ?.click();
+    });
+
+    document.addEventListener("keydown", (event) =>
+    {
+        if (event.key === "Escape" && !simulator.hidden)
+        {
+            closeSimulator();
+        }
+    });
 }
 
 initDemo();

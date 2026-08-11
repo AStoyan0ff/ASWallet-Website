@@ -1,0 +1,886 @@
+/* Deposit / Withdraw Flow */
+
+.money-flow-view {
+
+    --money-accent: #8fe0b4;
+    --money-accent-strong: #3ecf8e;
+    --money-accent-soft: rgba(62, 207, 142, 0.12);
+    --money-accent-border: rgba(62, 207, 142, 0.28);
+}
+
+.money-flow-view.is-withdraw {
+
+    --money-accent: #e4a44a;
+    --money-accent-strong: #c9822f;
+    --money-accent-soft: rgba(228, 164, 74, 0.12);
+    --money-accent-border: rgba(228, 164, 74, 0.28);
+}
+
+/* Header */
+
+.money-flow-header {
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.money-flow-eyebrow {
+
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--money-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.money-flow-demo-badge {
+
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 13px;
+    border: 1px dashed rgba(194, 59, 59, 0.45);
+    border-radius: 999px;
+    color: #f0b1b1;
+    background: rgba(194, 59, 59, 0.08);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Deposit / Withdraw selector */
+
+.money-mode-switch {
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 28px;
+    padding: 7px;
+    border: 1px solid rgba(214, 180, 106, 0.14);
+    border-radius: 20px;
+    background:
+        linear-gradient(155deg,
+            rgba(255, 255, 255, 0.04),
+            rgba(9, 9, 9, 0.62));
+}
+
+.money-mode-switch[hidden] {
+    display: none;
+}
+
+.money-mode-button {
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 74px;
+    padding: 14px 18px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    color: var(--color-text-muted);
+    background: transparent;
+    font-family: var(--font-primary);
+    text-align: left;
+    cursor: pointer;
+    transition:
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.money-mode-button svg {
+
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    padding: 3px;
+    border-radius: 9px;
+}
+
+.money-mode-button span {
+
+    display: grid;
+    gap: 4px;
+}
+
+.money-mode-button strong {
+
+    color: var(--color-text-secondary);
+    font-size: 0.94rem;
+    font-weight: 700;
+}
+
+.money-mode-button small {
+
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+}
+
+.money-mode-button:hover {
+
+    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.money-mode-button[data-money-mode="deposit"].is-active {
+
+    color: #8fe0b4;
+    border-color: rgba(62, 207, 142, 0.25);
+    background:
+        linear-gradient(145deg,
+            rgba(62, 207, 142, 0.13),
+            rgba(12, 12, 12, 0.5));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.money-mode-button[data-money-mode="withdraw"].is-active {
+
+    color: #e4a44a;
+    border-color: rgba(228, 164, 74, 0.25);
+    background:
+        linear-gradient(145deg,
+            rgba(228, 164, 74, 0.13),
+            rgba(12, 12, 12, 0.5));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.money-mode-button.is-active strong {
+    color: currentColor;
+}
+
+/* Main layout */
+
+.money-flow-grid {
+
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    gap: 18px;
+    margin-top: 18px;
+    align-items: stretch;
+}
+
+.money-flow-grid[hidden] {
+    display: none;
+}
+
+/* Main form card */
+
+.money-flow-card {
+
+    min-width: 0;
+    padding: clamp(20px, 3vw, 28px);
+    border: 1px solid rgba(214, 180, 106, 0.16);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at top left,
+            var(--money-accent-soft),
+            transparent 38%),
+        linear-gradient(155deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(10, 10, 10, 0.78));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 20px 48px rgba(0, 0, 0, 0.2);
+    transition:
+        border-color var(--transition-normal),
+        background var(--transition-normal);
+}
+
+.money-flow-card-header {
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.money-flow-card-eyebrow {
+
+    display: inline-block;
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.money-flow-card-title {
+
+    margin-top: 7px;
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.money-flow-type-badge {
+
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 11px;
+    border: 1px solid var(--money-accent-border);
+    border-radius: 999px;
+    color: var(--money-accent);
+    background: var(--money-accent-soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.money-flow-form {
+
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+/* Amount */
+
+.money-amount-field {
+
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+    text-align: center;
+}
+
+.money-field-label {
+
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.money-amount-display {
+
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    padding: 20px 14px 24px;
+    border: 1px solid rgba(214, 180, 106, 0.15);
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at top,
+            var(--money-accent-soft),
+            transparent 58%),
+        rgba(0, 0, 0, 0.2);
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.money-amount-display:focus-within {
+
+    border-color: var(--money-accent-border);
+    box-shadow: 0 0 0 3px var(--money-accent-soft);
+}
+
+.money-amount-display.has-error {
+
+    border-color: rgba(194, 59, 59, 0.55);
+    box-shadow: 0 0 0 3px rgba(194, 59, 59, 0.1);
+}
+
+.money-amount-currency {
+
+    color: var(--money-accent);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.money-amount-input {
+
+    width: min(100%, 8.5ch);
+    min-width: 4ch;
+    border: 0;
+    outline: 0;
+    color: var(--color-text-primary);
+    background: transparent;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    caret-color: var(--money-accent);
+}
+
+.money-current-balance {
+
+    margin: -4px 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.86rem;
+    text-align: center;
+}
+
+.money-current-balance strong {
+
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+/* Quick amounts */
+
+.money-amount-chips {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+}
+
+.money-amount-chips button {
+
+    min-height: 39px;
+    padding: 0 15px;
+    border: 1px solid rgba(214, 180, 106, 0.16);
+    border-radius: 999px;
+    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.03);
+    font-family: var(--font-primary);
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.money-amount-chips button:hover,
+.money-amount-chips button.is-active {
+
+    color: #111;
+    border-color: transparent;
+    background: var(--money-accent);
+    transform: translateY(-1px);
+}
+
+/* Select */
+
+.money-method-select {
+
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-image:
+        linear-gradient(45deg,
+            transparent 50%,
+            var(--color-text-muted) 50%),
+        linear-gradient(135deg,
+            var(--color-text-muted) 50%,
+            transparent 50%);
+    background-position:
+        calc(100% - 18px) 19px,
+        calc(100% - 13px) 19px;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+}
+
+.money-method-select option {
+
+    color: #f5f1e8;
+    background: #111;
+}
+
+/* Error */
+
+.money-flow-error {
+
+    margin: 0;
+    padding: 11px 13px;
+    border: 1px solid rgba(194, 59, 59, 0.34);
+    border-radius: 12px;
+    color: #f0b1b1;
+    background: rgba(194, 59, 59, 0.09);
+    font-size: 0.84rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.money-flow-error[hidden] {
+    display: none;
+}
+
+/* Primary action */
+
+.money-flow-submit {
+
+    position: relative;
+    overflow: hidden;
+    min-height: 49px;
+    margin-top: 3px;
+    padding: 0 18px;
+    border: 1px solid var(--money-accent-border);
+    border-radius: 14px;
+    color: #111;
+    background:
+        linear-gradient(135deg,
+            var(--money-accent),
+            var(--money-accent-strong));
+    font-family: var(--font-primary);
+    font-size: 0.94rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 14px 30px var(--money-accent-soft);
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        filter var(--transition-fast);
+}
+
+.money-flow-submit::before {
+
+    content: "";
+    position: absolute;
+    top: -80%;
+    left: -35%;
+    width: 30%;
+    height: 260%;
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.34),
+            transparent);
+    transform: rotate(18deg);
+    transition: transform 500ms ease;
+}
+
+.money-flow-submit:hover {
+
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+    box-shadow: 0 18px 36px var(--money-accent-soft);
+}
+
+.money-flow-submit:hover::before {
+    transform: translateX(430%) rotate(18deg);
+}
+
+/* Preview card */
+
+.money-preview-card {
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    align-content: start;
+    gap: 22px;
+    padding: clamp(20px, 2.6vw, 27px);
+    border: 1px solid var(--money-accent-border);
+    border-radius: 24px;
+    background:
+        linear-gradient(155deg,
+            var(--money-accent-soft),
+            rgba(13, 13, 13, 0.88) 42%,
+            rgba(8, 8, 8, 0.95));
+    box-shadow:
+        0 22px 52px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition:
+        border-color var(--transition-normal),
+        background var(--transition-normal);
+}
+
+.money-preview-glow {
+
+    position: absolute;
+    z-index: -1;
+    top: -70px;
+    right: -55px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle,
+            var(--money-accent-soft),
+            transparent 68%);
+    pointer-events: none;
+}
+
+.money-preview-eyebrow {
+
+    color: var(--money-accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.money-preview-title {
+
+    margin-top: 8px;
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+/* Direction illustration */
+
+.money-preview-direction {
+
+    display: grid;
+    grid-template-columns: auto minmax(60px, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.money-preview-wallet,
+.money-preview-method {
+
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--money-accent-border);
+    border-radius: 15px;
+    color: var(--money-accent);
+    background: var(--money-accent-soft);
+    font-family: var(--font-display);
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+.money-preview-line {
+
+    position: relative;
+    overflow: hidden;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(214, 180, 106, 0.12);
+}
+
+.money-preview-line i {
+
+    position: absolute;
+    top: 0;
+    left: -30%;
+    width: 30%;
+    height: 100%;
+    border-radius: inherit;
+    background:
+        linear-gradient(90deg,
+            transparent,
+            var(--money-accent),
+            transparent);
+    animation: money-direction 2.2s ease-in-out infinite;
+}
+
+.money-flow-view.is-withdraw .money-preview-line i {
+    animation-direction: reverse;
+}
+
+/* Preview details */
+
+.money-preview-list {
+
+    display: grid;
+    gap: 13px;
+    margin: 0;
+}
+
+.money-preview-list div {
+
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(214, 180, 106, 0.09);
+}
+
+.money-preview-list div:last-child {
+
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.money-preview-list dt {
+
+    color: var(--color-text-muted);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.money-preview-list dd {
+
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 0.91rem;
+    font-weight: 650;
+    text-align: right;
+}
+
+.money-preview-list .money-preview-amount {
+
+    color: var(--money-accent);
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 800;
+}
+
+.money-preview-note {
+
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+/* Success state */
+
+.money-flow-success {
+
+    display: grid;
+    justify-items: center;
+    gap: 13px;
+    width: min(100%, 560px);
+    margin: 30px auto 0;
+    padding: clamp(34px, 5vw, 52px) 24px;
+    border: 1px solid var(--money-accent-border);
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at top,
+            var(--money-accent-soft),
+            transparent 48%),
+        linear-gradient(155deg,
+            rgba(255, 255, 255, 0.04),
+            rgba(10, 10, 10, 0.84));
+    text-align: center;
+}
+
+.money-flow-success[hidden] {
+    display: none;
+}
+
+.money-success-icon {
+
+    display: inline-grid;
+    place-items: center;
+    width: 82px;
+    height: 82px;
+    margin-bottom: 5px;
+    border: 2px solid var(--money-accent-border);
+    border-radius: 50%;
+    color: #111;
+    background:
+        linear-gradient(135deg,
+            var(--money-accent),
+            var(--money-accent-strong));
+    box-shadow:
+        0 0 0 10px var(--money-accent-soft),
+        0 18px 38px rgba(0, 0, 0, 0.24);
+    animation:
+        money-success-enter 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.money-success-icon svg {
+
+    width: 37px;
+    height: 37px;
+}
+
+.money-success-eyebrow {
+
+    color: var(--money-accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.money-success-title {
+
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.money-success-text {
+
+    display: grid;
+    gap: 5px;
+    color: var(--color-text-secondary);
+    font-size: 0.98rem;
+}
+
+.money-success-text strong {
+
+    color: var(--money-accent);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+}
+
+.money-success-reference {
+
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+}
+
+.money-success-reference span {
+
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.money-success-actions {
+
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Animations */
+
+@keyframes money-direction {
+
+    0% {
+        left: -30%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes money-success-enter {
+
+    from {
+        opacity: 0;
+        transform: scale(0.72);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Focus */
+
+.money-mode-button:focus-visible,
+.money-amount-chips button:focus-visible,
+.money-flow-submit:focus-visible {
+
+    outline: 2px solid var(--money-accent);
+    outline-offset: 3px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .money-flow-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .money-flow-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .money-flow-demo-badge {
+        width: fit-content;
+    }
+
+    .money-mode-switch {
+        grid-template-columns: 1fr;
+    }
+
+    .money-mode-button {
+        min-height: 68px;
+    }
+
+    .money-flow-card-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .money-flow-type-badge {
+        width: fit-content;
+    }
+
+    .money-amount-input {
+        font-size: clamp(2.2rem, 13vw, 3.2rem);
+    }
+
+    .money-preview-direction {
+        grid-template-columns: auto minmax(40px, 1fr) auto;
+    }
+
+    .money-success-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .money-success-actions .money-flow-submit,
+    .money-success-actions .transfer-back {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .money-preview-line i,
+    .money-success-icon {
+        animation: none;
+    }
+
+    .money-mode-button,
+    .money-flow-card,
+    .money-preview-card,
+    .money-flow-submit {
+        transition: none;
+    }
+}

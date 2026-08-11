@@ -88,6 +88,20 @@
     background: rgba(214, 180, 106, 0.04);
 }
 
+.transactions-table tbody tr.is-pending {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(227, 173, 84, 0.055),
+            transparent 45%
+        );
+    box-shadow: inset 3px 0 0 rgba(227, 173, 84, 0.45);
+}
+
+.transactions-table tbody tr.is-pending td {
+    border-bottom-color: rgba(227, 173, 84, 0.12);
+}
+
 .transactions-table tbody tr.is-new {
     animation: transaction-highlight 1.8s ease;
 }
@@ -137,6 +151,10 @@
     color: #e08a8a;
 }
 
+.tx-amount.is-pending {
+    color: #e3ad54;
+}
+
 .tx-status {
 
     display: inline-flex;
@@ -151,4 +169,20 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
+}
+
+.tx-status.is-pending {
+    color: #e3ad54;
+    background: rgba(227, 173, 84, 0.10);
+    border-color: rgba(227, 173, 84, 0.28);
+}
+
+.tx-status.is-pending::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: #e3ad54;
+    box-shadow: 0 0 8px rgba(227, 173, 84, 0.55);
 }
