@@ -1063,6 +1063,7 @@ function initTransactionFilters() {
 }
 
 let activeTransactionId = null;
+let transactionDrawerApi = null;
 
 function initTransactionDrawer() {
     const transactionList = document.querySelector("[data-transactions-list]");
@@ -1287,6 +1288,21 @@ function initTransactionDrawer() {
         }
     };
 
+    transactionDrawerApi = {
+        openById(transactionId) {
+
+            const transaction = demoState.transactions.find((item) => 
+                item.id === transactionId);
+
+            if (!transaction) {
+                return false;
+            }
+
+            openDrawer(transaction);
+            return true;
+        },
+    };
+
     requestCopyButton?.addEventListener("click", async () => {
     
         const paymentUrl = requestCopyButton.dataset.paymentUrl;
@@ -1498,8 +1514,351 @@ function renderDashboardTransactions() {
     tableBody.replaceChildren(...rows);
 }
 
+let notificationCenterApi = null;
+
+function initNotificationCenter() {
+
+    const notificationCenter = document.querySelector("[data-notification-center]");
+    const toggleButton = notificationCenter?.querySelector( "[data-notification-toggle]");
+    const panel = notificationCenter?.querySelector("[data-notification-panel]");
+    const badge = notificationCenter?.querySelector("[data-notification-badge]");
+    const markAllReadButton = notificationCenter?.querySelector("[data-notification-read-all]");
+    const notificationList = notificationCenter?.querySelector("[data-notification-list]");
+    const emptyState = notificationCenter?.querySelector("[data-notification-empty]");
+    const viewAllButton = notificationCenter?.querySelector("[data-notification-view-all]");
+
+    if (!notificationCenter || !toggleButton || !panel) {
+        return;
+    }
+
+    const MAX_NOTIFICATIONS = 6;
+
+    function getNotificationItems() {
+        return [...notificationCenter.querySelectorAll("[data-notification-id]"),];
+    }
+
+    function getUnreadItems() {
+        return getNotificationItems().filter((item) =>
+            item.classList.contains("is-unread")
+        );
+    }
+
+    function formatNotificationTime(dateValue) {
+        const timestamp = new Date(dateValue).getTime();
+
+        if (Number.isNaN(timestamp)) {
+            return "Just now";
+        }
+
+        const elapsedSeconds = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
+
+        if (elapsedSeconds < 60) {
+            return "Just now";
+        }
+
+        const elapsedMinutes = Math.floor(elapsedSeconds / 60);
+
+        if (elapsedMinutes < 60) {
+            return `${elapsedMinutes} min ago`;
+        }
+
+        const elapsedHours = Math.floor( elapsedMinutes / 60);
+
+        if (elapsedHours < 24) {
+
+            return elapsedHours === 1
+                ? "1 hr ago"
+                : `${elapsedHours} hrs ago`;
+        }
+
+        const elapsedDays = Math.floor(elapsedHours / 24);
+
+        return elapsedDays === 1
+            ? "1 day ago"
+            : `${elapsedDays} days ago`;
+    }
+
+    function initializeNotificationTimes() {
+        const timeElements = notificationCenter.querySelectorAll("[data-notification-time]");
+
+        timeElements.forEach((timeElement) => {
+
+            if (!timeElement.dateTime) {
+                const offsetMinutes = Number(timeElement.dataset.offsetMinutes || 0);
+                const createdAt = new Date( Date.now() - offsetMinutes * 60_000);
+
+                timeElement.dateTime = createdAt.toISOString();
+            }
+        });
+    }
+
+    function updateNotificationTimes() {
+        const timeElements = notificationCenter.querySelectorAll("[data-notification-time]");
+
+        timeElements.forEach((timeElement) => {
+            timeElement.textContent = formatNotificationTime(
+                timeElement.dateTime
+            );
+        });
+    }
+
+    function trimNotificationList() {
+        const notificationItems = getNotificationItems();
+
+        notificationItems
+            .slice(MAX_NOTIFICATIONS)
+            .forEach((item) => {
+                item.remove();
+            });
+    }
+
+    function isPanelOpen() {
+        return !panel.hidden;
+    }
+
+    function updateNotificationState() {
+        
+        const notificationItems = getNotificationItems();
+        const unreadItems = getUnreadItems();
+        const unreadCount = unreadItems.length;
+        const hasNotifications = notificationItems.length > 0;
+
+        if (badge) {
+            badge.textContent = String(unreadCount);
+            badge.hidden = unreadCount === 0;
+
+            badge.setAttribute("aria-label",
+                `${unreadCount} unread ${
+                    unreadCount === 1
+                        ? "notification"
+                        : "notifications"
+                }`
+            );
+        }
+
+        if (markAllReadButton) {
+            markAllReadButton.disabled = unreadCount === 0;
+        }
+
+        if (notificationList) {
+            notificationList.hidden = !hasNotifications;
+        }
+
+        if (emptyState) {
+            emptyState.hidden = hasNotifications;
+        }
+
+        if (!isPanelOpen()) {
+            toggleButton.setAttribute("aria-label", unreadCount > 0
+                ? `Open notifications, ${unreadCount} unread`
+                : "Open notifications"
+            );
+        }
+    }
+
+    function markNotificationAsRead(notificationItem) {
+        if (!notificationItem) {
+            return;
+        }
+
+        notificationItem.classList.remove("is-unread");
+        updateNotificationState();
+    }
+
+    function markAllNotificationsAsRead() {
+        const unreadItems = getUnreadItems();
+
+        unreadItems.forEach((item) => {
+            item.classList.remove("is-unread");
+        });
+
+        updateNotificationState();
+    }
+
+    function addNotification({
+        id,
+        title,
+        message,
+        time = "Just now",
+        icon = "AS",
+        type = "default",
+        transactionId = null,
+    }) {
+        if (!notificationList) {
+            return;
+        }
+
+        const notificationItem = document.createElement("button");
+
+        notificationItem.type = "button";
+        notificationItem.className = "notification-item is-unread";
+        notificationItem.dataset.notificationId = id || `notification-${Date.now()}`;
+
+        if (transactionId) {
+            notificationItem.dataset.notificationTransactionId = transactionId;
+        }
+
+        let iconClass = "notification-item-icon";
+
+        if (type === "request") {
+            iconClass += " notification-item-icon--request";
+        }
+
+        if (type === "success") {
+            iconClass += " notification-item-icon--success";
+        }
+
+        if (type === "transfer") {
+            iconClass += " notification-item-icon--transfer";
+        }
+
+        if (type === "deposit") {
+            iconClass += " notification-item-icon--deposit";
+        }
+
+        if (type === "withdraw") {
+            iconClass += " notification-item-icon--withdraw";
+        }
+
+        notificationItem.innerHTML = `
+        <span
+            class="${iconClass}"
+            aria-hidden="true">
+        
+            ${escapeHtml(icon)}
+        </span>
+
+        <span class="notification-item-content">
+            <strong>${escapeHtml(title)}</strong>
+
+            <span>
+                ${escapeHtml(message)}
+            </span>
+
+            <time
+                datetime="${new Date().toISOString()}"
+                data-notification-time>
+
+                ${escapeHtml(time)}
+            </time>
+        </span>
+
+        <span
+            class="notification-unread-dot"
+            aria-hidden="true">
+        </span>
+    `;
+
+        notificationList.prepend(notificationItem);
+
+        trimNotificationList();
+        updateNotificationTimes();
+        updateNotificationState();
+
+        notificationItem.classList.add("is-new");
+
+        window.setTimeout(() => {
+            notificationItem.classList.remove("is-new");
+        }, 600);
+    }
+
+    function openPanel() {
+        panel.hidden = false;
+
+        toggleButton.setAttribute("aria-expanded", "true");
+        toggleButton.setAttribute("aria-label", "Close notifications");
+    }
+
+    function closePanel({ restoreFocus = false } = {}) {
+        if (!isPanelOpen()) {
+            return;
+        }
+
+        panel.hidden = true;
+        toggleButton.setAttribute("aria-expanded", "false");
+        updateNotificationState();
+
+        if (restoreFocus) {
+            toggleButton.focus();
+        }
+    }
+
+    function togglePanel() {
+        if (isPanelOpen()) {
+            closePanel();
+
+            return;
+        }
+
+        openPanel();
+    }
+
+    toggleButton.addEventListener("click", togglePanel);
+
+    notificationCenter.addEventListener("click", (event) => {
+        const notificationItem = event.target.closest("[data-notification-id]");
+
+        if (!notificationItem) {
+            return;
+        }
+
+        markNotificationAsRead(notificationItem);
+        const transactionId = notificationItem.dataset.notificationTransactionId;
+
+        if (!transactionId) {
+            return;
+        }
+
+        closePanel();
+
+        document.querySelector('[data-demo-nav="transactions"]')
+            ?.click();
+
+        window.requestAnimationFrame(() => {
+            transactionDrawerApi?.openById(transactionId);
+        });
+    });
+
+    markAllReadButton?.addEventListener("click",
+        markAllNotificationsAsRead
+    );
+
+    viewAllButton?.addEventListener("click", () => {
+        closePanel();
+
+        document.querySelector('[data-demo-nav="transactions"]')
+            ?.click();
+    });
+
+    document.addEventListener("click", (event) => {
+        if (isPanelOpen() && !notificationCenter.contains(event.target)) {
+            closePanel();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && isPanelOpen()) {
+            closePanel({ restoreFocus: true });
+        }
+    });
+
+    notificationCenterApi = {
+        add: addNotification,
+    };
+
+    initializeNotificationTimes();
+    updateNotificationTimes();
+
+    window.setInterval(() => {
+        updateNotificationTimes();
+
+    }, 30_000);
+
+    updateNotificationState();
+}
+
 export function initDemo() {
-    
+
     renderDemoBalance();
     renderDashboardTransactions();
     renderFilteredTransactions();
@@ -1514,9 +1873,11 @@ export function initDemo() {
     initTransactionDrawer();
     initTransactionExport();
     initPaymentSimulator();
+    initNotificationCenter();
 }
 
 function initDemoNav() {
+
     const navLinks = [...document.querySelectorAll("[data-demo-nav]")];
     const views = [...document.querySelectorAll("[data-demo-view]")];
 
@@ -1525,6 +1886,7 @@ function initDemoNav() {
     }
 
     const setActiveView = (viewId) => {
+
         navLinks.forEach((link) => {
             link.classList.toggle("is-active", link.dataset.demoNav === viewId);
         });
@@ -2208,9 +2570,22 @@ function initTransferFlow() {
         }
 
         isTransferConfirmed = true;
-        createTransferTransaction();
+
+        const transaction = createTransferTransaction();
 
         demoState.balance = Number((demoState.balance - transferState.amount).toFixed(2));
+
+        notificationCenterApi?.add({
+            id: `notification-transfer-${transaction.id}`,
+            title: "Transfer completed",
+            message:
+                `${formatCurrency(transferState.amount)} sent ` +
+                `to ${transferState.name}.`,
+            time: "Just now",
+            icon: "↗",
+            type: "transfer",
+            transactionId: transaction.id,
+        });
 
         renderDemoBalance();
         renderTransferBalance();
@@ -2594,15 +2969,43 @@ function initMoneyFlow() {
         };
 
         demoState.transactions.unshift(transaction);
+
+        return transaction;
     };
 
     const completeMoneyTransaction = () => {
+
         const isDeposit = moneyState.mode === "deposit";
         const transactionReference = generateMoneyReference();
-            
+        const transaction = createMoneyTransaction(transactionReference);
 
-        createMoneyTransaction(transactionReference);
         demoState.balance = Number(calculateNewBalance().toFixed(2));
+
+        notificationCenterApi?.add({
+            id:
+                `notification-${moneyState.mode}-` +
+                `${transaction.id}`,
+
+            title: isDeposit
+                ? "Deposit completed"
+                : "Withdrawal completed",
+
+            message: isDeposit
+                ? `${formatCurrency(moneyState.amount)} added ` + "to your ASWallet balance."
+                : `${formatCurrency(moneyState.amount)} withdrawn ` + "from your ASWallet balance.",
+
+            time: "Just now",
+
+            icon: isDeposit
+                ? "+"
+                : "-",
+
+            type: isDeposit
+                ? "deposit"
+                : "withdraw",
+
+            transactionId: transaction.id,
+        });
 
         renderDemoBalance();
         renderDashboardTransactions();
@@ -3073,6 +3476,18 @@ function initRequestMoneyFlow()
 
         demoState.transactions.unshift(requestTransaction);
 
+        notificationCenterApi?.add({
+            id: `notification-${requestTransaction.id}`,
+            title: "Payment request created",
+            message:
+                `${formatCurrency(requestTransaction.amount)} requested ` +
+                `from ${requestTransaction.recipient}.`,
+            time: "Just now",
+            icon: "€",
+            type: "request",
+            transactionId: requestTransaction.id,
+        });
+
         renderDashboardTransactions();
         renderFilteredTransactions();
         showSuccess();
@@ -3196,11 +3611,24 @@ function initPaymentSimulator() {
 
         transaction.status = "Completed";
         transaction.completedAt = new Date().toISOString();
+
         transaction.time = new Intl.DateTimeFormat("en-GB", {
             hour: "2-digit",
-            minute: "2-digit"
-
+            minute: "2-digit",
+            
         }).format(new Date());
+
+        notificationCenterApi?.add({
+            id: `notification-completed-${transaction.id}`,
+            title: "Payment request completed",
+            message:
+                `${formatCurrency(transaction.amount)} received ` +
+                `from ${transaction.recipient}.`,
+            time: "Just now",
+            icon: "✓",
+            type: "success",
+            transactionId: transaction.id,
+        });
 
         content.hidden = true;
         success.hidden = false;

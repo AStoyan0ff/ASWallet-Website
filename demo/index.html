@@ -61,8 +61,7 @@
                     <button
                         class="demo-nav-link"
                         type="button"
-                        data-demo-nav="request"
-                    >
+                        data-demo-nav="request">
                         Request Money
                     </button>
                     <button class="demo-nav-link" type="button" data-demo-nav="deposit">
@@ -96,20 +95,138 @@
                     </div>
 
                     <div class="demo-topbar-right">
-                        <button class="demo-notify" type="button" aria-label="Notifications">
-                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z" stroke="currentColor"
-                                    stroke-width="1.6" stroke-linejoin="round" />
-                                <path d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z" stroke="currentColor"
-                                    stroke-width="1.6" stroke-linejoin="round" />
-                            </svg>
-                            <span class="demo-notify-dot" aria-hidden="true"></span>
-                        </button>
+                        <div class="notification-center" data-notification-center>
+
+                            <button
+                                class="demo-notify"
+                                type="button"
+                                aria-label="Open notifications"
+                                aria-expanded="false"
+                                aria-controls="notification-panel"
+                                data-notification-toggle>
+                            
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z"
+                                        stroke="currentColor"
+                                        stroke-width="1.6"
+                                        stroke-linejoin="round"/>
+                                    <path
+                                        d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z"
+                                        stroke="currentColor"
+                                        stroke-width="1.6"
+                                        stroke-linejoin="round"/>
+                                </svg>
+
+                                <span
+                                    class="demo-notify-badge"
+                                    aria-label="2 unread notifications"
+                                    data-notification-badge>
+                                    2
+                                </span>
+                            </button>
+
+                            <section
+                                class="notification-panel"
+                                id="notification-panel"
+                                aria-label="Notifications"
+                                data-notification-panel
+                                hidden>
+
+                                <header class="notification-panel-header">
+                                    <div>
+                                        <p class="notification-panel-eyebrow">Activity</p>
+                                        <h2 class="notification-panel-title">Notifications</h2>
+                                    </div>
+
+                                    <button
+                                        class="notification-mark-read"
+                                        type="button"
+                                        data-notification-read-all>
+                                        Mark all as read
+                                    </button>
+                                </header>
+
+                                <div
+                                    class="notification-list"
+                                    data-notification-list
+                                    aria-live="polite">
+                                
+                                    <button
+                                        class="notification-item is-unread"
+                                        type="button"
+                                        data-notification-id="welcome">
+                                    
+                                        <span class="notification-item-icon" aria-hidden="true">
+                                            AS
+                                        </span>
+
+                                        <span class="notification-item-content">
+                                            <strong>Welcome to ASWallet Demo</strong>
+                                            <span>
+                                                Explore transfers, payment requests and wallet activity.
+                                            </span>
+                                            <time
+                                                data-notification-time
+                                                data-offset-minutes="0">
+                                                Just now
+                                            </time>
+                                        </span>
+
+                                        <span class="notification-unread-dot" aria-hidden="true"></span>
+                                    </button>
+
+                                    <button
+                                        class="notification-item is-unread"
+                                        type="button"
+                                        data-notification-id="security">
+                                    
+                                        <span
+                                            class="notification-item-icon notification-item-icon--security"
+                                            aria-hidden="true">
+                                            ✓
+                                        </span>
+
+                                        <span class="notification-item-content">
+                                            <strong>Demo environment secured</strong>
+                                            <span>
+                                                No real account or financial information is being used.
+                                            </span>
+                                            <time
+                                                data-notification-time
+                                                data-offset-minutes="2">
+                                                2 min ago
+                                            </time>
+                                        </span>
+
+                                        <span class="notification-unread-dot" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+
+                                <div class="notification-empty" data-notification-empty hidden>
+                                    <span class="notification-empty-icon" aria-hidden="true">✓</span>
+                                    <strong>You’re all caught up</strong>
+                                    <p>New wallet activity will appear here.</p>
+                                </div>
+
+                                <footer class="notification-panel-footer">
+                                    <button
+                                        class="notification-view-all"
+                                        type="button"
+                                        data-notification-view-all>
+                                        View transaction activity
+                                        <span aria-hidden="true">→</span>
+                                    </button>
+                                </footer>
+                            </section>
+
+                        </div>
 
                         <div class="demo-profile" aria-label="Demo profile Alex">
                             <span class="demo-avatar" aria-hidden="true">
                                 <span class="brand-mark">AS</span>
                             </span>
+
                             <span class="demo-profile-meta">
                                 <span class="demo-profile-name">Alex</span>
                                 <span class="demo-profile-role">Demo user</span>
@@ -138,6 +255,7 @@
                                     <span class="balance-card-brand">
                                         <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
                                     </span>
+                                    
                                     <span class="balance-card-badge">Premium</span>
                                 </div>
 
