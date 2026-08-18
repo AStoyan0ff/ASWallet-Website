@@ -98,6 +98,7 @@ const transactionHistoryState = {
 };
 
 function formatCurrency(value) {
+
     return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",
@@ -108,6 +109,7 @@ function formatCurrency(value) {
 }
 
 function getTransactionInitials(name) {
+
     const parts = String(name)
         .trim()
         .split(/\s+/)
@@ -129,7 +131,7 @@ function formatSignedCurrency(value) {
     }
 
     if (value < 0) {
-        return `−  ${formatCurrency(Math.abs(value))}`;
+        return `-  ${formatCurrency(Math.abs(value))}`;
     }
 
     return formatCurrency(0);
@@ -151,34 +153,29 @@ function escapeHtml(value) {
 }
 
 function exportTransactionStatement() {
-    const completedTransactions = demoState.transactions.filter(
-        (transaction) => transaction.status?.toLowerCase() === "completed"
+    const completedTransactions = demoState.transactions.filter((transaction) => 
+        transaction.status?.toLowerCase() === "completed"
     );
 
     const incoming = completedTransactions
         .filter((transaction) => transaction.direction === "incoming")
-        .reduce(
-            (total, transaction) => total + Number(transaction.amount),
-            0
-        );
+        .reduce((total, transaction) => total + Number(transaction.amount), 0
+    );
 
     const outgoing = completedTransactions
         .filter((transaction) => transaction.direction === "outgoing")
-        .reduce(
-            (total, transaction) =>
-                total + Math.abs(Number(transaction.amount)),
-            0
-        );
+        .reduce((total, transaction) => total + Math.abs(Number(transaction.amount)), 0
+    );
 
     const netFlow = incoming - outgoing;
 
     const generatedAt = new Intl.DateTimeFormat("en-GB", {
         dateStyle: "long",
         timeStyle: "short",
+
     }).format(new Date());
 
-    const statementId =
-        `ASW-STMT-${Date.now().toString().slice(-10)}`;
+    const statementId = `ASW-STMT-${Date.now().toString().slice(-10)}`;
 
     const transactionRows = demoState.transactions
         .map((transaction) => {
@@ -279,11 +276,7 @@ function exportTransactionStatement() {
                     margin: 0;
                     color: #181818;
                     background: #ffffff;
-                    font-family:
-                        Inter,
-                        "Segoe UI",
-                        Arial,
-                        sans-serif;
+                    font-family: Inter, "Segoe UI", Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.5;
                     -webkit-print-color-adjust: exact;
@@ -378,12 +371,7 @@ function exportTransactionStatement() {
                 .summary-card.balance {
                     color: #fff;
                     border-color: #aa843f;
-                    background:
-                        linear-gradient(
-                            135deg,
-                            #c9a85e,
-                            #846326
-                        );
+                    background: linear-gradient(135deg, #c9a85e, #846326);
                 }
 
                 .summary-label {
@@ -518,10 +506,7 @@ function exportTransactionStatement() {
 
                 .transaction-id {
                     color: #6e675d;
-                    font-family:
-                        "Cascadia Mono",
-                        Consolas,
-                        monospace;
+                    font-family: "Cascadia Mono", Consolas, monospace;
                     font-size: 8px;
                 }
 
@@ -630,9 +615,7 @@ function exportTransactionStatement() {
                         </span>
 
                         <strong class="summary-value">
-                            ${escapeHtml(
-                                formatCurrency(demoState.balance)
-                            )}
+                            ${escapeHtml(formatCurrency(demoState.balance))}
                         </strong>
 
                         <span class="summary-note">
@@ -646,11 +629,8 @@ function exportTransactionStatement() {
                         </span>
 
                         <strong
-                            class="summary-value incoming-value"
-                        >
-                            ${escapeHtml(
-                                formatSignedCurrency(incoming)
-                            )}
+                            class="summary-value incoming-value">
+                            ${escapeHtml(formatSignedCurrency(incoming))}
                         </strong>
 
                         <span class="summary-note">
@@ -664,11 +644,8 @@ function exportTransactionStatement() {
                         </span>
 
                         <strong
-                            class="summary-value outgoing-value"
-                        >
-                            ${escapeHtml(
-                                formatSignedCurrency(-outgoing)
-                            )}
+                            class="summary-value outgoing-value">
+                            ${escapeHtml(formatSignedCurrency(-outgoing))}
                         </strong>
 
                         <span class="summary-note">
@@ -682,9 +659,8 @@ function exportTransactionStatement() {
                         </span>
 
                         <strong class="summary-value">
-                            ${escapeHtml(
-                                formatSignedCurrency(netFlow)
-                            )}
+                            ${escapeHtml(formatSignedCurrency(netFlow))}
+                            
                         </strong>
 
                         <span class="summary-note">
@@ -721,8 +697,8 @@ function exportTransactionStatement() {
                                 <tr>
                                     <td
                                         class="empty-row"
-                                        colspan="6"
-                                    >
+                                        colspan="6">
+                                    
                                         No transactions available.
                                     </td>
                                 </tr>
@@ -801,10 +777,8 @@ function exportTransactionStatement() {
                 return;
             }
 
-            frameWindow.addEventListener(
-                "afterprint",
-                cleanupPrintFrame,
-                {
+            frameWindow.addEventListener("afterprint",
+                cleanupPrintFrame, {
                     once: true,
                 }
             );
@@ -816,75 +790,51 @@ function exportTransactionStatement() {
 
                 window.requestAnimationFrame(() => {
                     window.requestAnimationFrame(() => {
+
                         try {
                             frameWindow.focus();
                             frameWindow.print();
+
                         } catch (error) {
-                            console.error(
-                                "Unable to print statement:",
-                                error
-                            );
+                            console.error("Unable to print statement:", error);
 
                             cleanupPrintFrame();
-
-                            window.alert(
-                                "The PDF statement could not be opened."
-                            );
+                            window.alert("The PDF statement could not be opened.");
                         }
                     });
                 });
-            } catch (error) {
-                console.error(
-                    "Unable to prepare statement:",
-                    error
-                );
 
+            } catch (error) {
+                console.error("Unable to prepare statement:", error);
                 cleanupPrintFrame();
             }
-        },
+        }, 
         {
             once: true,
         }
     );
 
-    cleanupTimer = window.setTimeout(
-        cleanupPrintFrame,
-        60000
-    );
-
+    cleanupTimer = window.setTimeout(cleanupPrintFrame, 60000);
     printFrame.srcdoc = statementHtml;
 }
 
 function initTransactionExport() {
-    const exportButton = document.querySelector(
-        "[data-transactions-export]"
-    );
+    const exportButton = document.querySelector("[data-transactions-export]");
 
     if (!exportButton) {
         return;
     }
 
-    exportButton.addEventListener(
-        "click",
-        exportTransactionStatement
-    );
+    exportButton.addEventListener("click", exportTransactionStatement);
 }
 
 function renderTransactionSummary() {
-    const incomingElement = document.querySelector(
-        "[data-summary-incoming]"
-    );
 
-    const outgoingElement = document.querySelector(
-        "[data-summary-outgoing]"
-    );
-
-    const netElement = document.querySelector(
-        "[data-summary-net]"
-    );
-
-    const completedTransactions = demoState.transactions.filter(
-        (transaction) => transaction.status?.toLowerCase() === "completed"
+    const incomingElement = document.querySelector("[data-summary-incoming]");
+    const outgoingElement = document.querySelector("[data-summary-outgoing]");
+    const netElement = document.querySelector("[data-summary-net]");
+    const completedTransactions = demoState.transactions.filter((transaction) => 
+        transaction.status?.toLowerCase() === "completed"
     );
 
     const moneyIn = completedTransactions
@@ -928,8 +878,7 @@ function getFilteredTransactions() {
         }
 
         if (activeFilter === "pending") {
-            matchesFilter =
-                transaction.status.toLowerCase() === "pending";
+            matchesFilter = transaction.status.toLowerCase() === "pending";
         }
 
         const searchableValues = [
@@ -944,12 +893,10 @@ function getFilteredTransactions() {
             transaction.time,
         ];
 
-        const matchesSearch =
-            !searchQuery ||
-            searchableValues.some((value) =>
-                String(value || "")
-                    .toLowerCase()
-                    .includes(searchQuery)
+        const matchesSearch = !searchQuery || searchableValues.some((value) =>
+            String(value || "")
+                .toLowerCase()
+                .includes(searchQuery)
             );
 
         return matchesFilter && matchesSearch;
@@ -963,13 +910,8 @@ function renderFilteredTransactions() {
 }
 
 function renderTransactions(transactions = demoState.transactions) {
-    const transactionList = document.querySelector(
-        "[data-transactions-list]"
-    );
-
-    const emptyState = document.querySelector(
-        "[data-transactions-empty]"
-    );
+    const transactionList = document.querySelector("[data-transactions-list]");
+    const emptyState = document.querySelector("[data-transactions-empty]");
 
     if (!transactionList || !emptyState) {
         return;
@@ -979,13 +921,12 @@ function renderTransactions(transactions = demoState.transactions) {
     renderTransactionSummary();
 
     if (!transactions.length) {
-        emptyState.hidden = false;
 
+        emptyState.hidden = false;
         return;
     }
 
     emptyState.hidden = true;
-
     const groupedTransactions = new Map();
 
     transactions.forEach((transaction) => {
@@ -1018,11 +959,11 @@ function renderTransactions(transactions = demoState.transactions) {
             button.dataset.transactionId = transaction.id;
 
             const isIncoming = transaction.amount >= 0;
-            const isPending =
-                transaction.status.toLowerCase() === "pending";
+            const isPending =  transaction.status.toLowerCase() === "pending";
 
-            button.classList.add(
-                isIncoming ? "is-incoming" : "is-outgoing"
+            button.classList.add(isIncoming 
+                ? "is-incoming" 
+                : "is-outgoing"
             );
 
             if (isPending) {
@@ -1038,9 +979,7 @@ function renderTransactions(transactions = demoState.transactions) {
             const avatar = document.createElement("span");
             avatar.className = "transaction-avatar";
             avatar.setAttribute("aria-hidden", "true");
-            avatar.textContent = getTransactionInitials(
-                transaction.recipient
-            );
+            avatar.textContent = getTransactionInitials(transaction.recipient);
 
             const copy = document.createElement("span");
             copy.className = "transaction-copy";
@@ -1053,8 +992,7 @@ function renderTransactions(transactions = demoState.transactions) {
             meta.className = "transaction-meta";
 
             const description = document.createElement("span");
-            description.textContent =
-                transaction.description || "Transaction";
+            description.textContent = transaction.description || "Transaction";
 
             const separator = document.createElement("span");
             separator.className = "transaction-meta-separator";
@@ -1072,17 +1010,15 @@ function renderTransactions(transactions = demoState.transactions) {
 
             const amount = document.createElement("strong");
             amount.className = "transaction-amount";
-            amount.textContent = formatSignedCurrency(
-                transaction.amount
-            );
+            amount.textContent = formatSignedCurrency(transaction.amount);
 
             const status = document.createElement("span");
             status.className = "transaction-status";
-            status.textContent =
-                transaction.status || "Completed";
+            status.textContent = transaction.status || "Completed";
 
             right.append(amount, status);
             button.append(avatar, copy, right);
+
             listItem.append(button);
             list.append(listItem);
         });
@@ -1093,15 +1029,9 @@ function renderTransactions(transactions = demoState.transactions) {
 }
 
 function initTransactionFilters() {
-    const searchInput = document.querySelector(
-        "[data-transactions-search]"
-    );
+    const searchInput = document.querySelector("[data-transactions-search]");
 
-    const filterButtons = [
-        ...document.querySelectorAll(
-            "[data-transaction-filter]"
-        ),
-    ];
+    const filterButtons = [...document.querySelectorAll("[data-transaction-filter]"),];
 
     if (!searchInput || !filterButtons.length) {
         return;
@@ -1115,25 +1045,16 @@ function initTransactionFilters() {
 
     filterButtons.forEach((button) => {
         button.addEventListener("click", () => {
-            const selectedFilter =
-                button.dataset.transactionFilter;
+            const selectedFilter = button.dataset.transactionFilter;
 
-            transactionHistoryState.filter =
-                selectedFilter || "all";
+            transactionHistoryState.filter = selectedFilter || "all";
+               
 
             filterButtons.forEach((filterButton) => {
-                const isActive =
-                    filterButton === button;
+                const isActive =  filterButton === button;
 
-                filterButton.classList.toggle(
-                    "is-active",
-                    isActive
-                );
-
-                filterButton.setAttribute(
-                    "aria-pressed",
-                    String(isActive)
-                );
+                filterButton.classList.toggle("is-active", isActive);
+                filterButton.setAttribute("aria-pressed", String(isActive));
             });
 
             renderFilteredTransactions();
@@ -1144,107 +1065,35 @@ function initTransactionFilters() {
 let activeTransactionId = null;
 
 function initTransactionDrawer() {
-    const transactionList = document.querySelector(
-        "[data-transactions-list]"
-    );
+    const transactionList = document.querySelector("[data-transactions-list]");
+    const drawer = document.querySelector("[data-transaction-drawer]");
+    const drawerPanel = drawer?.querySelector(".transaction-drawer-panel");
 
-    const drawer = document.querySelector(
-        "[data-transaction-drawer]"
-    );
+    const closeButtons = [...document.querySelectorAll("[data-transaction-drawer-close]"),];
 
-    const drawerPanel = drawer?.querySelector(
-        ".transaction-drawer-panel"
-    );
+    const recipientElement = document.querySelector("[data-drawer-recipient]");
+    const avatarElement = document.querySelector("[data-drawer-avatar]");
+    const amountElement = document.querySelector("[data-drawer-amount]");
+    const statusElement = document.querySelector("[data-drawer-status]");
+    const descriptionElement = document.querySelector("[data-drawer-description]");
+    const dateElement = document.querySelector("[data-drawer-date]");
+    const ibanElement = document.querySelector("[data-drawer-iban]");
+    const bankElement = document.querySelector("[data-drawer-bank]");
+    const referenceElement = document.querySelector("[data-drawer-reference]");
+    const idElement = document.querySelector("[data-drawer-id]");
+    const feeElement = document.querySelector("[data-drawer-fee]");
 
-    const closeButtons = [
-        ...document.querySelectorAll(
-            "[data-transaction-drawer-close]"
-        ),
-    ];
+    const requestSection = document.querySelector("[data-detail-request-section]");
+    const requestStatus = document.querySelector("[data-detail-request-status]");
+    const requestPerson = document.querySelector("[data-detail-request-person]");
+    const requestReason = document.querySelector("[data-detail-request-reason]");
+    const requestDue = document.querySelector("[data-detail-request-due]");
+    const requestReference = document.querySelector("[data-detail-request-reference]");
+    const requestLink = document.querySelector("[data-detail-request-link]");
+    const requestCopyButton = document.querySelector("[data-detail-request-copy]");
+    const requestCopyStatus = document.querySelector("[data-detail-request-copy-status]");
 
-    const recipientElement = document.querySelector(
-        "[data-drawer-recipient]"
-    );
-
-    const avatarElement = document.querySelector(
-        "[data-drawer-avatar]"
-    );
-
-    const amountElement = document.querySelector(
-        "[data-drawer-amount]"
-    );
-
-    const statusElement = document.querySelector(
-        "[data-drawer-status]"
-    );
-
-    const descriptionElement = document.querySelector(
-        "[data-drawer-description]"
-    );
-
-    const dateElement = document.querySelector(
-        "[data-drawer-date]"
-    );
-
-    const ibanElement = document.querySelector(
-        "[data-drawer-iban]"
-    );
-
-    const bankElement = document.querySelector(
-        "[data-drawer-bank]"
-    );
-
-    const referenceElement = document.querySelector(
-        "[data-drawer-reference]"
-    );
-
-    const idElement = document.querySelector(
-        "[data-drawer-id]"
-    );
-
-    const feeElement = document.querySelector(
-        "[data-drawer-fee]"
-    );
-
-    const requestSection = document.querySelector(
-        "[data-detail-request-section]"
-    );
-
-    const requestStatus = document.querySelector(
-        "[data-detail-request-status]"
-    );
-
-    const requestPerson = document.querySelector(
-        "[data-detail-request-person]"
-    );
-
-    const requestReason = document.querySelector(
-        "[data-detail-request-reason]"
-    );
-
-    const requestDue = document.querySelector(
-        "[data-detail-request-due]"
-    );
-
-    const requestReference = document.querySelector(
-        "[data-detail-request-reference]"
-    );
-
-    const requestLink = document.querySelector(
-        "[data-detail-request-link]"
-    );
-
-    const requestCopyButton = document.querySelector(
-        "[data-detail-request-copy]"
-    );
-
-    const requestCopyStatus = document.querySelector(
-        "[data-detail-request-copy-status]"
-    );
-
-    const simulatePaymentButton = document.querySelector(
-        "[data-detail-request-pay]"
-    );
+    const simulatePaymentButton = document.querySelector("[data-detail-request-pay]");
 
     if (!transactionList || !drawer || !drawerPanel) {
         return;
@@ -1257,28 +1106,18 @@ function initTransactionDrawer() {
         activeTransactionId = transaction.id;
 
         if (recipientElement) {
-            recipientElement.textContent =
-                transaction.recipient;
+            recipientElement.textContent = transaction.recipient;
         }
 
         if (avatarElement) {
-            avatarElement.textContent =
-                getTransactionInitials(
-                    transaction.recipient
-                );
+            avatarElement.textContent = getTransactionInitials(transaction.recipient);
         }
 
         if (amountElement) {
-            const isIncoming =
-                transaction.direction === "incoming" ||
-                transaction.amount >= 0;
+            const isIncoming = transaction.direction === "incoming" ||  transaction.amount >= 0;
+            const isPending = transaction.status?.toLowerCase() === "pending";
 
-            const isPending =
-                transaction.status?.toLowerCase() === "pending";
-
-            amountElement.textContent =
-                formatSignedCurrency(transaction.amount);
-
+            amountElement.textContent = formatSignedCurrency(transaction.amount);
             amountElement.classList.remove(
                 "is-incoming",
                 "is-outgoing",
@@ -1287,17 +1126,17 @@ function initTransactionDrawer() {
 
             if (isPending) {
                 amountElement.classList.add("is-pending");
+
             } else if (isIncoming) {
                 amountElement.classList.add("is-incoming");
+
             } else {
                 amountElement.classList.add("is-outgoing");
             }
         }
 
         if (statusElement) {
-            const normalizedStatus =
-                transaction.status?.toLowerCase() ?? "completed";
-
+            const normalizedStatus = transaction.status?.toLowerCase() ?? "completed";
             statusElement.classList.remove(
                 "is-completed",
                 "is-pending",
@@ -1306,13 +1145,11 @@ function initTransactionDrawer() {
             );
 
             statusElement.classList.add(`is-${normalizedStatus}`);
-            statusElement.textContent =
-                transaction.status || "Completed";
+            statusElement.textContent = transaction.status || "Completed";
         }
 
         if (descriptionElement) {
-            descriptionElement.textContent =
-                transaction.description || "Transaction";
+            descriptionElement.textContent = transaction.description || "Transaction";
         }
 
         if (dateElement) {
@@ -1322,18 +1159,15 @@ function initTransactionDrawer() {
         }
 
         if (ibanElement) {
-            ibanElement.textContent =
-                transaction.iban || "—";
+            ibanElement.textContent = transaction.iban || "—";
         }
 
         if (bankElement) {
-            bankElement.textContent =
-                transaction.bank || "—";
+            bankElement.textContent = transaction.bank || "—";
         }
 
         if (referenceElement) {
-            referenceElement.textContent =
-                transaction.reference || "—";
+            referenceElement.textContent = transaction.reference || "—";
         }
 
         if (idElement) {
@@ -1356,102 +1190,81 @@ function initTransactionDrawer() {
             isPaymentRequest
         );
 
-        if (requestSection)
-        {
+        if (requestSection) {
             requestSection.hidden = !isPaymentRequest;
         }
 
-        if (isPaymentRequest)
-        {
-            const transactionReference =
-                transaction.transactionRef ?? transaction.id;
+        if (isPaymentRequest) {
+            const transactionReference = transaction.transactionRef ?? transaction.id;
+            const paymentUrl = `https://aswallet.eu/pay/${transactionReference}`;
 
-            const paymentUrl =
-                `https://aswallet.eu/pay/${transactionReference}`;
-
-            if (requestStatus)
-            {
+            if (requestStatus) {
                 requestStatus.textContent = transaction.status ?? "Pending";
             }
 
-            if (requestPerson)
-            {
+            if (requestPerson) {
                 requestPerson.textContent = transaction.recipient ?? "—";
             }
 
-            if (requestReason)
-            {
-                requestReason.textContent =
-                    transaction.reference || "No reason added";
+            if (requestReason) {
+                requestReason.textContent = transaction.reference || "No reason added";
             }
 
-            if (requestDue)
-            {
-                requestDue.textContent =
-                    transaction.dueDate || "Today";
+            if (requestDue) {
+                requestDue.textContent = transaction.dueDate || "Today";
             }
 
-            if (requestReference)
-            {
+            if (requestReference) {
                 requestReference.textContent = transactionReference;
             }
 
-            if (requestLink)
-            {
+            if (requestLink) {
                 requestLink.value = paymentUrl;
             }
 
-            if (requestCopyButton)
-            {
+            if (requestCopyButton) {
                 requestCopyButton.dataset.paymentUrl = paymentUrl;
                 requestCopyButton.textContent = "Copy";
                 requestCopyButton.classList.remove("is-copied");
             }
 
-            if (requestCopyStatus)
-            {
+            if (requestCopyStatus) {
                 requestCopyStatus.textContent = "";
             }
-        }
-        else
-        {
-            if (requestLink)
-            {
+
+        } else {
+        
+        
+            if (requestLink) {
                 requestLink.value = "";
             }
 
-            if (requestCopyButton)
-            {
+            if (requestCopyButton) {
                 delete requestCopyButton.dataset.paymentUrl;
                 requestCopyButton.textContent = "Copy";
                 requestCopyButton.classList.remove("is-copied");
             }
 
-            if (requestCopyStatus)
-            {
+            if (requestCopyStatus) {
                 requestCopyStatus.textContent = "";
             }
         }
 
-        const isPendingRequest =
-            isPaymentRequest &&
+        const isPendingRequest = isPaymentRequest &&
             transaction.status?.toLowerCase() === "pending";
 
-        if (simulatePaymentButton)
-        {
+        if (simulatePaymentButton) {
+
             simulatePaymentButton.hidden = !isPendingRequest;
-            simulatePaymentButton.dataset.transactionId =
-                isPendingRequest ? transaction.id : "";
+            simulatePaymentButton.dataset.transactionId = isPendingRequest
+                ? transaction.id 
+                : "";
         }
 
         drawer.hidden = false;
-        document.body.classList.add(
-            "transaction-drawer-open"
-        );
+        document.body.classList.add("transaction-drawer-open");
 
-        const closeButton = drawer.querySelector(
-            ".transaction-drawer-close"
-        );
+        const closeButton = drawer.querySelector(".transaction-drawer-close");
 
         window.requestAnimationFrame(() => {
             closeButton?.focus();
@@ -1469,29 +1282,23 @@ function initTransactionDrawer() {
             "transaction-drawer-open"
         );
 
-        if (
-            lastFocusedElement &&
-            typeof lastFocusedElement.focus === "function"
-        ) {
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") { 
             lastFocusedElement.focus();
         }
     };
 
-    requestCopyButton?.addEventListener("click", async () =>
-    {
+    requestCopyButton?.addEventListener("click", async () => {
+    
         const paymentUrl = requestCopyButton.dataset.paymentUrl;
 
-        if (!paymentUrl)
-        {
+        if (!paymentUrl) {
             return;
         }
 
-        try
-        {
+        try {
             await navigator.clipboard.writeText(paymentUrl);
-        }
-        catch
-        {
+
+        } catch {
             const temporaryInput = document.createElement("textarea");
 
             temporaryInput.value = paymentUrl;
@@ -1508,38 +1315,30 @@ function initTransactionDrawer() {
         requestCopyButton.textContent = "Copied";
         requestCopyButton.classList.add("is-copied");
 
-        if (requestCopyStatus)
-        {
+        if (requestCopyStatus) {
             requestCopyStatus.textContent = "Payment link copied.";
         }
 
-        window.setTimeout(() =>
-        {
+        window.setTimeout(() => {
             requestCopyButton.textContent = "Copy";
             requestCopyButton.classList.remove("is-copied");
 
-            if (requestCopyStatus)
-            {
+            if (requestCopyStatus) {
                 requestCopyStatus.textContent = "";
             }
+
         }, 2200);
     });
 
     transactionList.addEventListener("click", (event) => {
-        const transactionButton = event.target.closest(
-            "[data-transaction-id]"
-        );
+        const transactionButton = event.target.closest( "[data-transaction-id]");
 
         if (!transactionButton) {
             return;
         }
 
-        const transactionId =
-            transactionButton.dataset.transactionId;
-
-        const transaction = demoState.transactions.find(
-            (item) => item.id === transactionId
-        );
+        const transactionId = transactionButton.dataset.transactionId;
+        const transaction = demoState.transactions.find((item) => item.id === transactionId);
 
         if (!transaction) {
             return;
@@ -1559,7 +1358,6 @@ function initTransactionDrawer() {
 
         if (event.key === "Escape") {
             closeDrawer();
-
             return;
         }
 
@@ -1583,21 +1381,14 @@ function initTransactionDrawer() {
         }
 
         const firstElement = focusableElements[0];
-        const lastElement =
-            focusableElements[focusableElements.length - 1];
+        const lastElement =  focusableElements[focusableElements.length - 1];
 
-        if (
-            event.shiftKey &&
-            document.activeElement === firstElement
-        ) {
+        if (event.shiftKey && document.activeElement === firstElement) {
             event.preventDefault();
             lastElement.focus();
         }
 
-        if (
-            !event.shiftKey &&
-            document.activeElement === lastElement
-        ) {
+        if (!event.shiftKey &&  document.activeElement === lastElement) {
             event.preventDefault();
             firstElement.focus();
         }
@@ -1622,9 +1413,7 @@ function renderDemoBalance() {
 }
 
 function renderDashboardTransactions() {
-    const tableBody = document.querySelector(
-        "[data-dashboard-transactions]"
-    );
+    const tableBody = document.querySelector( "[data-dashboard-transactions]");
 
     if (!tableBody) {
         return;
@@ -1633,12 +1422,10 @@ function renderDashboardTransactions() {
     const recentTransactions = demoState.transactions.slice(0, 4);
 
     const rows = recentTransactions.map((transaction) => {
-        const normalizedStatus =
-            transaction.status?.toLowerCase() ?? "completed";
-
+        const normalizedStatus = transaction.status?.toLowerCase() ?? "completed";
         const statusClass = `is-${normalizedStatus}`;
-
         const row = document.createElement("tr");
+
         row.classList.add(statusClass);
 
         if (transaction.isNew) {
@@ -1672,21 +1459,19 @@ function renderDashboardTransactions() {
             transaction.direction === "incoming" ||
             transaction.amount >= 0;
 
-        const amountStatusClass =
-            normalizedStatus === "pending"
-                ? "is-pending"
-                : isIncoming
-                    ? "is-in"
-                    : "is-out";
+        const amountStatusClass = normalizedStatus === "pending"
+            ? "is-pending"
+            : isIncoming
+                ? "is-in"
+                : "is-out";
 
         amount.className = `tx-amount ${amountStatusClass}`;
 
-        const amountPrefix = isIncoming ? "+  " : "−  ";
+        const amountPrefix = isIncoming ? "+  " : "-  ";
 
         amount.textContent =
-            `${amountPrefix}${formatCurrency(
-                Math.abs(transaction.amount)
-            )}`;
+            `${amountPrefix}${formatCurrency(Math.abs(transaction.amount)
+        )}`;
 
         amountCell.append(amount);
 
@@ -1714,6 +1499,7 @@ function renderDashboardTransactions() {
 }
 
 export function initDemo() {
+    
     renderDemoBalance();
     renderDashboardTransactions();
     renderFilteredTransactions();
@@ -1845,60 +1631,34 @@ function initQuickActions() {
                 trigger.dataset.quickAction;
 
             if (action === "send") {
-                const transferNav =
-                    document.querySelector(
-                        '[data-demo-nav="transfer"]'
-                    );
+                const transferNav = document.querySelector('[data-demo-nav="transfer"]');
 
                 transferNav?.click();
 
                 window.requestAnimationFrame(() => {
-                    const selectedRecipient =
-                        document.querySelector(
-                            "[data-recipient].is-selected"
-                        );
+                    const selectedRecipient = document.querySelector( "[data-recipient].is-selected");
+                    const firstRecipient = document.querySelector("[data-recipient]");
 
-                    const firstRecipient =
-                        document.querySelector(
-                            "[data-recipient]"
-                        );
-
-                    (
-                        selectedRecipient ||
-                        firstRecipient
-                    )?.focus();
+                    (selectedRecipient || firstRecipient)?.focus();
                 });
 
                 return;
             }
 
-            if (action === "request")
-            {
-                const requestNavigationButton = document.querySelector(
-                    '[data-demo-nav="request"]'
-                );
+            if (action === "request") {
+                const requestNavigationButton = document.querySelector('[data-demo-nav="request"]');
 
                 requestNavigationButton?.click();
 
-                const requestView = document.querySelector(
-                    '[data-demo-view="request"]'
-                );
+                const requestView = document.querySelector('[data-demo-view="request"]');
+                const successPanel = requestView?.querySelector( "[data-request-success]");
+                const newRequestButton = requestView?.querySelector("[data-request-new]");
 
-                const successPanel = requestView?.querySelector(
-                    "[data-request-success]"
-                );
-
-                const newRequestButton = requestView?.querySelector(
-                    "[data-request-new]"
-                );
-
-                if (successPanel && !successPanel.hidden)
-                {
+                if (successPanel && !successPanel.hidden) {
                     newRequestButton?.click();
                 }
 
-                window.requestAnimationFrame(() =>
-                {
+                window.requestAnimationFrame(() => {
                     requestView
                         ?.querySelector("[data-request-contact].is-selected")
                         ?.focus();
@@ -1912,15 +1672,8 @@ function initQuickActions() {
                 action === "withdraw";
 
             if (isMoneyFlowAction) {
-                const moneyFlowNav =
-                    document.querySelector(
-                        '[data-demo-nav="deposit"]'
-                    );
-
-                const moneyModeButton =
-                    document.querySelector(
-                        `[data-money-mode="${action}"]`
-                    );
+                const moneyFlowNav = document.querySelector('[data-demo-nav="deposit"]');
+                const moneyModeButton = document.querySelector(`[data-money-mode="${action}"]`);
 
                 moneyFlowNav?.click();
 
@@ -1928,10 +1681,7 @@ function initQuickActions() {
                     moneyModeButton?.click();
 
                     window.requestAnimationFrame(() => {
-                        const amountInput =
-                            document.querySelector(
-                                "[data-money-amount]"
-                            );
+                        const amountInput = document.querySelector("[data-money-amount]");
 
                         amountInput?.focus();
                         amountInput?.select();
@@ -1971,9 +1721,7 @@ function initTransferFlow() {
     const stepsRoot = document.querySelector("[data-transfer-steps]");
     const flowRoot = document.querySelector("[data-transfer-flow]");
 
-    const transferAvailableBalance = document.querySelector(
-        "[data-transfer-available-balance]"
-    );
+    const transferAvailableBalance = document.querySelector("[data-transfer-available-balance]");
 
     const recipients = [...document.querySelectorAll("[data-recipient]")];
     const form = document.querySelector("[data-recipient-form]");
@@ -2390,8 +2138,7 @@ function initTransferFlow() {
         });
     });
 
-    document
-        .querySelector('[data-demo-nav="transfer"]')
+    document.querySelector('[data-demo-nav="transfer"]')
         ?.addEventListener("click", () => {
 
             isTransferConfirmed = false;
@@ -2490,116 +2237,43 @@ function initTransferFlow() {
 }
 
 function initMoneyFlow() {
-    const view = document.querySelector(
-        '[data-demo-view="deposit"]'
-    );
+    const view = document.querySelector('[data-demo-view="deposit"]');
+    const modeSwitch = view?.querySelector(".money-mode-switch");
 
-    const modeSwitch = view?.querySelector(
-        ".money-mode-switch"
-    );
-
-    const modeButtons = [
-        ...(view?.querySelectorAll("[data-money-mode]") || []),
-    ];
+    const modeButtons = [...(view?.querySelectorAll("[data-money-mode]") || []),];
 
     const flowGrid = view?.querySelector("[data-money-flow]");
     const form = view?.querySelector("[data-money-form]");
     const amountInput = view?.querySelector("[data-money-amount]");
-    const amountDisplay = amountInput?.closest(
-        ".money-amount-display"
-    );
+    const amountDisplay = amountInput?.closest(".money-amount-display");
 
-    const amountChips = [
-        ...(view?.querySelectorAll("[data-money-chip]") || []),
-    ];
+    const amountChips = [...(view?.querySelectorAll("[data-money-chip]") || []),];
 
-    const methodLabel = view?.querySelector(
-        "[data-money-method-label]"
-    );
+    const methodLabel = view?.querySelector("[data-money-method-label]");
+    const methodSelect = view?.querySelector("[data-money-method]");
+    const referenceInput = view?.querySelector("[data-money-reference]");
+    const errorElement = view?.querySelector("[data-money-error]");
+    const titleElement = view?.querySelector("[data-money-title]");
+    const typeBadge = view?.querySelector("[data-money-type-badge]");
+    const submitButton = view?.querySelector("[data-money-submit]");
+    const currentBalanceElement = view?.querySelector("[data-money-current-balance]");
 
-    const methodSelect = view?.querySelector(
-        "[data-money-method]"
-    );
+    const previewType = view?.querySelector("[data-money-preview-type]");
+    const previewAmount = view?.querySelector("[data-money-preview-amount]");
+    const previewMethod = view?.querySelector("[data-money-preview-method]");
+    const previewMethodIcon = view?.querySelector("[data-money-preview-method-icon]");
+    const previewBalance = view?.querySelector("[data-money-preview-balance]");
 
-    const referenceInput = view?.querySelector(
-        "[data-money-reference]"
-    );
+    const successPanel = view?.querySelector("[data-money-success]");
+    const successTitle = view?.querySelector("[data-money-success-title]");
+    const successAmount = view?.querySelector("[data-money-success-amount]");
+    const successMessage = view?.querySelector("[data-money-success-message]");
+    const successReference = view?.querySelector("[data-money-success-reference]");
 
-    const errorElement = view?.querySelector(
-        "[data-money-error]"
-    );
+    const newTransactionButton = view?.querySelector("[data-money-new]");
+    const dashboardButton = view?.querySelector("[data-money-dashboard]");
 
-    const titleElement = view?.querySelector(
-        "[data-money-title]"
-    );
-
-    const typeBadge = view?.querySelector(
-        "[data-money-type-badge]"
-    );
-
-    const submitButton = view?.querySelector(
-        "[data-money-submit]"
-    );
-
-    const currentBalanceElement = view?.querySelector(
-        "[data-money-current-balance]"
-    );
-
-    const previewType = view?.querySelector(
-        "[data-money-preview-type]"
-    );
-
-    const previewAmount = view?.querySelector(
-        "[data-money-preview-amount]"
-    );
-
-    const previewMethod = view?.querySelector(
-        "[data-money-preview-method]"
-    );
-
-    const previewMethodIcon = view?.querySelector(
-        "[data-money-preview-method-icon]"
-    );
-
-    const previewBalance = view?.querySelector(
-        "[data-money-preview-balance]"
-    );
-
-    const successPanel = view?.querySelector(
-        "[data-money-success]"
-    );
-
-    const successTitle = view?.querySelector(
-        "[data-money-success-title]"
-    );
-
-    const successAmount = view?.querySelector(
-        "[data-money-success-amount]"
-    );
-
-    const successMessage = view?.querySelector(
-        "[data-money-success-message]"
-    );
-
-    const successReference = view?.querySelector(
-        "[data-money-success-reference]"
-    );
-
-    const newTransactionButton = view?.querySelector(
-        "[data-money-new]"
-    );
-
-    const dashboardButton = view?.querySelector(
-        "[data-money-dashboard]"
-    );
-
-    if (
-        !view ||
-        !form ||
-        !amountInput ||
-        !methodSelect ||
-        !flowGrid
-    ) {
+    if (!view || !form || !amountInput || !methodSelect || !flowGrid) {
         return;
     }
 
@@ -2677,15 +2351,10 @@ function initMoneyFlow() {
     };
 
     const getSelectedMethod = () => {
-        const options =
-            methodOptions[moneyState.mode] || [];
+        const options = methodOptions[moneyState.mode] || [];
 
-        return (
-            options.find(
-                (option) =>
-                    option.value === methodSelect.value
-            ) || options[0]
-        );
+        return (options.find((option) => 
+            option.value === methodSelect.value) || options[0]);
     };
 
     const clearMoneyError = () => {
@@ -2719,14 +2388,12 @@ function initMoneyFlow() {
 
     const renderMoneyBalance = () => {
         if (currentBalanceElement) {
-            currentBalanceElement.textContent =
-                formatCurrency(demoState.balance);
+            currentBalanceElement.textContent = formatCurrency(demoState.balance);
         }
     };
 
     const renderMoneyMethods = () => {
-        const options =
-            methodOptions[moneyState.mode] || [];
+        const options = methodOptions[moneyState.mode] || [];
 
         const optionElements = options.map((method) => {
             const option = document.createElement("option");
@@ -2745,9 +2412,7 @@ function initMoneyFlow() {
 
     const renderMoneyPreview = () => {
         const selectedMethod = getSelectedMethod();
-        const isDeposit =
-            moneyState.mode === "deposit";
-
+        const isDeposit = moneyState.mode === "deposit";
         const signedAmount = isDeposit
             ? moneyState.amount
             : -moneyState.amount;
@@ -2761,49 +2426,36 @@ function initMoneyFlow() {
         }
 
         if (previewAmount) {
-            previewAmount.textContent =
-                formatSignedCurrency(signedAmount);
+            previewAmount.textContent = formatSignedCurrency(signedAmount);
         }
 
         if (previewMethod) {
-            previewMethod.textContent =
-                selectedMethod?.label || "—";
+            previewMethod.textContent = selectedMethod?.label || "—";
         }
 
         if (previewMethodIcon) {
-            previewMethodIcon.textContent =
-                selectedMethod?.icon || "AS";
+            previewMethodIcon.textContent = selectedMethod?.icon || "AS";
         }
 
         if (previewBalance) {
-            previewBalance.textContent =
-                formatCurrency(
-                    Math.max(0, newBalance)
-                );
+            previewBalance.textContent = formatCurrency(Math.max(0, newBalance));
         }
 
         renderMoneyBalance();
     };
 
-    const setMoneyAmount = (
-        amount,
-        { updateInput = true } = {}
-    ) => {
+    const setMoneyAmount = (amount, { updateInput = true } = {} ) => {
+    
         moneyState.amount = Math.max(0, amount);
 
         if (updateInput) {
-            amountInput.value =
-                formatMoneyAmount(moneyState.amount);
+            amountInput.value = formatMoneyAmount(moneyState.amount);
         }
 
         amountChips.forEach((chip) => {
-            const chipAmount =
-                Number(chip.dataset.moneyChip);
+            const chipAmount = Number(chip.dataset.moneyChip);
 
-            chip.classList.toggle(
-                "is-active",
-                chipAmount === moneyState.amount
-            );
+            chip.classList.toggle("is-active", chipAmount === moneyState.amount);
         });
 
         clearMoneyError();
@@ -2812,28 +2464,18 @@ function initMoneyFlow() {
 
     const validateMoneyTransaction = () => {
         if (moneyState.amount <= 0) {
-            showMoneyError(
-                "Enter an amount greater than €0.00."
-            );
+            showMoneyError("Enter an amount greater than €0.00.");
 
             return false;
         }
 
-        if (
-            moneyState.mode === "withdraw" &&
-            moneyState.amount > demoState.balance
-        ) {
-            showMoneyError(
-                `Insufficient balance. You can withdraw up to ${
-                    formatCurrency(demoState.balance)
-                }.`
-            );
-
+        if (moneyState.mode === "withdraw" && moneyState.amount > demoState.balance) {
+        
+            showMoneyError(`Insufficient balance. You can withdraw up to ${formatCurrency(demoState.balance)}.`);
             return false;
         }
 
         clearMoneyError();
-
         return true;
     };
 
@@ -2854,33 +2496,19 @@ function initMoneyFlow() {
     };
 
     const setMoneyMode = (mode) => {
-        moneyState.mode =
-            mode === "withdraw"
-                ? "withdraw"
-                : "deposit";
+        moneyState.mode = mode === "withdraw"
+            ? "withdraw"
+            : "deposit";
 
-        const isWithdraw =
-            moneyState.mode === "withdraw";
+        const isWithdraw = moneyState.mode === "withdraw";
 
-        view.classList.toggle(
-            "is-withdraw",
-            isWithdraw
-        );
+        view.classList.toggle("is-withdraw", isWithdraw);
 
         modeButtons.forEach((button) => {
-            const isActive =
-                button.dataset.moneyMode ===
-                moneyState.mode;
+            const isActive =  button.dataset.moneyMode === moneyState.mode;
 
-            button.classList.toggle(
-                "is-active",
-                isActive
-            );
-
-            button.setAttribute(
-                "aria-pressed",
-                String(isActive)
-            );
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
         });
 
         if (titleElement) {
@@ -2918,47 +2546,46 @@ function initMoneyFlow() {
         moneyState.reference = "";
     };
 
-    const createMoneyTransaction = (
-        transactionReference
-    ) => {
+    const createMoneyTransaction = (transactionReference) => {
+    
         const now = new Date();
-        const isDeposit =
-            moneyState.mode === "deposit";
-
-        const selectedMethod =
-            getSelectedMethod();
+        const isDeposit = moneyState.mode === "deposit";
+        const selectedMethod = getSelectedMethod();
 
         const transactionAmount = isDeposit
             ? moneyState.amount
             : -moneyState.amount;
 
-        const transaction = {
-            id: `tx-${Date.now()}`,
+        const transaction = {id: `tx-${Date.now()}`,
+            
             recipient: isDeposit
                 ? "Wallet Deposit"
                 : "Wallet Withdrawal",
+
             description: isDeposit
-                ? `Deposit via ${
-                    selectedMethod?.label || "payment method"
-                }`
-                : `Withdrawal to ${
-                    selectedMethod?.label || "bank account"
-                }`,
+                ? `Deposit via ${selectedMethod?.label || "payment method"}`
+                : `Withdrawal to ${selectedMethod?.label || "bank account"}`,
+                
             date: "Today",
+
             time: now.toLocaleTimeString("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
             }),
             amount: transactionAmount,
+
             direction: isDeposit
                 ? "incoming"
                 : "outgoing",
+
             status: "Completed",
+
             reference:
                 moneyState.reference ||
                 (isDeposit
                     ? "Wallet deposit"
                     : "Wallet withdrawal"),
+
             transactionRef: transactionReference,
             iban: "—",
             bank:
@@ -2970,19 +2597,12 @@ function initMoneyFlow() {
     };
 
     const completeMoneyTransaction = () => {
-        const isDeposit =
-            moneyState.mode === "deposit";
+        const isDeposit = moneyState.mode === "deposit";
+        const transactionReference = generateMoneyReference();
+            
 
-        const transactionReference =
-            generateMoneyReference();
-
-        createMoneyTransaction(
-            transactionReference
-        );
-
-        demoState.balance = Number(
-            calculateNewBalance().toFixed(2)
-        );
+        createMoneyTransaction(transactionReference);
+        demoState.balance = Number(calculateNewBalance().toFixed(2));
 
         renderDemoBalance();
         renderDashboardTransactions();
@@ -2996,8 +2616,7 @@ function initMoneyFlow() {
         }
 
         if (successAmount) {
-            successAmount.textContent =
-                formatCurrency(moneyState.amount);
+            successAmount.textContent = formatCurrency(moneyState.amount);
         }
 
         if (successMessage) {
@@ -3007,8 +2626,7 @@ function initMoneyFlow() {
         }
 
         if (successReference) {
-            successReference.textContent =
-                transactionReference;
+            successReference.textContent = transactionReference;
         }
 
         flowGrid.hidden = true;
@@ -3018,15 +2636,12 @@ function initMoneyFlow() {
 
     modeButtons.forEach((button) => {
         button.addEventListener("click", () => {
-            setMoneyMode(
-                button.dataset.moneyMode
-            );
+            setMoneyMode(button.dataset.moneyMode);
         });
     });
 
     amountInput.addEventListener("input", () => {
-        moneyState.amount =
-            parseMoneyAmount(amountInput.value);
+        moneyState.amount = parseMoneyAmount(amountInput.value);
 
         amountChips.forEach((chip) => {
             chip.classList.remove("is-active");
@@ -3037,41 +2652,30 @@ function initMoneyFlow() {
     });
 
     amountInput.addEventListener("blur", () => {
-        setMoneyAmount(
-            parseMoneyAmount(amountInput.value)
-        );
+        setMoneyAmount(parseMoneyAmount(amountInput.value));
     });
 
     amountChips.forEach((chip) => {
         chip.addEventListener("click", () => {
-            setMoneyAmount(
-                Number(chip.dataset.moneyChip)
-            );
+            setMoneyAmount(Number(chip.dataset.moneyChip));
         });
     });
 
     methodSelect.addEventListener("change", () => {
-        moneyState.method =
-            methodSelect.value;
-
+        moneyState.method = methodSelect.value;
         renderMoneyPreview();
     });
 
     referenceInput.addEventListener("input", () => {
-        moneyState.reference =
-            referenceInput.value.trim();
+        moneyState.reference = referenceInput.value.trim();
     });
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        setMoneyAmount(
-            parseMoneyAmount(amountInput.value)
-        );
-
-        moneyState.reference =
-            referenceInput.value.trim();
-
+        setMoneyAmount(parseMoneyAmount(amountInput.value));
+        moneyState.reference = referenceInput.value.trim();
+            
         if (!validateMoneyTransaction()) {
             return;
         }
@@ -3084,13 +2688,9 @@ function initMoneyFlow() {
         resetMoneyForm
     );
 
-    dashboardButton?.addEventListener(
-        "click",
-        () => {
-            document
-                .querySelector(
-                    '[data-demo-nav="dashboard"]'
-                )
+    dashboardButton?.addEventListener("click", () => {
+        
+            document.querySelector('[data-demo-nav="dashboard"]') 
                 ?.click();
 
             resetMoneyForm();
@@ -3104,8 +2704,7 @@ function initRequestMoneyFlow()
 {
     const view = document.querySelector('[data-demo-view="request"]');
 
-    if (!view)
-    {
+    if (!view) {
         return;
     }
 
@@ -3134,16 +2733,7 @@ function initRequestMoneyFlow()
     const newRequestButton = view.querySelector("[data-request-new]");
     const dashboardButton = view.querySelector("[data-request-dashboard]");
 
-    if (
-        !flow ||
-        !form ||
-        !amountInput ||
-        !reasonInput ||
-        !dueSelect ||
-        !errorElement ||
-        !successPanel
-    )
-    {
+    if (!flow || !form || !amountInput || !reasonInput || !dueSelect || !errorElement || !successPanel) {
         return;
     }
 
@@ -3157,80 +2747,71 @@ function initRequestMoneyFlow()
         paymentUrl: ""
     };
 
-    function parseAmount(value)
-    {
-        const normalizedValue = String(value)
-            .replace(/[^\d.]/g, "");
-
+    function parseAmount(value) {
+        const normalizedValue = String(value).replace(/[^\d.]/g, "");
         const amount = Number.parseFloat(normalizedValue);
 
         return Number.isFinite(amount) ? amount : 0;
     }
 
-    function formatAmount(amount)
-    {
+    function formatAmount(amount) {
+    
         return new Intl.NumberFormat("en-IE", {
             style: "currency",
             currency: "EUR",
             minimumFractionDigits: 2
+
         }).format(amount);
     }
 
-    function getSelectedOptionLabel(selectElement)
-    {
+    function getSelectedOptionLabel(selectElement) {
         return selectElement.options[selectElement.selectedIndex]?.text ?? "Today";
     }
 
-    function clearError()
-    {
+    function clearError() {
         errorElement.textContent = "";
         errorElement.hidden = true;
+
         amountDisplay?.classList.remove("has-error");
         amountInput.removeAttribute("aria-invalid");
     }
 
-    function showError(message)
-    {
+    function showError(message) {
         errorElement.textContent = message;
         errorElement.hidden = false;
+
         amountDisplay?.classList.add("has-error");
         amountInput.setAttribute("aria-invalid", "true");
         amountInput.focus();
     }
 
-    function renderPreview()
-    {
-        if (previewAvatar)
-        {
+    function renderPreview() {
+    
+        if (previewAvatar) {
             previewAvatar.textContent = requestState.initials || "—";
         }
 
-        if (previewPerson)
-        {
+        if (previewPerson) {
             previewPerson.textContent = requestState.name || "Select a contact";
         }
 
-        if (previewAmount)
-        {
+        if (previewAmount) {
             previewAmount.textContent = formatAmount(requestState.amount);
         }
 
-        if (previewReason)
-        {
-            previewReason.textContent =
-                requestState.reason || "No reason added";
+        if (previewReason) {
+            previewReason.textContent = requestState.reason || "No reason added";
         }
 
-        if (previewDue)
-        {
+        if (previewDue) {
             previewDue.textContent = requestState.dueLabel;
         }
     }
 
-    function selectContact(contact)
-    {
-        contacts.forEach((item) =>
-        {
+    function selectContact(contact) {
+    
+        contacts.forEach((item) => {
+        
             const isSelected = item === contact;
 
             item.classList.toggle("is-selected", isSelected);
@@ -3243,93 +2824,80 @@ function initRequestMoneyFlow()
         renderPreview();
     }
 
-    function setAmount(value)
-    {
+    function setAmount(value) {
+    
         const amount = parseAmount(value);
-
         requestState.amount = amount;
+
         amountInput.value = amount > 0
             ? amount.toFixed(2)
             : "";
 
-        amountChips.forEach((chip) =>
-        {
+        amountChips.forEach((chip) => {
+        
             const chipAmount = parseAmount(chip.dataset.requestChip);
-
-            chip.classList.toggle(
-                "is-active",
-                amount > 0 && chipAmount === amount
-            );
+            chip.classList.toggle("is-active", amount > 0 && chipAmount === amount);
         });
 
         clearError();
         renderPreview();
     }
 
-    function validateRequest()
-    {
+    function validateRequest() {
         clearError();
 
-        if (!requestState.name)
-        {
+        if (!requestState.name) {
             errorElement.textContent = "Please select a contact.";
             errorElement.hidden = false;
 
             contacts[0]?.focus();
-
             return false;
         }
 
-        if (requestState.amount <= 0)
-        {
+        if (requestState.amount <= 0) {
             showError("Please enter an amount greater than €0.00.");
-
             return false;
         }
 
         return true;
     }
 
-    function createRequestReference()
-    {
+    function createRequestReference() {
         const timestamp = Date.now().toString().slice(-10);
-
         return `ASW-REQ-${timestamp}`;
     }
 
-    function getCurrentTime()
-    {
+    function getCurrentTime() {
+    
         return new Intl.DateTimeFormat("en-GB", {
             hour: "2-digit",
             minute: "2-digit"
+
         }).format(new Date());
     }
 
-    function showSuccess()
-    {
+    function showSuccess() {
+    
         flow.hidden = true;
         successPanel.hidden = false;
 
-        if (successAmount)
-        {
+        if (successAmount) {
             successAmount.textContent = formatAmount(requestState.amount);
         }
 
-        if (successPerson)
-        {
+        if (successPerson) {
             successPerson.textContent = requestState.name;
         }
 
-        if (paymentLink)
-        {
+        if (paymentLink) {
             paymentLink.value = requestState.paymentUrl;
         }
 
         successPanel.focus?.();
     }
 
-    function resetRequest()
-    {
+    function resetRequest() {
+    
         form.reset();
 
         requestState.name = "";
@@ -3342,8 +2910,7 @@ function initRequestMoneyFlow()
 
         amountInput.value = "";
 
-        amountChips.forEach((chip) =>
-        {
+        amountChips.forEach((chip) => {
             chip.classList.remove("is-active");
         });
 
@@ -3352,43 +2919,35 @@ function initRequestMoneyFlow()
         copyButton?.classList.remove("is-copied");
         copyStatus?.classList.remove("is-copied");
 
-        if (copyStatus)
-        {
-            copyStatus.textContent =
-                "Share this demo link with the selected contact.";
+        if (copyStatus) {
+            copyStatus.textContent = "Share this demo link with the selected contact.";
         }
 
-        if (copyButton)
-        {
+        if (copyButton) {
             copyButton.textContent = "Copy";
         }
 
         successPanel.hidden = true;
         flow.hidden = false;
 
-        if (contacts[0])
-        {
+        if (contacts[0]) {
             selectContact(contacts[0]);
-        }
-        else
-        {
+
+        } else {
             renderPreview();
         }
     }
 
-    async function copyPaymentLink()
-    {
-        if (!requestState.paymentUrl)
-        {
+    async function copyPaymentLink() {
+    
+        if (!requestState.paymentUrl) {
             return;
         }
 
-        try
-        {
+        try {
             await navigator.clipboard.writeText(requestState.paymentUrl);
-        }
-        catch
-        {
+
+        } catch {
             const temporaryInput = document.createElement("textarea");
 
             temporaryInput.value = requestState.paymentUrl;
@@ -3405,61 +2964,53 @@ function initRequestMoneyFlow()
         copyButton?.classList.add("is-copied");
         copyStatus?.classList.add("is-copied");
 
-        if (copyButton)
-        {
+        if (copyButton) {
             copyButton.textContent = "Copied";
         }
 
-        if (copyStatus)
-        {
+        if (copyStatus) {
             copyStatus.textContent = "Payment link copied.";
         }
 
-        window.setTimeout(() =>
-        {
+        window.setTimeout(() => {
+        
             copyButton?.classList.remove("is-copied");
             copyStatus?.classList.remove("is-copied");
 
-            if (copyButton)
-            {
+            if (copyButton) {
                 copyButton.textContent = "Copy";
             }
 
-            if (copyStatus)
-            {
-                copyStatus.textContent =
-                    "Share this demo link with the selected contact.";
+            if (copyStatus) {
+                copyStatus.textContent = "Share this demo link with the selected contact.";
             }
+
         }, 2200);
     }
 
-    contacts.forEach((contact) =>
-    {
-        contact.addEventListener("click", () =>
-        {
+    contacts.forEach((contact) => {
+    
+        contact.addEventListener("click", () => {
             selectContact(contact);
         });
     });
 
-    amountChips.forEach((chip) =>
-    {
-        chip.addEventListener("click", () =>
-        {
+    amountChips.forEach((chip) => {
+    
+        chip.addEventListener("click", () => {
             setAmount(chip.dataset.requestChip);
             amountInput.focus();
         });
     });
 
-    amountInput.addEventListener("input", () =>
-    {
+    amountInput.addEventListener("input", () => {
         requestState.amount = parseAmount(amountInput.value);
 
-        amountChips.forEach((chip) =>
-        {
+        amountChips.forEach((chip) => {
             const chipAmount = parseAmount(chip.dataset.requestChip);
 
-            chip.classList.toggle(
-                "is-active",
+            chip.classList.toggle("is-active",
+                
                 requestState.amount > 0 &&
                 chipAmount === requestState.amount
             );
@@ -3469,31 +3020,26 @@ function initRequestMoneyFlow()
         renderPreview();
     });
 
-    amountInput.addEventListener("blur", () =>
-    {
-        if (requestState.amount > 0)
-        {
+    amountInput.addEventListener("blur", () => {
+
+        if (requestState.amount > 0) {
             amountInput.value = requestState.amount.toFixed(2);
         }
     });
 
-    reasonInput.addEventListener("input", () =>
-    {
+    reasonInput.addEventListener("input", () => {
         requestState.reason = reasonInput.value.trim();
-
         renderPreview();
     });
 
-    dueSelect.addEventListener("change", () =>
-    {
+    dueSelect.addEventListener("change", () => {
         requestState.dueValue = dueSelect.value;
         requestState.dueLabel = getSelectedOptionLabel(dueSelect);
 
         renderPreview();
     });
 
-    form.addEventListener("submit", (event) =>
-    {
+    form.addEventListener("submit", (event) => {
         event.preventDefault();
 
         requestState.amount = parseAmount(amountInput.value);
@@ -3501,15 +3047,12 @@ function initRequestMoneyFlow()
         requestState.dueValue = dueSelect.value;
         requestState.dueLabel = getSelectedOptionLabel(dueSelect);
 
-        if (!validateRequest())
-        {
+        if (!validateRequest()) {
             return;
         }
 
         const transactionReference = createRequestReference();
-
-        requestState.paymentUrl =
-            `https://aswallet.eu/pay/${transactionReference}`;
+        requestState.paymentUrl = `https://aswallet.eu/pay/${transactionReference}`;
 
         const requestTransaction = {
             id: `tx-${Date.now()}`,
@@ -3530,11 +3073,6 @@ function initRequestMoneyFlow()
 
         demoState.transactions.unshift(requestTransaction);
 
-        /*
-         * Не променяме demoState.balance.
-         * Балансът ще се промени едва когато заявката бъде платена.
-         */
-
         renderDashboardTransactions();
         renderFilteredTransactions();
         showSuccess();
@@ -3542,127 +3080,76 @@ function initRequestMoneyFlow()
 
     copyButton?.addEventListener("click", copyPaymentLink);
 
-    newRequestButton?.addEventListener("click", () =>
-    {
+    newRequestButton?.addEventListener("click", () => {
         resetRequest();
         contacts[0]?.focus();
     });
 
-    dashboardButton?.addEventListener("click", () =>
-    {
-        document
-            .querySelector('[data-demo-nav="dashboard"]')
+    dashboardButton?.addEventListener("click", () => {
+        document.querySelector('[data-demo-nav="dashboard"]')
             ?.click();
     });
 
     resetRequest();
 }
 
-function initPaymentSimulator()
-{
-    const simulator = document.querySelector(
-        "[data-payment-simulator]"
-    );
+function initPaymentSimulator() {
 
-    if (!simulator)
-    {
+    const simulator = document.querySelector("[data-payment-simulator]");
+
+    if (!simulator) {
         return;
     }
 
-    const dialog = simulator.querySelector(
-        "[data-payment-simulator-dialog]"
-    );
-
-    const content = simulator.querySelector(
-        "[data-payment-simulator-content]"
-    );
-
-    const success = simulator.querySelector(
-        "[data-payment-simulator-success]"
-    );
-
-    const person = simulator.querySelector(
-        "[data-payment-simulator-person]"
-    );
-
-    const amount = simulator.querySelector(
-        "[data-payment-simulator-amount]"
-    );
-
-    const reference = simulator.querySelector(
-        "[data-payment-simulator-reference]"
-    );
-
-    const successAmount = simulator.querySelector(
-        "[data-payment-simulator-success-amount]"
-    );
-
-    const confirmButton = simulator.querySelector(
-        "[data-payment-simulator-confirm]"
-    );
-
-    const doneButton = simulator.querySelector(
-        "[data-payment-simulator-done]"
-    );
-
-    const closeButtons = simulator.querySelectorAll(
-        "[data-payment-simulator-close]"
-    );
-
-    const drawerPaymentButton = document.querySelector(
-        "[data-detail-request-pay]"
-    );
+    const dialog = simulator.querySelector("[data-payment-simulator-dialog]");
+    const content = simulator.querySelector("[data-payment-simulator-content]");
+    const success = simulator.querySelector("[data-payment-simulator-success]");
+    const person = simulator.querySelector("[data-payment-simulator-person]");
+    const amount = simulator.querySelector("[data-payment-simulator-amount]");
+    const reference = simulator.querySelector("[data-payment-simulator-reference]");
+    const successAmount = simulator.querySelector("[data-payment-simulator-success-amount]");
+    const confirmButton = simulator.querySelector("[data-payment-simulator-confirm]");
+    const doneButton = simulator.querySelector("[data-payment-simulator-done]");
+    const closeButtons = simulator.querySelectorAll("[data-payment-simulator-close]");
+    const drawerPaymentButton = document.querySelector("[data-detail-request-pay]");
 
     let transactionId = null;
     let previousFocus = null;
 
-    function formatPaymentAmount(value)
-    {
+    function formatPaymentAmount(value) {
+    
         return new Intl.NumberFormat("en-IE", {
             style: "currency",
             currency: "EUR",
             minimumFractionDigits: 2
+
         }).format(Number(value));
     }
 
-    function findTransaction()
-    {
-        return demoState.transactions.find(
-            (transaction) => transaction.id === transactionId
-        );
+    function findTransaction() {
+        return demoState.transactions.find((transaction) => transaction.id === transactionId);
     }
 
-    function openSimulator(selectedTransactionId)
-    {
-        const transaction = demoState.transactions.find(
-            (item) => item.id === selectedTransactionId
-        );
+    function openSimulator(selectedTransactionId) {
+        const transaction = demoState.transactions.find((item) => item.id === selectedTransactionId);
 
-        if (
-            !transaction ||
-            transaction.status?.toLowerCase() !== "pending"
-        )
-        {
+        if (!transaction || transaction.status?.toLowerCase() !== "pending") {
             return;
         }
 
         transactionId = transaction.id;
         previousFocus = document.activeElement;
 
-        if (person)
-        {
+        if (person) {
             person.textContent = transaction.recipient ?? "—";
         }
 
-        if (amount)
-        {
+        if (amount) {
             amount.textContent = formatPaymentAmount(transaction.amount);
         }
 
-        if (reference)
-        {
-            reference.textContent =
-                transaction.transactionRef ?? transaction.id;
+        if (reference) {
+            reference.textContent = transaction.transactionRef ?? transaction.id;
         }
 
         content.hidden = false;
@@ -3671,14 +3158,13 @@ function initPaymentSimulator()
 
         document.body.classList.add("has-payment-simulator");
 
-        window.requestAnimationFrame(() =>
-        {
+        window.requestAnimationFrame(() => {
             dialog?.focus();
         });
     }
 
-    function closeSimulator()
-    {
+    function closeSimulator() {
+    
         simulator.hidden = true;
         document.body.classList.remove("has-payment-simulator");
 
@@ -3686,38 +3172,24 @@ function initPaymentSimulator()
         previousFocus?.focus();
     }
 
-    drawerPaymentButton?.addEventListener("click", () =>
-    {
-        const selectedTransactionId =
-            drawerPaymentButton.dataset.transactionId ||
-            activeTransactionId;
-
+    drawerPaymentButton?.addEventListener("click", () => {
+    
+        const selectedTransactionId = drawerPaymentButton.dataset.transactionId || activeTransactionId;
         openSimulator(selectedTransactionId);
     });
 
-    closeButtons.forEach((button) =>
-    {
+    closeButtons.forEach((button) => {
         button.addEventListener("click", closeSimulator);
     });
 
-    confirmButton?.addEventListener("click", () =>
-    {
+    confirmButton?.addEventListener("click", () => {
         const transaction = findTransaction();
 
-        if (
-            !transaction ||
-            transaction.status?.toLowerCase() !== "pending"
-        )
-        {
+        if (!transaction || transaction.status?.toLowerCase() !== "pending") {
             return;
         }
-
-        /*
-         * Защита от двойно добавяне на сумата,
-         * ако бутонът бъде натиснат повече от веднъж.
-         */
-        if (!transaction.balanceApplied)
-        {
+        
+        if (!transaction.balanceApplied) {
             demoState.balance += Number(transaction.amount);
             transaction.balanceApplied = true;
         }
@@ -3727,49 +3199,39 @@ function initPaymentSimulator()
         transaction.time = new Intl.DateTimeFormat("en-GB", {
             hour: "2-digit",
             minute: "2-digit"
+
         }).format(new Date());
 
         content.hidden = true;
         success.hidden = false;
 
-        if (successAmount)
-        {
-            successAmount.textContent =
-                `+ ${formatPaymentAmount(transaction.amount)}`;
+        if (successAmount) {
+            successAmount.textContent = `+ ${formatPaymentAmount(transaction.amount)}`;
         }
-
-        /*
-         * Използвай съществуващата функция от проекта,
-         * която визуализира demoState.balance.
-         */
+        
         renderDemoBalance();
         renderDashboardTransactions();
         renderFilteredTransactions();
         renderTransactionSummary();
 
-        window.requestAnimationFrame(() =>
-        {
+        window.requestAnimationFrame(() => {
             doneButton?.focus();
         });
     });
 
-    doneButton?.addEventListener("click", () =>
-    {
+    doneButton?.addEventListener("click", () => {
         closeSimulator();
 
-        document
-            .querySelector("[data-transaction-drawer-close]")
+        document.querySelector("[data-transaction-drawer-close]")
             ?.click();
 
-        document
-            .querySelector('[data-demo-nav="transactions"]')
+        document.querySelector('[data-demo-nav="transactions"]')
             ?.click();
     });
 
-    document.addEventListener("keydown", (event) =>
-    {
-        if (event.key === "Escape" && !simulator.hidden)
-        {
+    document.addEventListener("keydown", (event) => {
+    
+        if (event.key === "Escape" && !simulator.hidden) {
             closeSimulator();
         }
     });
