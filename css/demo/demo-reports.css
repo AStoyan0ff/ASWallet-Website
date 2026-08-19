@@ -151,12 +151,13 @@
 }
 
 .reports-summary-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(214, 180, 106, 0.28);
+    transform: translateY(-5px);
+    border-color: rgba(214, 180, 106, 0.32);
 
     box-shadow:
-        0 20px 48px rgba(0, 0, 0, 0.27),
-        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+        0 24px 52px rgba(0, 0, 0, 0.30),
+        0 0 22px rgba(214, 180, 106, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .reports-summary-card-header {
@@ -748,7 +749,7 @@
 
 .reports-view.is-active
 .reports-summary-card {
-    animation: reports-card-enter 450ms ease-out both;
+    animation: reports-card-enter 450ms ease-out backwards;
 }
 
 .reports-view.is-active
