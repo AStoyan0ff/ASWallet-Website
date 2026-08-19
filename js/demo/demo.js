@@ -97,6 +97,104 @@ const transactionHistoryState = {
     search: "",
 };
 
+const reportsState = {
+    period: "30d",
+};
+
+const REPORT_CATEGORIES = [
+    {
+        id: "food",
+        label: "Food & Dining",
+        color: "#d6b46a",
+        keywords: [
+            "food",
+            "dinner",
+            "restaurant",
+            "cafe",
+            "coffee",
+            "groceries",
+            "supermarket",
+        ],
+    },
+    {
+        id: "subscriptions",
+        label: "Subscriptions",
+        color: "#6e82c7",
+        keywords: [
+            "subscription",
+            "netflix",
+            "spotify",
+            "youtube",
+            "disney",
+        ],
+    },
+    {
+        id: "bills",
+        label: "Bills & Utilities",
+        color: "#c23b3b",
+        keywords: [
+            "bill",
+            "utility",
+            "electricity",
+            "internet",
+            "water",
+            "rent",
+            "mobile",
+        ],
+    },
+    {
+        id: "transport",
+        label: "Transport",
+        color: "#a873d1",
+        keywords: [
+            "transport",
+            "taxi",
+            "uber",
+            "fuel",
+            "parking",
+            "metro",
+        ],
+    },
+    {
+        id: "shopping",
+        label: "Shopping",
+        color: "#d9825b",
+        keywords: [
+            "shopping",
+            "shop",
+            "amazon",
+            "clothing",
+            "store",
+        ],
+    },
+    {
+        id: "withdrawals",
+        label: "Withdrawals",
+        color: "#d85c68",
+        keywords: [
+            "withdraw",
+            "withdrawal",
+            "cash",
+            "atm",
+        ],
+    },
+    {
+        id: "transfers",
+        label: "Transfers",
+        color: "#5ca9a1",
+        keywords: [
+            "transfer",
+            "sent to",
+        ],
+    },
+    {
+        id: "other",
+        label: "Other",
+        color: "#77736b",
+        keywords: [],
+    },
+];
+
 function formatCurrency(value) {
 
     return new Intl.NumberFormat("en-US", {
@@ -1857,6 +1955,919 @@ function initNotificationCenter() {
     updateNotificationState();
 }
 
+function getReportTransactionDate(transaction) {
+    if (transaction.completedAt) {
+        return new Date(transaction.completedAt);
+    }
+
+    if (transaction.createdAt) {
+        return new Date(transaction.createdAt);
+    }
+
+    const dateLabel = String(transaction.date || "").trim();
+
+    if (dateLabel.toLowerCase() === "today") {
+        return new Date();
+    }
+
+    const monthIndexes = {
+        jan: 0,
+        feb: 1,
+        mar: 2,
+        apr: 3,
+        may: 4,
+        jun: 5,
+        jul: 6,
+        aug: 7,
+        sep: 8,
+        oct: 9,
+        nov: 10,
+        dec: 11,
+    };
+
+    const dateParts = dateLabel.match(
+        /^(\d{1,2})\s+([a-z]{3})$/i
+    );
+
+    if (!dateParts) {
+        return null;
+    }
+
+    const day = Number(dateParts[1]);
+    const month = monthIndexes[
+        dateParts[2].toLowerCase()
+    ];
+
+    if (month === undefined) {
+        return null;
+    }
+
+    const now = new Date();
+
+    const parsedDate = new Date(
+        now.getFullYear(),
+        month,
+        day
+    );
+
+    if (parsedDate > now) {
+        parsedDate.setFullYear(
+            parsedDate.getFullYear() - 1
+        );
+    }
+
+    return parsedDate;
+}
+
+function getReportTransactions() {
+    const completedTransactions =
+        demoState.transactions.filter((transaction) =>
+            transaction.status?.toLowerCase() === "completed"
+        );
+
+    if (reportsState.period === "all") {
+        return completedTransactions;
+    }
+
+    const periodDays = reportsState.period === "7d"
+        ? 7
+        : 30;
+
+    const periodStart = new Date();
+
+    periodStart.setHours(0, 0, 0, 0);
+    periodStart.setDate(
+        periodStart.getDate() - periodDays + 1
+    );
+
+    return completedTransactions.filter((transaction) => {
+        const transactionDate =
+            getReportTransactionDate(transaction);
+
+        if (!transactionDate) {
+            return false;
+        }
+
+        return transactionDate >= periodStart;
+    });
+}
+
+function calculateReportsSummary(transactions) {
+    const income = transactions
+        .filter((transaction) =>
+            Number(transaction.amount) > 0
+        )
+        .reduce(
+            (total, transaction) =>
+                total + Number(transaction.amount),
+            0
+        );
+
+    const expenses = transactions
+        .filter((transaction) =>
+            Number(transaction.amount) < 0
+        )
+        .reduce(
+            (total, transaction) =>
+                total + Math.abs(Number(transaction.amount)),
+            0
+        );
+
+    return {
+        income,
+        expenses,
+        netFlow: income - expenses,
+        transactionCount: transactions.length,
+    };
+}
+
+function createReportChartGroup(
+    label,
+    startDate,
+    endDate
+) {
+    return {
+        label,
+        startDate,
+        endDate,
+        income: 0,
+        expenses: 0,
+    };
+}
+
+function getStartOfDay(dateValue) {
+    const date = new Date(dateValue);
+
+    date.setHours(0, 0, 0, 0);
+
+    return date;
+}
+
+function getEndOfDay(dateValue) {
+    const date = new Date(dateValue);
+
+    date.setHours(23, 59, 59, 999);
+
+    return date;
+}
+
+function formatReportChartDate(date) {
+    return new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+    }).format(date);
+}
+
+function createSevenDayChartGroups() {
+    const groups = [];
+    const today = getStartOfDay(new Date());
+
+    for (let daysAgo = 6; daysAgo >= 0; daysAgo--) {
+        const date = new Date(today);
+
+        date.setDate(
+            date.getDate() - daysAgo
+        );
+
+        const label = new Intl.DateTimeFormat("en-GB", {
+            weekday: "short",
+        }).format(date);
+
+        groups.push(
+            createReportChartGroup(
+                label,
+                getStartOfDay(date),
+                getEndOfDay(date)
+            )
+        );
+    }
+
+    return groups;
+}
+
+function createThirtyDayChartGroups() {
+    const groups = [];
+    const today = getStartOfDay(new Date());
+    const periodStart = new Date(today);
+
+    periodStart.setDate(
+        periodStart.getDate() - 29
+    );
+
+    for (let index = 0; index < 5; index++) {
+        const startDate = new Date(periodStart);
+
+        startDate.setDate(
+            startDate.getDate() + index * 6
+        );
+
+        const endDate = new Date(startDate);
+
+        endDate.setDate(
+            endDate.getDate() + 5
+        );
+
+        const limitedEndDate = endDate > today
+            ? today
+            : endDate;
+
+        const label =
+            `${formatReportChartDate(startDate)}–` +
+            `${formatReportChartDate(limitedEndDate)}`;
+
+        groups.push(
+            createReportChartGroup(
+                label,
+                getStartOfDay(startDate),
+                getEndOfDay(limitedEndDate)
+            )
+        );
+    }
+
+    return groups;
+}
+
+function createAllTimeChartGroups(transactions) {
+    const monthGroups = new Map();
+
+    transactions.forEach((transaction) => {
+        const transactionDate =
+            getReportTransactionDate(transaction);
+
+        if (!transactionDate) {
+            return;
+        }
+
+        const monthKey =
+            `${transactionDate.getFullYear()}-` +
+            `${String(
+                transactionDate.getMonth() + 1
+            ).padStart(2, "0")}`;
+
+        if (!monthGroups.has(monthKey)) {
+            const startDate = new Date(
+                transactionDate.getFullYear(),
+                transactionDate.getMonth(),
+                1
+            );
+
+            const endDate = new Date(
+                transactionDate.getFullYear(),
+                transactionDate.getMonth() + 1,
+                0,
+                23,
+                59,
+                59,
+                999
+            );
+
+            const label = new Intl.DateTimeFormat(
+                "en-GB",
+                {
+                    month: "short",
+                    year: "2-digit",
+                }
+            ).format(transactionDate);
+
+            monthGroups.set(
+                monthKey,
+                createReportChartGroup(
+                    label,
+                    startDate,
+                    endDate
+                )
+            );
+        }
+    });
+
+    const groups = [...monthGroups.entries()]
+        .sort(([firstKey], [secondKey]) =>
+            firstKey.localeCompare(secondKey)
+        )
+        .map(([, group]) => group)
+        .slice(-6);
+
+    if (!groups.length) {
+        const now = new Date();
+
+        groups.push(
+            createReportChartGroup(
+                new Intl.DateTimeFormat("en-GB", {
+                    month: "short",
+                    year: "2-digit",
+                }).format(now),
+                new Date(
+                    now.getFullYear(),
+                    now.getMonth(),
+                    1
+                ),
+                new Date(
+                    now.getFullYear(),
+                    now.getMonth() + 1,
+                    0,
+                    23,
+                    59,
+                    59,
+                    999
+                )
+            )
+        );
+    }
+
+    return groups;
+}
+
+function getReportChartGroups(transactions) {
+    let groups;
+
+    if (reportsState.period === "7d") {
+        groups = createSevenDayChartGroups();
+
+    } else if (reportsState.period === "all") {
+        groups = createAllTimeChartGroups(
+            transactions
+        );
+
+    } else {
+        groups = createThirtyDayChartGroups();
+    }
+
+    transactions.forEach((transaction) => {
+        const transactionDate =
+            getReportTransactionDate(transaction);
+
+        if (!transactionDate) {
+            return;
+        }
+
+        const group = groups.find((item) =>
+            transactionDate >= item.startDate &&
+            transactionDate <= item.endDate
+        );
+
+        if (!group) {
+            return;
+        }
+
+        const amount = Number(transaction.amount);
+
+        if (amount > 0) {
+            group.income += amount;
+        }
+
+        if (amount < 0) {
+            group.expenses += Math.abs(amount);
+        }
+    });
+
+    return groups;
+}
+
+function renderReportsCashFlow(transactions) {
+    const barsContainer = document.querySelector(
+        "[data-report-chart-bars]"
+    );
+
+    const labelsContainer = document.querySelector(
+        "[data-report-chart-labels]"
+    );
+
+    const chart = document.querySelector(
+        "[data-report-chart]"
+    );
+
+    if (!barsContainer || !labelsContainer) {
+        return;
+    }
+
+    const groups = getReportChartGroups(transactions);
+
+    const maximumValue = Math.max(
+        1,
+        ...groups.flatMap((group) => [
+            group.income,
+            group.expenses,
+        ])
+    );
+
+    const groupElements = groups.map((group) => {
+        const incomeHeight = group.income > 0
+            ? Math.max(
+                4,
+                (group.income / maximumValue) * 100
+            )
+            : 0;
+
+        const expenseHeight = group.expenses > 0
+            ? Math.max(
+                4,
+                (group.expenses / maximumValue) * 100
+            )
+            : 0;
+
+        const groupElement =
+            document.createElement("div");
+
+        groupElement.className =
+            "reports-chart-group";
+
+        groupElement.innerHTML = `
+            <span
+                class="reports-chart-bar reports-chart-bar--income"
+                style="height: ${incomeHeight}%"
+                title="Income: ${formatCurrency(group.income)}"
+            ></span>
+
+            <span
+                class="reports-chart-bar reports-chart-bar--expense"
+                style="height: ${expenseHeight}%"
+                title="Expenses: ${formatCurrency(group.expenses)}"
+            ></span>
+        `;
+
+        return groupElement;
+    });
+
+    const labelElements = groups.map((group) => {
+        const labelElement =
+            document.createElement("span");
+
+        labelElement.textContent = group.label;
+
+        return labelElement;
+    });
+
+    barsContainer.replaceChildren(
+        ...groupElements
+    );
+
+    labelsContainer.replaceChildren(
+        ...labelElements
+    );
+
+    if (chart) {
+        const totalIncome = groups.reduce(
+            (total, group) =>
+                total + group.income,
+            0
+        );
+
+        const totalExpenses = groups.reduce(
+            (total, group) =>
+                total + group.expenses,
+            0
+        );
+
+        chart.setAttribute(
+            "aria-label",
+            `Cash flow chart. Income ${formatCurrency(
+                totalIncome
+            )}. Expenses ${formatCurrency(
+                totalExpenses
+            )}.`
+        );
+    }
+}
+
+function getTransactionCategory(transaction) {
+    const searchableText = [
+        transaction.recipient,
+        transaction.description,
+        transaction.reference,
+        transaction.bank,
+    ]
+        .map((value) =>
+            String(value || "").toLowerCase()
+        )
+        .join(" ");
+
+    return REPORT_CATEGORIES.find((category) =>
+        category.id !== "other" &&
+        category.keywords.some((keyword) =>
+            searchableText.includes(keyword)
+        )
+    ) || REPORT_CATEGORIES.find(
+        (category) => category.id === "other"
+    );
+}
+
+function calculateSpendingCategories(transactions) {
+    const categoryTotals = new Map();
+
+    transactions
+        .filter((transaction) =>
+            Number(transaction.amount) < 0
+        )
+        .forEach((transaction) => {
+            const category =
+                getTransactionCategory(transaction);
+
+            const currentAmount =
+                categoryTotals.get(category.id) || 0;
+
+            categoryTotals.set(
+                category.id,
+                currentAmount +
+                    Math.abs(Number(transaction.amount))
+            );
+        });
+
+    const totalExpenses = [
+        ...categoryTotals.values(),
+    ].reduce(
+        (total, amount) => total + amount,
+        0
+    );
+
+    return REPORT_CATEGORIES
+        .filter((category) =>
+            categoryTotals.has(category.id)
+        )
+        .map((category) => {
+            const amount =
+                categoryTotals.get(category.id);
+
+            const percentage = totalExpenses > 0
+                ? (amount / totalExpenses) * 100
+                : 0;
+
+            return {
+                ...category,
+                amount,
+                percentage,
+            };
+        })
+        .sort(
+            (firstCategory, secondCategory) =>
+                secondCategory.amount -
+                firstCategory.amount
+        );
+}
+
+function createReportsDonutGradient(categories) {
+    if (!categories.length) {
+        return (
+            "conic-gradient(" +
+            "rgba(214, 180, 106, 0.12) " +
+            "0deg 360deg)"
+        );
+    }
+
+    let currentAngle = 0;
+
+    const segments = categories.map((category) => {
+        const startAngle = currentAngle;
+
+        const categoryAngle =
+            (category.percentage / 100) * 360;
+
+        const endAngle =
+            startAngle + categoryAngle;
+
+        currentAngle = endAngle;
+
+        return (
+            `${category.color} ` +
+            `${startAngle}deg ${endAngle}deg`
+        );
+    });
+
+    return `conic-gradient(${segments.join(", ")})`;
+}
+
+function renderReportsSpending(transactions) {
+    const donut = document.querySelector(
+        "[data-report-donut]"
+    );
+
+    const donutTotal = document.querySelector(
+        "[data-report-donut-total]"
+    );
+
+    const categoryList = document.querySelector(
+        "[data-report-category-list]"
+    );
+
+    if (!donut || !donutTotal || !categoryList) {
+        return [];
+    }
+
+    const categories =
+        calculateSpendingCategories(transactions);
+
+    const totalExpenses = categories.reduce(
+        (total, category) =>
+            total + category.amount,
+        0
+    );
+
+    donutTotal.textContent =
+        formatCurrency(totalExpenses);
+
+    donut.style.background =
+        createReportsDonutGradient(categories);
+
+    donut.setAttribute(
+        "aria-label",
+        categories.length
+            ? `Spending distribution. Total ${formatCurrency(
+                totalExpenses
+            )}.`
+            : "No spending data for this period."
+    );
+
+    if (!categories.length) {
+        categoryList.innerHTML = `
+            <div class="reports-empty-state">
+                <span aria-hidden="true">◎</span>
+
+                <strong>No spending data</strong>
+
+                <p>
+                    Completed outgoing transactions
+                    will appear here.
+                </p>
+            </div>
+        `;
+
+        return [];
+    }
+
+    const categoryElements = categories.map(
+        (category) => {
+            const categoryElement =
+                document.createElement("div");
+
+            categoryElement.className =
+                "reports-category-item";
+
+            categoryElement.innerHTML = `
+                <div class="reports-category-heading">
+                    <span
+                        class="reports-category-dot"
+                        style="background: ${category.color}"
+                        aria-hidden="true"
+                    ></span>
+
+                    <span class="reports-category-name">
+                        ${category.label}
+                    </span>
+
+                    <strong class="reports-category-amount">
+                        ${formatCurrency(category.amount)}
+                    </strong>
+                </div>
+
+                <div class="reports-category-progress">
+                    <span
+                        style="
+                            width: ${category.percentage}%;
+                            background: ${category.color};
+                        "
+                    ></span>
+                </div>
+
+                <span class="reports-category-percentage">
+                    ${category.percentage.toFixed(1)}%
+                </span>
+            `;
+
+            return categoryElement;
+        }
+    );
+
+    categoryList.replaceChildren(
+        ...categoryElements
+    );
+
+    return categories;
+}
+
+function renderReportsInsight(
+    summary,
+    categories
+) {
+    const insightTitle = document.querySelector(
+        "[data-report-insight-title]"
+    );
+
+    const insightText = document.querySelector(
+        "[data-report-insight-text]"
+    );
+
+    if (!insightTitle || !insightText) {
+        return;
+    }
+
+    if (summary.transactionCount === 0) {
+        insightTitle.textContent =
+            "No completed activity yet";
+
+        insightText.textContent =
+            "Complete a wallet operation to generate " +
+            "your financial insight.";
+
+        return;
+    }
+
+    const topCategory = categories[0];
+
+    if (summary.netFlow < 0) {
+        insightTitle.textContent =
+            "Your expenses are above your income";
+
+        insightText.textContent = topCategory
+            ? `${topCategory.label} is your largest ` +
+              `spending category at ` +
+              `${topCategory.percentage.toFixed(1)}%.`
+            : "Review your outgoing transactions " +
+              "for this period.";
+
+        return;
+    }
+
+    if (topCategory) {
+        insightTitle.textContent =
+            `${topCategory.label} leads your spending`;
+
+        insightText.textContent =
+            `${topCategory.percentage.toFixed(1)}% of ` +
+            `your expenses belong to this category. ` +
+            `Your net flow remains positive at ` +
+            `${formatCurrency(summary.netFlow)}.`;
+
+        return;
+    }
+
+    insightTitle.textContent =
+        "Your cash flow is positive";
+
+    insightText.textContent =
+        `You finished this period with a net flow of ` +
+        `${formatCurrency(summary.netFlow)}.`;
+}
+
+function renderReportsDashboard() {
+    const incomeElement = document.querySelector(
+        "[data-report-income]"
+    );
+
+    const expensesElement = document.querySelector(
+        "[data-report-expenses]"
+    );
+
+    const netFlowElement = document.querySelector(
+        "[data-report-net-flow]"
+    );
+
+    const transactionCountElement = document.querySelector(
+        "[data-report-transaction-count]"
+    );
+
+    const netLabelElement = document.querySelector(
+        "[data-report-net-label]"
+    );
+
+    if (
+        !incomeElement ||
+        !expensesElement ||
+        !netFlowElement ||
+        !transactionCountElement
+    ) {
+        return;
+    }
+
+    const transactions = getReportTransactions();
+    const summary = calculateReportsSummary(transactions);
+
+    incomeElement.textContent =
+        formatCurrency(summary.income);
+
+    expensesElement.textContent =
+        formatCurrency(summary.expenses);
+
+    netFlowElement.textContent =
+        formatSignedCurrency(summary.netFlow);
+
+    transactionCountElement.textContent =
+        String(summary.transactionCount);
+
+    netFlowElement.classList.toggle(
+        "is-positive",
+        summary.netFlow > 0
+    );
+
+    netFlowElement.classList.toggle(
+        "is-negative",
+        summary.netFlow < 0
+    );
+
+    if (netLabelElement) {
+        if (summary.netFlow > 0) {
+            netLabelElement.textContent =
+                "Positive balance for this period";
+
+        } else if (summary.netFlow < 0) {
+            netLabelElement.textContent =
+                "Expenses exceeded income";
+
+        } else {
+            netLabelElement.textContent =
+                "Income and expenses are balanced";
+        }
+    }
+
+    renderReportsCashFlow(transactions);
+
+    const categories =
+        renderReportsSpending(transactions);
+
+    renderReportsInsight(
+        summary,
+        categories
+    );
+}
+
+function initReportsDashboard() {
+    const periodButtons = [
+        ...document.querySelectorAll(
+            "[data-report-period]"
+        ),
+    ];
+
+    if (!periodButtons.length) {
+        return;
+    }
+
+    function selectReportPeriod(button) {
+        reportsState.period =
+            button.dataset.reportPeriod || "30d";
+
+        periodButtons.forEach((periodButton) => {
+            const isActive =
+                periodButton === button;
+
+            periodButton.classList.toggle(
+                "is-active",
+                isActive
+            );
+
+            periodButton.setAttribute(
+                "aria-pressed",
+                String(isActive)
+            );
+        });
+
+        renderReportsDashboard();
+    }
+
+    periodButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            selectReportPeriod(button);
+        });
+
+        button.addEventListener("keydown", (event) => {
+            let nextIndex = index;
+
+            if (
+                event.key === "ArrowRight" ||
+                event.key === "ArrowDown"
+            ) {
+                nextIndex =
+                    (index + 1) % periodButtons.length;
+
+            } else if (
+                event.key === "ArrowLeft" ||
+                event.key === "ArrowUp"
+            ) {
+                nextIndex =
+                    (index - 1 + periodButtons.length) %
+                    periodButtons.length;
+
+            } else if (event.key === "Home") {
+                nextIndex = 0;
+
+            } else if (event.key === "End") {
+                nextIndex =
+                    periodButtons.length - 1;
+
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+
+            const nextButton =
+                periodButtons[nextIndex];
+
+            nextButton.focus();
+            selectReportPeriod(nextButton);
+        });
+    });
+
+    renderReportsDashboard();
+}
+
 export function initDemo() {
 
     renderDemoBalance();
@@ -1874,6 +2885,7 @@ export function initDemo() {
     initTransactionExport();
     initPaymentSimulator();
     initNotificationCenter();
+    initReportsDashboard();
 }
 
 function initDemoNav() {
@@ -2591,6 +3603,7 @@ function initTransferFlow() {
         renderTransferBalance();
         renderDashboardTransactions();
         renderFilteredTransactions();
+        renderReportsDashboard();
         updateSuccess();
 
         setTransferStep("success", { animate: false });
@@ -3010,6 +4023,7 @@ function initMoneyFlow() {
         renderDemoBalance();
         renderDashboardTransactions();
         renderFilteredTransactions();
+        renderReportsDashboard();
         renderMoneyBalance();
 
         if (successTitle) {
@@ -3490,6 +4504,7 @@ function initRequestMoneyFlow()
 
         renderDashboardTransactions();
         renderFilteredTransactions();
+        renderReportsDashboard();
         showSuccess();
     });
 
@@ -3640,6 +4655,7 @@ function initPaymentSimulator() {
         renderDemoBalance();
         renderDashboardTransactions();
         renderFilteredTransactions();
+        renderReportsDashboard();
         renderTransactionSummary();
 
         window.requestAnimationFrame(() => {

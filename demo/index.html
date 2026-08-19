@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../css/demo/demo-money.css">
     <link rel="stylesheet" href="../css/demo/demo-request.css">
     <link rel="stylesheet" href="../css/demo/demo-history.css">
+    <link rel="stylesheet" href="../css/demo/demo-reports.css">
     <link rel="stylesheet" href="../css/demo/demo-modal.css">
     <link rel="stylesheet" href="../css/demo/demo-payment.css">
     <link rel="stylesheet" href="../css/demo/demo-responsive.css">
@@ -205,7 +206,7 @@
 
                                 <div class="notification-empty" data-notification-empty hidden>
                                     <span class="notification-empty-icon" aria-hidden="true">✓</span>
-                                    <strong>You’re all caught up</strong>
+                                    <strong>You're all caught up</strong>
                                     <p>New wallet activity will appear here.</p>
                                 </div>
 
@@ -2002,11 +2003,307 @@
                         </div>
                     </section>
 
-                    <section class="demo-view" data-demo-view="reports" hidden>
-                        <header class="demo-view-header">
-                            <h1 class="demo-view-title">Reports</h1>
-                            <p class="demo-view-text">Coming in the next steps.</p>
+                    <section
+                        class="demo-view reports-view"
+                        data-demo-view="reports"
+                        hidden
+                    >
+                        <header class="demo-view-header reports-header">
+                            <div>
+                                <p class="demo-view-eyebrow">
+                                    Financial overview
+                                </p>
+
+                                <h1 class="demo-view-title">
+                                    Reports
+                                </h1>
+
+                                <p class="demo-view-text">
+                                    Track your income, expenses and wallet activity.
+                                </p>
+                            </div>
+
+                            <div
+                                class="reports-period-selector"
+                                role="group"
+                                aria-label="Report period"
+                                data-reports-period-selector
+                            >
+                                <button
+                                    class="reports-period-button"
+                                    type="button"
+                                    data-report-period="7d"
+                                    aria-pressed="false"
+                                >
+                                    7 days
+                                </button>
+
+                                <button
+                                    class="reports-period-button is-active"
+                                    type="button"
+                                    data-report-period="30d"
+                                    aria-pressed="true"
+                                >
+                                    30 days
+                                </button>
+
+                                <button
+                                    class="reports-period-button"
+                                    type="button"
+                                    data-report-period="all"
+                                    aria-pressed="false"
+                                >
+                                    All time
+                                </button>
+                            </div>
                         </header>
+
+                        <div class="reports-summary-grid">
+
+                            <article class="reports-summary-card reports-summary-card--income">
+                                <div class="reports-summary-card-header">
+                                    <span class="reports-summary-icon" aria-hidden="true">
+                                        ↓
+                                    </span>
+
+                                    <span class="reports-summary-label">
+                                        Total income
+                                    </span>
+                                </div>
+
+                                <strong
+                                    class="reports-summary-value"
+                                    data-report-income
+                                    aria-live="polite"
+                                >
+                                    €0.00
+                                </strong>
+
+                                <span class="reports-summary-meta">
+                                    Completed incoming transactions
+                                </span>
+                            </article>
+
+                            <article class="reports-summary-card reports-summary-card--expense">
+                                <div class="reports-summary-card-header">
+                                    <span class="reports-summary-icon" aria-hidden="true">
+                                        ↑
+                                    </span>
+
+                                    <span class="reports-summary-label">
+                                        Total expenses
+                                    </span>
+                                </div>
+
+                                <strong
+                                    class="reports-summary-value"
+                                    data-report-expenses
+                                    aria-live="polite"
+                                >
+                                    €0.00
+                                </strong>
+
+                                <span class="reports-summary-meta">
+                                    Completed outgoing transactions
+                                </span>
+                            </article>
+
+                            <article class="reports-summary-card reports-summary-card--net">
+                                <div class="reports-summary-card-header">
+                                    <span class="reports-summary-icon" aria-hidden="true">
+                                        ≈
+                                    </span>
+
+                                    <span class="reports-summary-label">
+                                        Net flow
+                                    </span>
+                                </div>
+
+                                <strong
+                                    class="reports-summary-value"
+                                    data-report-net-flow
+                                    aria-live="polite"
+                                >
+                                    €0.00
+                                </strong>
+
+                                <span
+                                    class="reports-summary-meta"
+                                    data-report-net-label
+                                >
+                                    Income minus expenses
+                                </span>
+                            </article>
+
+                            <article class="reports-summary-card reports-summary-card--activity">
+                                <div class="reports-summary-card-header">
+                                    <span class="reports-summary-icon" aria-hidden="true">
+                                        #
+                                    </span>
+
+                                    <span class="reports-summary-label">
+                                        Transactions
+                                    </span>
+                                </div>
+
+                                <strong
+                                    class="reports-summary-value"
+                                    data-report-transaction-count
+                                    aria-live="polite"
+                                >
+                                    0
+                                </strong>
+
+                                <span class="reports-summary-meta">
+                                    Completed wallet activities
+                                </span>
+                            </article>
+
+                        </div>
+
+                        <div class="reports-content-grid">
+
+                            <article class="reports-panel reports-cash-flow">
+                                <header class="reports-panel-header">
+                                    <div>
+                                        <p class="reports-panel-eyebrow">
+                                            Performance
+                                        </p>
+
+                                        <h2 class="reports-panel-title">
+                                            Cash flow
+                                        </h2>
+                                    </div>
+
+                                    <div
+                                        class="reports-chart-legend"
+                                        aria-label="Chart legend"
+                                    >
+                                        <span class="reports-legend-item">
+                                            <span
+                                                class="reports-legend-dot reports-legend-dot--income"
+                                                aria-hidden="true"
+                                            ></span>
+
+                                            Income
+                                        </span>
+
+                                        <span class="reports-legend-item">
+                                            <span
+                                                class="reports-legend-dot reports-legend-dot--expense"
+                                                aria-hidden="true"
+                                            ></span>
+
+                                            Expenses
+                                        </span>
+                                    </div>
+                                </header>
+
+                                <div
+                                    class="reports-chart"
+                                    role="img"
+                                    aria-label="Income and expenses cash flow chart"
+                                    data-report-chart
+                                >
+                                    <div
+                                        class="reports-chart-grid"
+                                        aria-hidden="true"
+                                    >
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+
+                                    <div
+                                        class="reports-chart-bars"
+                                        data-report-chart-bars
+                                    ></div>
+                                </div>
+
+                                <div
+                                    class="reports-chart-labels"
+                                    data-report-chart-labels
+                                    aria-hidden="true"
+                                ></div>
+                            </article>
+
+                            <article class="reports-panel reports-spending">
+                                <header class="reports-panel-header">
+                                    <div>
+                                        <p class="reports-panel-eyebrow">
+                                            Breakdown
+                                        </p>
+
+                                        <h2 class="reports-panel-title">
+                                            Spending by category
+                                        </h2>
+                                    </div>
+                                </header>
+
+                                <div class="reports-spending-overview">
+                                    <div
+                                        class="reports-donut"
+                                        data-report-donut
+                                        aria-label="Spending distribution"
+                                        role="img"
+                                    >
+                                        <div class="reports-donut-center">
+                                            <span>Total spent</span>
+
+                                            <strong
+                                                data-report-donut-total
+                                                aria-live="polite"
+                                            >
+                                                €0.00
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="reports-category-list"
+                                    data-report-category-list
+                                >
+                                    <div class="reports-empty-state">
+                                        <span aria-hidden="true">◎</span>
+
+                                        <strong>No spending data</strong>
+
+                                        <p>
+                                            Completed outgoing transactions will appear here.
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+
+                        </div>
+
+                        <article class="reports-insight" data-report-insight>
+                            <span class="reports-insight-icon" aria-hidden="true">
+                                ✦
+                            </span>
+
+                            <div>
+                                <p class="reports-insight-label">
+                                    ASWallet insight
+                                </p>
+
+                                <strong
+                                    data-report-insight-title
+                                    aria-live="polite"
+                                >
+                                    Your financial summary is ready
+                                </strong>
+
+                                <p
+                                    data-report-insight-text
+                                    aria-live="polite"
+                                >
+                                    Complete wallet activities to generate a personalized insight.
+                                </p>
+                            </div>
+                        </article>
                     </section>
 
                     <section class="demo-view" data-demo-view="settings" hidden>
