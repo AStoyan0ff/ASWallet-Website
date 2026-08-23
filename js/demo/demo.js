@@ -37,59 +37,70 @@ const QUICK_ACTIONS = {
     },
 };
 
+const initialDemoTransactions = [
+    {
+        id: "tx-netflix",
+        recipient: "Netflix",
+        description: "Subscription",
+        date: "Today",
+        time: "10:42",
+        amount: -15.99,
+        direction: "outgoing",
+        status: "Completed",
+        reference: "Monthly subscription",
+        iban: "—",
+    },
+    {
+        id: "tx-salary",
+        recipient: "Salary",
+        description: "Incoming transfer",
+        date: "8 Aug",
+        time: "09:15",
+        amount: 2450.00,
+        direction: "incoming",
+        status: "Completed",
+        reference: "August salary",
+        iban: "BG•• •••• •••• 2048",
+    },
+    {
+        id: "tx-maria",
+        recipient: "Maria Petrova",
+        description: "Money transfer",
+        date: "7 Aug",
+        time: "18:30",
+        amount: -120.00,
+        direction: "outgoing",
+        status: "Completed",
+        reference: "Dinner",
+        iban: "BG•• •••• •••• 5678",
+    },
+    {
+        id: "tx-electricity",
+        recipient: "Electricity",
+        description: "Utility bill",
+        date: "6 Aug",
+        time: "12:05",
+        amount: -84.20,
+        direction: "outgoing",
+        status: "Completed",
+        reference: "August electricity",
+        iban: "—",
+    },
+];
+
 const demoState = {
     balance: 12480.75,
 
-    transactions: [ 
-        {
-            id: "tx-netflix",
-            recipient: "Netflix",
-            description: "Subscription",
-            date: "Today",
-            time: "10:42",
-            amount: -15.99,
-            direction: "outgoing",
-            status: "Completed",
-            reference: "Monthly subscription",
-            iban: "—",
-        }, 
-        {
-            id: "tx-salary",
-            recipient: "Salary",
-            description: "Incoming transfer",
-            date: "8 Aug",
-            time: "09:15",
-            amount: 2450.00,
-            direction: "incoming",
-            status: "Completed",
-            reference: "August salary",
-            iban: "BG•• •••• •••• 2048",
-        },
-        {
-            id: "tx-maria",
-            recipient: "Maria Petrova",
-            description: "Money transfer",
-            date: "7 Aug",
-            time: "18:30",
-            amount: -120.00,
-            direction: "outgoing",
-            status: "Completed",
-            reference: "Dinner",
-            iban: "BG•• •••• •••• 5678",
-        },
-        {
-            id: "tx-electricity",
-            recipient: "Electricity",
-            description: "Utility bill",
-            date: "6 Aug",
-            time: "12:05",
-            amount: -84.20,
-            direction: "outgoing",
-            status: "Completed",
-            reference: "August electricity",
-            iban: "—",
-        },
-    ],
+    transactions: initialDemoTransactions.map(
+        (transaction) => ({ ...transaction })
+    ),
+
+    settings: {
+        hideBalance: false,
+        currency: "EUR",
+        compactDashboard: false,
+        showNotifications: true,
+    },
 };
 
 const transactionHistoryState = {
@@ -195,15 +206,19 @@ const REPORT_CATEGORIES = [
     },
 ];
 
-function formatCurrency(value) {
+function formatCurrency(amount) {
+    const currency = demoState.settings?.currency || "EUR";
 
-    return new Intl.NumberFormat("en-US", {
+    const locale = currency === "BGN"
+        ? "bg-BG"
+        : "en-GB";
+
+    return new Intl.NumberFormat(locale, {
         style: "currency",
-        currency: "EUR",
+        currency,
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-
-    }).format(value);
+    }).format(Number(amount) || 0);
 }
 
 function getTransactionInitials(name) {
@@ -1512,6 +1527,7 @@ function initTransactionDrawer() {
 function renderDemoBalance() {
     const balanceCard = document.querySelector("[data-balance-card]");
     const balanceAmount = document.querySelector("[data-balance-amount]");
+    const balanceToggle = document.querySelector("[data-balance-toggle]");
 
     if (!balanceCard || !balanceAmount) {
         return;
@@ -1520,9 +1536,39 @@ function renderDemoBalance() {
     const formattedBalance = formatCurrency(demoState.balance);
 
     balanceAmount.dataset.visible = formattedBalance;
+    balanceAmount.dataset.hidden = "••••••";
 
-    if (!balanceCard.classList.contains("is-hidden")) {
-        balanceAmount.textContent = formattedBalance;
+    const isHidden = Boolean(demoState.settings.hideBalance);
+
+    balanceCard.classList.toggle(
+        "is-hidden",
+        isHidden
+    );
+
+    balanceAmount.textContent = isHidden
+        ? balanceAmount.dataset.hidden
+        : formattedBalance;
+
+    if (balanceToggle) {
+        balanceToggle.setAttribute(
+            "aria-pressed",
+            String(isHidden)
+        );
+
+        balanceToggle.setAttribute(
+            "aria-label",
+            isHidden
+                ? "Show balance"
+                : "Hide balance"
+        );
+    }
+
+    const hideBalanceInput = document.querySelector(
+        '[data-setting="hideBalance"]'
+    );
+
+    if (hideBalanceInput) {
+        hideBalanceInput.checked = isHidden;
     }
 }
 
@@ -2868,6 +2914,167 @@ function initReportsDashboard() {
     renderReportsDashboard();
 }
 
+function initDemoSettings() {
+    const settingsPage = document.querySelector(
+        '[data-demo-page="settings"]'
+    );
+
+    if (!settingsPage) {
+        return;
+    }
+
+    const settingInputs = settingsPage.querySelectorAll(
+        "[data-setting]"
+    );
+
+    const resetButton = settingsPage.querySelector(
+        "[data-reset-demo]"
+    );
+
+    function syncSettingInput(input) {
+        const settingName = input.dataset.setting;
+        const settingValue = demoState.settings[settingName];
+
+        if (input.type === "checkbox") {
+            input.checked = Boolean(settingValue);
+
+            return;
+        }
+
+        input.value = settingValue;
+    }
+
+    function syncSettingsUI() {
+        settingInputs.forEach((input) => {
+            syncSettingInput(input);
+        });
+
+        Object.entries(demoState.settings).forEach(
+            ([settingName, settingValue]) => {
+                applyDemoSetting(
+                    settingName,
+                    settingValue
+                );
+            }
+        );
+    }
+
+    function updateSetting(settingName, settingValue) {
+        if (!(settingName in demoState.settings)) {
+            return;
+        }
+
+        demoState.settings[settingName] = settingValue;
+
+        applyDemoSetting(
+            settingName,
+            settingValue
+        );
+    }
+
+    settingInputs.forEach((input) => {
+        input.addEventListener("change", () => {
+            const settingName = input.dataset.setting;
+
+            const settingValue =
+                input.type === "checkbox"
+                    ? input.checked
+                    : input.value;
+
+            updateSetting(
+                settingName,
+                settingValue
+            );
+        });
+    });
+
+    resetButton?.addEventListener("click", () => {
+        resetDemoData();
+        syncSettingsUI();
+    });
+
+    syncSettingsUI();
+}
+
+function applyDemoSetting(settingName, settingValue) {
+    switch (settingName) {
+        case "hideBalance":
+            demoState.settings.hideBalance = Boolean(
+                settingValue
+            );
+
+            renderDemoBalance();
+
+            break;
+
+        case "compactDashboard":
+            document.body.classList.toggle(
+                "demo-compact-dashboard",
+                settingValue
+            );
+
+            break;
+
+        case "showNotifications":
+            document.body.classList.toggle(
+                "demo-hide-notifications",
+                !settingValue
+            );
+
+            break;
+
+        case "currency":
+            renderDemoBalance();
+            renderDashboardTransactions();
+            renderFilteredTransactions();
+
+            break;
+
+        default:
+            break;
+    }
+}
+
+function resetDemoData() {
+    const confirmed = window.confirm(
+        "Reset the ASWallet demo data?\n\n" +
+        "Your balance, transactions and settings " +
+        "will be restored to their initial state."
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    demoState.balance = 12480.75;
+
+    demoState.transactions = initialDemoTransactions.map(
+        (transaction) => ({ ...transaction })
+    );
+
+    demoState.settings = {
+        hideBalance: false,
+        currency: "EUR",
+        compactDashboard: false,
+        showNotifications: true,
+    };
+
+    document.body.classList.remove(
+        "demo-compact-dashboard",
+        "demo-hide-notifications"
+    );
+
+    renderDemoBalance();
+    renderDashboardTransactions();
+    renderFilteredTransactions();
+
+    notificationCenterApi?.reset?.();
+
+    window.dispatchEvent(
+        new CustomEvent("demo:reset")
+    );
+}
+
 export function initDemo() {
 
     renderDemoBalance();
@@ -2885,6 +3092,7 @@ export function initDemo() {
     initTransactionExport();
     initPaymentSimulator();
     initNotificationCenter();
+    initDemoSettings();
     initReportsDashboard();
 }
 
@@ -2928,21 +3136,15 @@ function initBalanceToggle() {
     }
 
     const setHidden = (isHidden) => {
-        card.classList.toggle("is-hidden", isHidden);
-        amount.textContent = isHidden
-            ? amount.dataset.hidden
-            : amount.dataset.visible;
+        demoState.settings.hideBalance = isHidden;
 
-        toggle.setAttribute("aria-pressed", String(isHidden));
-        toggle.setAttribute("aria-label",
-            isHidden 
-                ? "Show balance" 
-                : "Hide balance"
-        );
+        renderDemoBalance();
     };
 
     toggle.addEventListener("click", () => {
-        setHidden(!card.classList.contains("is-hidden"));
+        setHidden(
+            !demoState.settings.hideBalance
+        );
     });
 }
 

@@ -2306,11 +2306,217 @@
                         </article>
                     </section>
 
-                    <section class="demo-view" data-demo-view="settings" hidden>
-                        <header class="demo-view-header">
-                            <h1 class="demo-view-title">Settings</h1>
-                            <p class="demo-view-text">Coming in the next steps.</p>
-                        </header>
+                    <section
+                        class="demo-view settings-view"
+                        id="demo-settings"
+                        data-demo-view="settings"
+                        data-demo-page="settings"
+                        hidden
+                    >
+                        <div class="demo-page-header">
+                            <div>
+                                <p class="demo-page-eyebrow">Preferences</p>
+
+                                <h1 class="demo-page-title">
+                                    Demo Settings
+                                </h1>
+
+                                <p class="demo-page-description">
+                                    Customize your ASWallet demo experience.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="settings-grid">
+
+                            <article class="settings-card">
+                                <div class="settings-card-header">
+                                    <div>
+                                        <p class="settings-card-eyebrow">
+                                            Wallet
+                                        </p>
+
+                                        <h2>
+                                            Wallet preferences
+                                        </h2>
+                                    </div>
+
+                                    <span
+                                        class="settings-card-icon"
+                                        aria-hidden="true"
+                                    >
+                                        €
+                                    </span>
+                                </div>
+
+                                <div class="settings-list">
+
+                                    <label class="settings-option">
+                                        <span class="settings-option-content">
+                                            <strong>
+                                                Hide wallet balance
+                                            </strong>
+
+                                            <span>
+                                                Hide your balance from the dashboard
+                                                and wallet cards.
+                                            </span>
+                                        </span>
+
+                                        <input
+                                            type="checkbox"
+                                            data-setting="hideBalance"
+                                        >
+
+                                        <span
+                                            class="settings-switch"
+                                            aria-hidden="true"
+                                        ></span>
+                                    </label>
+
+                                    <div class="settings-option settings-option-static">
+                                        <span class="settings-option-content">
+                                            <strong>
+                                                Demo currency
+                                            </strong>
+
+                                            <span>
+                                                Choose the currency displayed
+                                                throughout the demo.
+                                            </span>
+                                        </span>
+
+                                        <select
+                                            class="settings-select"
+                                            data-setting="currency"
+                                            aria-label="Demo currency"
+                                        >
+                                            <option value="EUR">
+                                                EUR €
+                                            </option>
+
+                                            <option value="USD">
+                                                USD $
+                                            </option>
+
+                                            <option value="BGN">
+                                                BGN лв.
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </article>
+
+                            <article class="settings-card">
+                                <div class="settings-card-header">
+                                    <div>
+                                        <p class="settings-card-eyebrow">
+                                            Interface
+                                        </p>
+
+                                        <h2>
+                                            Dashboard preferences
+                                        </h2>
+                                    </div>
+
+                                    <span
+                                        class="settings-card-icon"
+                                        aria-hidden="true"
+                                    >
+                                        ◈
+                                    </span>
+                                </div>
+
+                                <div class="settings-list">
+
+                                    <label class="settings-option">
+                                        <span class="settings-option-content">
+                                            <strong>
+                                                Compact dashboard
+                                            </strong>
+
+                                            <span>
+                                                Reduce spacing and show more
+                                                information at once.
+                                            </span>
+                                        </span>
+
+                                        <input
+                                            type="checkbox"
+                                            data-setting="compactDashboard"
+                                        >
+
+                                        <span
+                                            class="settings-switch"
+                                            aria-hidden="true"
+                                        ></span>
+                                    </label>
+
+                                    <label class="settings-option">
+                                        <span class="settings-option-content">
+                                            <strong>
+                                                Show notifications
+                                            </strong>
+
+                                            <span>
+                                                Display the notification center
+                                                in the dashboard header.
+                                            </span>
+                                        </span>
+
+                                        <input
+                                            type="checkbox"
+                                            data-setting="showNotifications"
+                                            checked
+                                        >
+
+                                        <span
+                                            class="settings-switch"
+                                            aria-hidden="true"
+                                        ></span>
+                                    </label>
+
+                                </div>
+                            </article>
+
+                            <article class="settings-card settings-card--danger">
+                                <div class="settings-card-header">
+                                    <div>
+                                        <p class="settings-card-eyebrow">
+                                            Demo data
+                                        </p>
+
+                                        <h2>
+                                            Reset demo
+                                        </h2>
+                                    </div>
+
+                                    <span
+                                        class="settings-card-icon"
+                                        aria-hidden="true"
+                                    >
+                                        ↻
+                                    </span>
+                                </div>
+
+                                <div class="settings-danger-content">
+                                    <p>
+                                        Restore the demo to its original balance,
+                                        transactions and preferences.
+                                    </p>
+
+                                    <button
+                                        class="demo-button demo-button--danger"
+                                        type="button"
+                                        data-reset-demo
+                                    >
+                                        Reset Demo Data
+                                    </button>
+                                </div>
+                            </article>
+
+                        </div>
                     </section>
 
                 </main>
