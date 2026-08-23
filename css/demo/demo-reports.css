@@ -1,7 +1,3 @@
-/* =========================
-   Reports Dashboard
-========================= */
-
 .reports-view.is-active {
     display: grid;
     gap: 24px;
@@ -24,10 +20,6 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
 }
-
-/* =========================
-   Period selector
-========================= */
 
 .reports-period-selector {
     display: inline-flex;
@@ -85,10 +77,6 @@
         0 7px 18px rgba(214, 180, 106, 0.18),
         inset 0 1px 0 rgba(255, 255, 255, 0.30);
 }
-
-/* =========================
-   Summary cards
-========================= */
 
 .reports-summary-grid {
     display: grid;
@@ -239,10 +227,6 @@
     color: #f09a9a;
 }
 
-/* =========================
-   Reports panels
-========================= */
-
 .reports-content-grid {
     display: grid;
     grid-template-columns:
@@ -317,10 +301,6 @@
     background: var(--color-brand-red);
     box-shadow: 0 0 8px rgba(194, 59, 59, 0.45);
 }
-
-/* =========================
-   Cash flow chart
-========================= */
 
 .reports-chart {
     position: relative;
@@ -457,10 +437,6 @@
     font-weight: 650;
     text-align: center;
 }
-
-/* =========================
-   Spending overview
-========================= */
 
 .reports-spending-overview {
     display: grid;
@@ -660,10 +636,6 @@
     line-height: 1.45;
 }
 
-/* =========================
-   ASWallet insight
-========================= */
-
 .reports-insight {
     display: flex;
     align-items: center;
@@ -732,10 +704,6 @@
     line-height: 1.45;
 }
 
-/* =========================
-   Reports accessibility
-========================= */
-
 .reports-period-button:focus-visible,
 .reports-summary-card:focus-visible {
     outline: 2px solid var(--color-gold-light);
@@ -800,10 +768,6 @@
         transform: translateY(0);
     }
 }
-
-/* =========================
-   Reports responsive
-========================= */
 
 @media (max-width: 1180px) {
     .reports-summary-grid {
@@ -957,10 +921,6 @@
         height: 40px;
     }
 }
-
-/* =========================
-   Reduced motion
-========================= */
 
 @media (prefers-reduced-motion: reduce) {
     .reports-view.is-active
