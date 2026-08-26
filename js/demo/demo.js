@@ -88,19 +88,82 @@ const initialDemoTransactions = [
     },
 ];
 
+const DEMO_SETTINGS_STORAGE_KEY = "aswallet-demo-settings";
+
+const DEFAULT_DEMO_SETTINGS = {
+
+    hideBalance: false,
+    currency: "EUR",
+    compactDashboard: false,
+    showNotifications: true,
+};
+
+function loadDemoSettings() {
+
+    try {
+        const storedSettings = JSON.parse(
+            localStorage.getItem(DEMO_SETTINGS_STORAGE_KEY)
+        );
+
+        if (!storedSettings) {
+            return { ...DEFAULT_DEMO_SETTINGS };
+        }
+
+        const allowedCurrencies = ["EUR", "USD", "BGN"];
+
+        return {
+            hideBalance:
+                typeof storedSettings.hideBalance === "boolean"
+                    ? storedSettings.hideBalance
+                    : DEFAULT_DEMO_SETTINGS.hideBalance,
+
+            currency:
+                allowedCurrencies.includes(storedSettings.currency)
+                    ? storedSettings.currency
+                    : DEFAULT_DEMO_SETTINGS.currency,
+
+            compactDashboard:
+                typeof storedSettings.compactDashboard === "boolean"
+                    ? storedSettings.compactDashboard
+                    : DEFAULT_DEMO_SETTINGS.compactDashboard,
+
+            showNotifications:
+                typeof storedSettings.showNotifications === "boolean"
+                    ? storedSettings.showNotifications
+                    : DEFAULT_DEMO_SETTINGS.showNotifications,
+        };
+    }
+    catch (error) {
+        localStorage.removeItem(DEMO_SETTINGS_STORAGE_KEY);
+        return { ...DEFAULT_DEMO_SETTINGS };
+    }
+}
+
+function saveDemoSettings() {
+
+    try {
+        localStorage.setItem(
+            DEMO_SETTINGS_STORAGE_KEY,
+            JSON.stringify(demoState.settings)
+        );
+    }
+    catch (error) {
+        console.warn(
+            "ASWallet demo settings could not be saved.",
+            error
+        );
+    }
+}
+
 const demoState = {
+
     balance: 12480.75,
 
     transactions: initialDemoTransactions.map(
         (transaction) => ({ ...transaction })
     ),
 
-    settings: {
-        hideBalance: false,
-        currency: "EUR",
-        compactDashboard: false,
-        showNotifications: true,
-    },
+    settings: loadDemoSettings(),
 };
 
 const transactionHistoryState = {
@@ -2961,12 +3024,16 @@ function initDemoSettings() {
         );
     }
 
-    function updateSetting(settingName, settingValue) {
-        if (!(settingName in demoState.settings)) {
+    function updateSetting(settingName, settingValue)
+    {
+        if (!(settingName in demoState.settings))
+        {
             return;
         }
 
         demoState.settings[settingName] = settingValue;
+
+        saveDemoSettings();
 
         applyDemoSetting(
             settingName,
@@ -3048,6 +3115,7 @@ function applyDemoSetting(settingName, settingValue) {
 }
 
 function resetDemoData() {
+
     const confirmed = window.confirm(
         "Reset the ASWallet demo data?\n\n" +
         "Your balance, transactions and settings " +
@@ -3056,6 +3124,20 @@ function resetDemoData() {
 
     if (!confirmed) {
         return;
+    }
+
+    try {
+    
+        localStorage.removeItem(
+            DEMO_SETTINGS_STORAGE_KEY
+        );
+
+    } catch (error) {
+    
+        console.warn(
+            "ASWallet demo settings could not be cleared.",
+            error
+        );
     }
 
     window.location.reload();
@@ -3113,24 +3195,40 @@ function initDemoNav() {
 }
 
 function initBalanceToggle() {
-    const card = document.querySelector("[data-balance-card]");
-    const toggle = document.querySelector("[data-balance-toggle]");
-    const amount = document.querySelector("[data-balance-amount]");
+
+    const card = document.querySelector(
+        "[data-balance-card]"
+    );
+
+    const toggle = document.querySelector(
+        "[data-balance-toggle]"
+    );
+
+    const amount = document.querySelector(
+        "[data-balance-amount]"
+    );
+
+    const hideBalanceInput = document.querySelector(
+        '[data-setting="hideBalance"]'
+    );
 
     if (!card || !toggle || !amount) {
         return;
     }
 
     const setHidden = (isHidden) => {
-        demoState.settings.hideBalance = isHidden;
+        demoState.settings.hideBalance = Boolean(isHidden);
 
+        if (hideBalanceInput) {
+            hideBalanceInput.checked = demoState.settings.hideBalance;
+        }
+
+        saveDemoSettings();
         renderDemoBalance();
     };
 
     toggle.addEventListener("click", () => {
-        setHidden(
-            !demoState.settings.hideBalance
-        );
+        setHidden(!demoState.settings.hideBalance);
     });
 }
 
@@ -3152,6 +3250,7 @@ function initQuickActions() {
     const submit = modal.querySelector("[data-quick-submit]");
     const success = modal.querySelector("[data-quick-success]");
     const closeElements = [...modal.querySelectorAll("[data-quick-close]")];
+
     let lastFocus = null;
 
     const openModal = (actionId) => {
