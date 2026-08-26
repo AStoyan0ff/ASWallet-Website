@@ -2996,6 +2996,12 @@ function initDemoSettings() {
         "[data-reset-demo]"
     );
 
+    const settingsStatus = document.querySelector(
+        "[data-settings-status]"
+    );
+
+    let settingsStatusTimer = null;
+
     function syncSettingInput(input) {
         const settingName = input.dataset.setting;
         const settingValue = demoState.settings[settingName];
@@ -3024,21 +3030,32 @@ function initDemoSettings() {
         );
     }
 
-    function updateSetting(settingName, settingValue)
-    {
-        if (!(settingName in demoState.settings))
-        {
+    function showSettingsSaved() {
+
+        if (!settingsStatus) {
+            return;
+        }
+
+        window.clearTimeout(settingsStatusTimer);
+        settingsStatus.hidden = false;
+
+        settingsStatusTimer = window.setTimeout(() => {
+            settingsStatus.hidden = true;
+            
+        }, 1800);
+    }
+
+    function updateSetting(settingName, settingValue) {
+
+        if (!(settingName in demoState.settings)) {
             return;
         }
 
         demoState.settings[settingName] = settingValue;
-
         saveDemoSettings();
 
-        applyDemoSetting(
-            settingName,
-            settingValue
-        );
+        applyDemoSetting(settingName, settingValue);
+        showSettingsSaved();
     }
 
     settingInputs.forEach((input) => {
@@ -3104,6 +3121,8 @@ function applyDemoSetting(settingName, settingValue) {
             renderDemoBalance();
             renderDashboardTransactions();
             renderFilteredTransactions();
+            renderReportsDashboard();
+            renderTransactionSummary();
 
             break;
         }

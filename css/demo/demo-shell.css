@@ -1,5 +1,3 @@
-/* ASWallet Demo App Shell */
-
 .demo-page {
     min-height: 100vh;
     background:
@@ -869,6 +867,52 @@
     color: var(--color-text-secondary);
     font-size: 1rem;
     line-height: 1.7;
+}
+
+.settings-save-status {
+
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    width: fit-content;
+    margin: 12px 0 0;
+    padding: 7px 11px;
+
+    border: 1px solid rgba(77, 190, 135, 0.24);
+    border-radius: 10px;
+
+    color: #8ee0b5;
+    background: rgba(77, 190, 135, 0.08);
+
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    animation: settings-status-in 220ms ease;
+}
+
+.settings-save-status::before {
+    content: "✓";
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.settings-save-status[hidden] {
+    display: none;
+}
+
+@keyframes settings-status-in {
+
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .settings-grid {
