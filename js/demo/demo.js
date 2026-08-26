@@ -1988,6 +1988,7 @@ function initNotificationCenter() {
 
     notificationCenterApi = {
         add: addNotification,
+        close: closePanel,
     };
 
     initializeNotificationTimes();
@@ -2915,6 +2916,7 @@ function initReportsDashboard() {
 }
 
 function initDemoSettings() {
+
     const settingsPage = document.querySelector(
         '[data-demo-page="settings"]'
     );
@@ -2927,7 +2929,7 @@ function initDemoSettings() {
         "[data-setting]"
     );
 
-    const resetButton = settingsPage.querySelector(
+    const resetButton = document.querySelector(
         "[data-reset-demo]"
     );
 
@@ -2988,50 +2990,60 @@ function initDemoSettings() {
         });
     });
 
-    resetButton?.addEventListener("click", () => {
-        resetDemoData();
-        syncSettingsUI();
-    });
+    if (resetButton) {
+        resetButton.addEventListener("click", resetDemoData);
+    }
 
     syncSettingsUI();
 }
 
 function applyDemoSetting(settingName, settingValue) {
     switch (settingName) {
-        case "hideBalance":
-            demoState.settings.hideBalance = Boolean(
-                settingValue
-            );
+    
+        case "hideBalance": {
 
+            demoState.settings.hideBalance = Boolean(settingValue);
             renderDemoBalance();
-
             break;
+        }
 
-        case "compactDashboard":
+        case "compactDashboard": {
+
             document.body.classList.toggle(
                 "demo-compact-dashboard",
-                settingValue
+                Boolean(settingValue)
             );
 
             break;
+        }
 
-        case "showNotifications":
+        case "showNotifications": {
+            const notificationsEnabled = Boolean(settingValue);
+
             document.body.classList.toggle(
                 "demo-hide-notifications",
-                !settingValue
+                !notificationsEnabled
             );
 
-            break;
+            if (!notificationsEnabled) {
+                notificationCenterApi?.close?.();
+            }
 
-        case "currency":
+            break;
+        }
+
+        case "currency": {
+
             renderDemoBalance();
             renderDashboardTransactions();
             renderFilteredTransactions();
 
             break;
+        }
 
-        default:
+        default: {
             break;
+        }
     }
 }
 
@@ -3046,33 +3058,7 @@ function resetDemoData() {
         return;
     }
 
-    demoState.balance = 12480.75;
-
-    demoState.transactions = initialDemoTransactions.map(
-        (transaction) => ({ ...transaction })
-    );
-
-    demoState.settings = {
-        hideBalance: false,
-        currency: "EUR",
-        compactDashboard: false,
-        showNotifications: true,
-    };
-
-    document.body.classList.remove(
-        "demo-compact-dashboard",
-        "demo-hide-notifications"
-    );
-
-    renderDemoBalance();
-    renderDashboardTransactions();
-    renderFilteredTransactions();
-
-    notificationCenterApi?.reset?.();
-
-    window.dispatchEvent(
-        new CustomEvent("demo:reset")
-    );
+    window.location.reload();
 }
 
 export function initDemo() {
