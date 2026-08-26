@@ -101,13 +101,15 @@
 }
 
 .navigation-link:hover,
-.navigation-link.active {
+.navigation-link.active,
+.navigation-link.is-active {
 
     color: var(--color-text-primary);
 }
 
 .navigation-link:hover::after,
-.navigation-link.active::after {
+.navigation-link.active::after,
+.navigation-link.is-active::after {
 
     transform: scaleX(1);
     transform-origin: left;
@@ -217,7 +219,8 @@
 
 .mobile-navigation-link:hover,
 .mobile-navigation-link:focus-visible,
-.mobile-navigation-link.active {
+.mobile-navigation-link.active,
+.mobile-navigation-link.is-active {
     color: var(--color-gold-light);
 }
 

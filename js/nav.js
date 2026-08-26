@@ -1,6 +1,5 @@
 export function initNavigation() {
     initMobileMenu();
-    initActiveLinks();
 }
 
 function initMobileMenu() {
@@ -12,12 +11,12 @@ function initMobileMenu() {
     }
 
     const mobileLinks = mobileNavigation.querySelectorAll("a");
-
     const setMenuState = (isOpen) => {
+
         menuButton.setAttribute("aria-expanded", String(isOpen));
-        menuButton.setAttribute(
-            "aria-label",
-            isOpen ? "Close navigation menu" : "Open navigation menu"
+        menuButton.setAttribute("aria-label", isOpen
+            ? "Close navigation menu"
+            : "Open navigation menu"
         );
 
         mobileNavigation.classList.toggle("is-open", isOpen);
@@ -29,6 +28,7 @@ function initMobileMenu() {
 
     const toggleMenu = () => {
         const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+
         setMenuState(!isOpen);
     };
 
@@ -53,73 +53,75 @@ function initMobileMenu() {
     closeMenu();
 }
 
-function initActiveLinks() {
-    const links = document.querySelectorAll(
-        ".navigation-link, .mobile-navigation-link"
-    );
+export function initActiveNavigation() {
 
-    if (!links.length) {
-        return;
-    }
+    const navigationLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+    const navigationItems = navigationLinks
+        .map((link) => {
+            const sectionId = link.getAttribute("href");
 
-    const setActive = (hash) => {
-        const targetHash = hash && hash !== "#" ? hash : "#home";
-
-        links.forEach((link) => {
-            const href = link.getAttribute("href");
-            link.classList.toggle("active", href === targetHash);
-        });
-    };
-
-    links.forEach((link) => {
-        link.addEventListener("click", () => {
-            const href = link.getAttribute("href");
-
-            if (href && href.startsWith("#")) {
-                setActive(href);
+            if (!sectionId || sectionId === "#") {
+                return null;
             }
-        });
-    });
 
-    setActive(window.location.hash);
-    window.addEventListener("hashchange", () => {
-        setActive(window.location.hash);
-    });
+            const section = document.querySelector(sectionId);
 
-    initScrollSpy(setActive);
-}
+            if (!section) {
+                return null;
+            }
 
-function initScrollSpy(setActive) {
-    const sectionIds = ["home", "features", "security", "roadmap", "about"];
-    const sections = sectionIds
-        .map((id) => document.getElementById(id))
+            return { link, section };
+        })
+
         .filter(Boolean);
 
-    if (sections.length < 2 || !("IntersectionObserver" in window)) {
+    if (!navigationItems.length) {
         return;
     }
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function activateNavigationLink(sectionId) {
+        navigationItems.forEach(({ link }) => {
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            const visible = entries
-                .filter((entry) => entry.isIntersecting)
-                .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+            const isActive = link.getAttribute("href") === sectionId;
+            link.classList.toggle("active", isActive);
 
-            if (!visible.length) {
-                return;
+            if (isActive) {
+                link.setAttribute("aria-current", "page");
+
+            } else {
+                link.removeAttribute("aria-current");
             }
+        });
+    }
 
-            setActive(`#${visible[0].target.id}`);
-        },
-        {
-            rootMargin: reduceMotion.matches
-                ? "-20% 0px -55% 0px"
-                : "-25% 0px -50% 0px",
-            threshold: [0.15, 0.35, 0.6],
+    const sectionObserver = new IntersectionObserver((entries) => {
+
+        const visibleSections = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((firstEntry, secondEntry) =>
+                secondEntry.intersectionRatio -
+                firstEntry.intersectionRatio
+            );
+
+        if (!visibleSections.length) {
+            return;
         }
-    );
 
-    sections.forEach((section) => observer.observe(section));
+        activateNavigationLink(`#${visibleSections[0].target.id}`);
+    }, {
+
+        rootMargin: "-25% 0px -55% 0px",
+        threshold: [0.05, 0.2, 0.4, 0.6]
+    });
+
+    navigationItems.forEach(({ section }) => {
+        sectionObserver.observe(section);
+    });
+
+    navigationLinks.forEach((link) => {
+
+        link.addEventListener("click", () => {
+            activateNavigationLink(link.getAttribute("href"));
+        });
+    });
 }
