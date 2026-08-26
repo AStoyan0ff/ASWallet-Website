@@ -45,7 +45,7 @@ function initMobileMenu() {
     });
 
     window.addEventListener("resize", () => {
-        if (window.matchMedia("(min-width: 981px)").matches) {
+        if (window.matchMedia("(min-width: 1121px)").matches) {
             closeMenu();
         }
     });

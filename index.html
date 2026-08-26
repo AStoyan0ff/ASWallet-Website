@@ -155,7 +155,7 @@
     <main>
 
         <!-- Hero -->
-        <section class="hero" id="home">
+        <section class="hero" id="home" aria-labelledby="home-title">
 
             <div class="container hero-container">
 
@@ -165,7 +165,7 @@
                         DIGITAL BANKING • BUILT DIFFERENT
                     </span>
 
-                    <h1 class="hero-title">
+                    <h1 class="hero-title" id="home-title">
                         Your Wallet.
                         <span>Your Future.</span>
                     </h1>
@@ -222,8 +222,13 @@
                         </div>
 
                         <div class="wallet-balance">
-                            <small>Available Balance</small>
-                            <h2>€ 12 480.50</h2>
+                            <small>
+                                Available Balance
+                            </small>
+
+                            <strong class="wallet-balance-amount">
+                                € 12 480.50
+                            </strong>
                         </div>
 
                         <div class="wallet-actions">
@@ -242,13 +247,15 @@
         </section>
 
         <!-- Features -->
-        <section class="features" id="features">
+        <section class="features" id="features" aria-labelledby="features-title">
 
             <div class="container features-container">
 
                 <header class="features-header reveal">
                     <span class="features-eyebrow">Features</span>
-                    <h2 class="features-title">Built for everyday money moves</h2>
+                    <h2 class="features-title" id="features-title">
+                        Built for everyday money moves
+                    </h2>
                     <p class="features-text">
                         <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> keeps the essentials
                         sharp - transfer, deposit
@@ -297,9 +304,25 @@
         </section>
 
         <!-- Security -->
-        <section class="security" id="security">
+        <section class="security" id="security" aria-labelledby="security-title">
 
             <div class="container security-container">
+
+                <header class="security-header reveal">
+                    <span class="security-eyebrow">
+                        Security
+                    </span>
+
+                    <h2 class="security-title" id="security-title">
+                        Security without the noise
+                    </h2>
+
+                    <p class="security-text">
+                        <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
+                        treats trust as part of the product - protected by
+                        design, built on solid architecture, kept under your control.
+                    </p>
+                </header>
 
                 <div class="security-list">
 
@@ -340,21 +363,11 @@
 
                 </div>
 
-                <header class="security-header reveal">
-                    <span class="security-eyebrow">Security</span>
-                    <h2 class="security-title">Security without the noise</h2>
-                    <p class="security-text">
-                        <span class="brand-mark">AS</span><span class="brand-name">Wallet</span> treats trust as part of
-                        the product - protected by
-                        design, built on solid architecture, kept under your control.
-                    </p>
-                </header>
-
             </div>
         </section>
 
         <!-- Roadmap -->
-        <section class="roadmap" id="roadmap">
+        <section class="roadmap" id="roadmap" aria-labelledby="roadmap-title">
 
             <div class="container roadmap-container">
 
@@ -362,7 +375,7 @@
 
                     <header class="roadmap-header">
                         <span class="roadmap-eyebrow">Roadmap</span>
-                        <h2 class="roadmap-title">Where <span class="brand-mark">AS</span><span
+                        <h2 class="roadmap-title" id="roadmap-title">Where <span class="brand-mark">AS</span><span
                                 class="brand-name">Wallet</span> is headed
                         </h2>
 
@@ -624,7 +637,7 @@
         </section>
 
         <!-- About -->
-        <section class="about" id="about">
+        <section class="about" id="about" aria-labelledby="about-title">
             <div class="container about-container">
 
                 <div class="about-panel" data-about-panel>
@@ -635,7 +648,7 @@
 
                         <div class="about-copy">
                             <span class="about-eyebrow">About</span>
-                            <h2 class="about-title">
+                            <h2 class="about-title" id="about-title">
                                 We're not just creating a digital wallet.
                                 <span class="about-title-accent">We're creating a better way for people to manage their
                                     money.
@@ -673,7 +686,7 @@
         </section>
 
         <!-- Mobile Application Showcase -->
-        <section class="mobile-showcase" id="mobile" data-mobile-showcase>
+        <section class="mobile-showcase" id="mobile" aria-labelledby="mobile-showcase-title" data-mobile-showcase>
             <div class="mobile-showcase-background" aria-hidden="true">
                 <span class="mobile-showcase-glow mobile-showcase-glow--left"></span>
                 <span class="mobile-showcase-glow mobile-showcase-glow--right"></span>
@@ -691,7 +704,7 @@
                             ASWallet Mobile
                         </p>
 
-                        <h2 class="mobile-showcase-title">
+                        <h2 class="mobile-showcase-title" id="mobile-showcase-title">
                             Your wallet.
                             <span>Always with you.</span>
                         </h2>
@@ -801,10 +814,7 @@
 
                         <button
                             class="button button-primary mobile-showcase-button mobile-showcase-button--flutter mobile-showcase-tech-button"
-                            type="button"
-                            disabled
-                            title="ASWallet Mobile repository coming soon"
-                        >
+                            type="button" disabled title="ASWallet Mobile repository coming soon">
                             Built with Flutter and Dart
                         </button>
 
@@ -813,11 +823,7 @@
                 </div>
 
 
-                <div
-                    class="mobile-preview"
-                    aria-label="ASWallet mobile application preview"
-                    inert
-                >
+                <div class="mobile-preview" aria-label="ASWallet mobile application preview" inert>
                     <div class="mobile-preview-orbit mobile-preview-orbit--one" aria-hidden="true">
                     </div>
 
@@ -1070,7 +1076,7 @@
             </div>
         </section>
 
-        <section class="cta" id="demo" data-cta>
+        <section class="cta" id="demo" aria-labelledby="cta-title" data-cta>
             <div class="cta-bg" aria-hidden="true">
                 <div class="cta-glow" data-cta-glow></div>
                 <svg class="cta-lines" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
@@ -1099,7 +1105,7 @@
 
             <div class="container cta-container">
                 <header class="cta-header">
-                    <h2 class="cta-title">Ready to experience <span class="brand-mark">AS</span><span
+                    <h2 class="cta-title" id="cta-title">Ready to experience <span class="brand-mark">AS</span><span
                             class="brand-name">Wallet</span>?</h2>
                     <p class="cta-text">
                         Explore a smarter, safer way to manage your money.
