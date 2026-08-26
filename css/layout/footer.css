@@ -169,23 +169,28 @@
             "tagline"
             "nav"
             "status";
-        align-items: start;
+        align-items: center;
+        justify-items: center;
         gap: 20px;
-        justify-items: start;
+        text-align: center;
     }
 
     .footer-brand {
         justify-self: center;
     }
 
+    .footer-tagline {
+        max-width: 280px;
+    }
+
     .footer-nav {
-        justify-content: start;
+        justify-content: center;
         padding-top: 0;
     }
 
     .footer-status {
-        justify-self: start;
-        align-self: start;
+        justify-self: center;
+        align-self: center;
     }
 }
 
