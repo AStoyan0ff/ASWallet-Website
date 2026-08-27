@@ -151,11 +151,19 @@ function initMobileMenu() {
 }
 
 export function initActiveNavigation() {
+    const navigationLinks = Array.from(
+        document.querySelectorAll(
+            [
+                '.main-navigation a[href^="#"]',
+                '.mobile-navigation a[href^="#"]',
+                '.footer-nav a[href^="#"]'
+            ].join(",")
+        )
+    );
 
-    const navigationLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
     const navigationItems = navigationLinks
-    
         .map((link) => {
+
             const sectionId = link.getAttribute("href");
 
             if (!sectionId || sectionId === "#") {
@@ -164,23 +172,26 @@ export function initActiveNavigation() {
 
             const section = document.querySelector(sectionId);
 
-            if (!section) {
-                return null;
-            }
+            if (!section) { return null; }
 
-            return { link, section };
+            return { link, section, sectionId };
+            
         })
-
         .filter(Boolean);
 
     if (!navigationItems.length) {
         return;
     }
 
-    function activateNavigationLink(sectionId) {
-        navigationItems.forEach(({ link }) => {
+    const sections = Array
+        .from(new Set(navigationItems
+        .map(({ section }) => section))
+    );
 
-            const isActive = link.getAttribute("href") === sectionId;
+    function activateNavigationLink(sectionId) {
+        navigationItems.forEach(({ link, sectionId: linkSectionId }) => {
+
+            const isActive = linkSectionId === sectionId;
             link.classList.toggle("active", isActive);
 
             if (isActive) {
@@ -192,34 +203,58 @@ export function initActiveNavigation() {
         });
     }
 
-    const sectionObserver = new IntersectionObserver((entries) => {
-
-        const visibleSections = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((firstEntry, secondEntry) =>
-                secondEntry.intersectionRatio -
-                firstEntry.intersectionRatio
-            );
-
-        if (!visibleSections.length) {
-            return;
-        }
-
-        activateNavigationLink(`#${visibleSections[0].target.id}`);
-    }, {
-
-        rootMargin: "-25% 0px -55% 0px",
-        threshold: [0.05, 0.2, 0.4, 0.6]
-    });
-
-    navigationItems.forEach(({ section }) => {
-        sectionObserver.observe(section);
-    });
-
     navigationLinks.forEach((link) => {
-
+        
         link.addEventListener("click", () => {
             activateNavigationLink(link.getAttribute("href"));
         });
+    });
+
+    const initialSectionId = window.location.hash && document.querySelector(window.location.hash)
+        ? window.location.hash
+        : "#home";
+
+    activateNavigationLink(initialSectionId);
+
+    if (!("IntersectionObserver" in window)) {
+        return;
+    }
+
+    const sectionVisibility = new Map(sections.map((section) => {
+        return [section, 0];
+
+    }));
+
+    const sectionObserver =
+        new IntersectionObserver((entries) => {
+
+            entries.forEach((entry) => {
+                sectionVisibility.set(entry.target, entry.isIntersecting
+                    
+                    ? entry.intersectionRatio
+                    : 0
+                );
+            });
+
+            const activeSection = Array
+                .from(sectionVisibility.entries())
+                .filter(([, ratio]) => ratio > 0)
+                .sort(([, firstRatio], [, secondRatio]) =>
+                    secondRatio - firstRatio)[0];
+
+            if (!activeSection) {
+                return;
+            }
+
+            activateNavigationLink(`#${activeSection[0].id}`);
+        },
+            {
+                rootMargin: "-25% 0px -55% 0px",
+                threshold: [0, 0.05, 0.2, 0.4, 0.6]
+            }
+        );
+
+    sections.forEach((section) => {
+        sectionObserver.observe(section);
     });
 }

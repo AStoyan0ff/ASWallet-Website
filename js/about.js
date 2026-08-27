@@ -1,4 +1,5 @@
 export function initAbout() {
+    
     const panel = document.querySelector("[data-about-panel]");
     const universe = document.querySelector("[data-about-universe]");
     const words = [...document.querySelectorAll("[data-about-word]")];
@@ -10,9 +11,9 @@ export function initAbout() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const wordState = words.map((el, index) => ({
-
         el,
         baseAngle: ((Math.PI * 2) / words.length) * index - Math.PI / 2,
+
         x: 0,
         y: 0,
     }));
@@ -25,8 +26,8 @@ export function initAbout() {
 
     let rafId = 0;
     let primed = false;
-    const startedAt = performance.now();
 
+    const startedAt = performance.now();
     const getRadius = () => Math.max(universe.clientWidth * 0.36, 96);
 
     const render = (time) => {
@@ -35,15 +36,19 @@ export function initAbout() {
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         const radius = getRadius();
-        const spin = reduceMotion ? 0 : (time - startedAt) * 0.00028;
+        const spin = reduceMotion 
+            ? 0 
+            : (time - startedAt) * 0.00028;
 
         wordState.forEach((word) => {
 
             const angle = word.baseAngle + spin;
+
             let x = Math.cos(angle) * radius;
             let y = Math.sin(angle) * radius;
 
             if (pointer.active && !reduceMotion) {
+
                 const wordX = centerX + x;
                 const wordY = centerY + y;
                 const dx = pointer.x - wordX;
@@ -65,12 +70,15 @@ export function initAbout() {
                 word.y += (y - word.y) * 0.14;
             }
 
-            word.el.style.transform =
-                `translate(-50%, -50%) translate3d(${word.x.toFixed(2)}px, ${word.y.toFixed(2)}px, 0)`;
+            word.el.style.transform = `translate(-50%, -50%) translate3d(${word.x.toFixed(2)}px, ${word.y.toFixed(2)}px, 0)`;
+                
         });
 
         primed = true;
-        rafId = window.requestAnimationFrame(render);
+
+        if (!reduceMotion) 
+            rafId = window.requestAnimationFrame(render);
+        
     };
 
     const setGlare = (clientX, clientY) => {
@@ -101,17 +109,23 @@ export function initAbout() {
         pointer.active = true;
         pointer.x = event.clientX;
         pointer.y = event.clientY;
+
         panel.classList.add("is-active");
         setGlare(event.clientX, event.clientY);
     });
 
     panel.addEventListener("pointerleave", () => {
-        
         pointer.active = false;
+
         panel.classList.remove("is-active");
         panel.style.setProperty("--about-mx", "70%");
         panel.style.setProperty("--about-my", "40%");
     });
 
-    rafId = window.requestAnimationFrame(render);
+    if (reduceMotion) {
+        render(performance.now());
+        
+    } else {
+        rafId = window.requestAnimationFrame(render);
+    }
 }

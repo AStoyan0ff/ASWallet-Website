@@ -13,7 +13,7 @@ export function initMobileShowcaseAnimation() {
 
         ...mobileShowcase.querySelectorAll(".mobile-feature-item"),
 
-        mobileShowcase.querySelector( ".mobile-showcase-actions"),
+        mobileShowcase.querySelector(".mobile-showcase-actions"),
         mobileShowcase.querySelector(".mobile-preview")
 
     ].filter(Boolean);
@@ -41,11 +41,11 @@ export function initMobileShowcaseAnimation() {
             entry.target.classList.add("is-mobile-visible");
             observer.unobserve(entry.target);
         });
-    },
-        {
-            threshold: 0.16,
-            rootMargin: "0px 0px -8% 0px"
-        }
+    }, {
+
+        threshold: 0.16,
+        rootMargin: "0px 0px -8% 0px" }
+        
     );
 
     mobileShowcaseObserver.observe(mobileShowcase);

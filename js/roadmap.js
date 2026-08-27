@@ -57,10 +57,17 @@ export function initRoadmap() {
         cards.forEach((card) => card.classList.add("is-visible"));
     };
 
-    const updateOnScroll = () => {
-        setRailProgress(getScrollRatio());
+    const updateOnScroll = () =>
+    {
+        const scrollRatio =
+            getScrollRatio();
 
-        if (getScrollRatio() > 0.08) {
+        setRailProgress(
+            scrollRatio
+        );
+
+        if (scrollRatio > 0.08)
+        {
             playCardEntrance();
         }
     };
@@ -105,7 +112,12 @@ export function initRoadmap() {
         startX = event.clientX;
         scrollStart = scroller.scrollLeft;
         scroller.classList.add("is-dragging");
-        scroller.setPointerCapture(event.pointerId);
+        if (scroller.setPointerCapture)
+        {
+            scroller.setPointerCapture(
+                event.pointerId
+            );
+        }
     });
 
     scroller.addEventListener("pointermove", (event) => {
