@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="../css/base/variables.css">
     <link rel="stylesheet" href="../css/base/global.css">
     <link rel="stylesheet" href="../css/layout/header.css">
-    <!-- <link rel="stylesheet" href="../css/demo/demo.css"> -->
 
     <link rel="stylesheet" href="../css/demo/demo-shell.css">
     <link rel="stylesheet" href="../css/demo/demo-dashboard.css">
@@ -59,10 +58,7 @@
                     <button class="demo-nav-link" type="button" data-demo-nav="transfer">
                         Transfer
                     </button>
-                    <button
-                        class="demo-nav-link"
-                        type="button"
-                        data-demo-nav="request">
+                    <button class="demo-nav-link" type="button" data-demo-nav="request">
                         Request Money
                     </button>
                     <button class="demo-nav-link" type="button" data-demo-nav="deposit">
@@ -98,41 +94,24 @@
                     <div class="demo-topbar-right">
                         <div class="notification-center" data-notification-center>
 
-                            <button
-                                class="demo-notify"
-                                type="button"
-                                aria-label="Open notifications"
-                                aria-expanded="false"
-                                aria-controls="notification-panel"
-                                data-notification-toggle>
-                            
+                            <button class="demo-notify" type="button" aria-label="Open notifications"
+                                aria-expanded="false" aria-controls="notification-panel" data-notification-toggle>
+
                                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z"
-                                        stroke="currentColor"
-                                        stroke-width="1.6"
-                                        stroke-linejoin="round"/>
-                                    <path
-                                        d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z"
-                                        stroke="currentColor"
-                                        stroke-width="1.6"
-                                        stroke-linejoin="round"/>
+                                    <path d="M12 22a2.2 2.2 0 0 0 2.2-2.2h-4.4A2.2 2.2 0 0 0 12 22Z"
+                                        stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                    <path d="M18.2 16.2V11a6.2 6.2 0 1 0-12.4 0v5.2L4 18h16l-1.8-1.8Z"
+                                        stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
                                 </svg>
 
-                                <span
-                                    class="demo-notify-badge"
-                                    aria-label="2 unread notifications"
+                                <span class="demo-notify-badge" aria-label="2 unread notifications"
                                     data-notification-badge>
                                     2
                                 </span>
                             </button>
 
-                            <section
-                                class="notification-panel"
-                                id="notification-panel"
-                                aria-label="Notifications"
-                                data-notification-panel
-                                hidden>
+                            <section class="notification-panel" id="notification-panel" aria-label="Notifications"
+                                data-notification-panel hidden>
 
                                 <header class="notification-panel-header">
                                     <div>
@@ -140,24 +119,16 @@
                                         <h2 class="notification-panel-title">Notifications</h2>
                                     </div>
 
-                                    <button
-                                        class="notification-mark-read"
-                                        type="button"
-                                        data-notification-read-all>
+                                    <button class="notification-mark-read" type="button" data-notification-read-all>
                                         Mark all as read
                                     </button>
                                 </header>
 
-                                <div
-                                    class="notification-list"
-                                    data-notification-list
-                                    aria-live="polite">
-                                
-                                    <button
-                                        class="notification-item is-unread"
-                                        type="button"
+                                <div class="notification-list" data-notification-list aria-live="polite">
+
+                                    <button class="notification-item is-unread" type="button"
                                         data-notification-id="welcome">
-                                    
+
                                         <span class="notification-item-icon" aria-hidden="true">
                                             AS
                                         </span>
@@ -167,9 +138,7 @@
                                             <span>
                                                 Explore transfers, payment requests and wallet activity.
                                             </span>
-                                            <time
-                                                data-notification-time
-                                                data-offset-minutes="0">
+                                            <time data-notification-time data-offset-minutes="0">
                                                 Just now
                                             </time>
                                         </span>
@@ -177,13 +146,10 @@
                                         <span class="notification-unread-dot" aria-hidden="true"></span>
                                     </button>
 
-                                    <button
-                                        class="notification-item is-unread"
-                                        type="button"
+                                    <button class="notification-item is-unread" type="button"
                                         data-notification-id="security">
-                                    
-                                        <span
-                                            class="notification-item-icon notification-item-icon--security"
+
+                                        <span class="notification-item-icon notification-item-icon--security"
                                             aria-hidden="true">
                                             ✓
                                         </span>
@@ -193,9 +159,7 @@
                                             <span>
                                                 No real account or financial information is being used.
                                             </span>
-                                            <time
-                                                data-notification-time
-                                                data-offset-minutes="2">
+                                            <time data-notification-time data-offset-minutes="2">
                                                 2 min ago
                                             </time>
                                         </span>
@@ -211,10 +175,7 @@
                                 </div>
 
                                 <footer class="notification-panel-footer">
-                                    <button
-                                        class="notification-view-all"
-                                        type="button"
-                                        data-notification-view-all>
+                                    <button class="notification-view-all" type="button" data-notification-view-all>
                                         View transaction activity
                                         <span aria-hidden="true">→</span>
                                     </button>
@@ -256,7 +217,7 @@
                                     <span class="balance-card-brand">
                                         <span class="brand-mark">AS</span><span class="brand-name">Wallet</span>
                                     </span>
-                                    
+
                                     <span class="balance-card-badge">Premium</span>
                                 </div>
 
@@ -872,11 +833,7 @@
                         </div>
                     </section>
 
-                    <section
-                        class="demo-view request-money-view"
-                        data-demo-view="request"
-                        hidden
-                    >
+                    <section class="demo-view request-money-view" data-demo-view="request" hidden>
                         <header class="request-money-header">
                             <div>
                                 <span class="request-money-eyebrow">
@@ -898,10 +855,7 @@
                         </header>
 
                         <div class="request-money-grid" data-request-flow>
-                            <section
-                                class="request-money-card"
-                                aria-label="Create money request"
-                            >
+                            <section class="request-money-card" aria-label="Create money request">
                                 <header class="request-card-header">
                                     <div>
                                         <span class="request-card-eyebrow">
@@ -923,14 +877,9 @@
                                         <legend>Recent contacts</legend>
 
                                         <div class="request-contact-list">
-                                            <button
-                                                class="request-contact is-selected"
-                                                type="button"
-                                                data-request-contact
-                                                data-request-name="Maria Petrova"
-                                                data-request-initials="MP"
-                                                aria-pressed="true"
-                                            >
+                                            <button class="request-contact is-selected" type="button"
+                                                data-request-contact data-request-name="Maria Petrova"
+                                                data-request-initials="MP" aria-pressed="true">
                                                 <span class="request-contact-avatar">
                                                     MP
                                                 </span>
@@ -941,14 +890,9 @@
                                                 </span>
                                             </button>
 
-                                            <button
-                                                class="request-contact"
-                                                type="button"
-                                                data-request-contact
-                                                data-request-name="Georgi Stoyanov"
-                                                data-request-initials="GS"
-                                                aria-pressed="false"
-                                            >
+                                            <button class="request-contact" type="button" data-request-contact
+                                                data-request-name="Georgi Stoyanov" data-request-initials="GS"
+                                                aria-pressed="false">
                                                 <span class="request-contact-avatar">
                                                     GS
                                                 </span>
@@ -959,14 +903,9 @@
                                                 </span>
                                             </button>
 
-                                            <button
-                                                class="request-contact"
-                                                type="button"
-                                                data-request-contact
-                                                data-request-name="Ivan Kolev"
-                                                data-request-initials="IK"
-                                                aria-pressed="false"
-                                            >
+                                            <button class="request-contact" type="button" data-request-contact
+                                                data-request-name="Ivan Kolev" data-request-initials="IK"
+                                                aria-pressed="false">
                                                 <span class="request-contact-avatar">
                                                     IK
                                                 </span>
@@ -985,57 +924,30 @@
                                         </span>
 
                                         <span class="request-amount-display">
-                                            <span
-                                                class="request-amount-currency"
-                                                aria-hidden="true"
-                                            >
+                                            <span class="request-amount-currency" aria-hidden="true">
                                                 €
                                             </span>
 
-                                            <input
-                                                class="request-amount-input"
-                                                type="text"
-                                                name="amount"
-                                                value="0.00"
-                                                inputmode="decimal"
-                                                autocomplete="off"
-                                                spellcheck="false"
-                                                data-request-amount
-                                                aria-label="Requested amount"
-                                            >
+                                            <input class="request-amount-input" type="text" name="amount" value="0.00"
+                                                inputmode="decimal" autocomplete="off" spellcheck="false"
+                                                data-request-amount aria-label="Requested amount">
                                         </span>
                                     </label>
 
-                                    <div
-                                        class="request-amount-chips"
-                                        role="group"
-                                        aria-label="Quick request amounts"
-                                    >
-                                        <button
-                                            type="button"
-                                            data-request-chip="25"
-                                        >
+                                    <div class="request-amount-chips" role="group" aria-label="Quick request amounts">
+                                        <button type="button" data-request-chip="25">
                                             €25
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            data-request-chip="50"
-                                        >
+                                        <button type="button" data-request-chip="50">
                                             €50
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            data-request-chip="100"
-                                        >
+                                        <button type="button" data-request-chip="100">
                                             €100
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            data-request-chip="250"
-                                        >
+                                        <button type="button" data-request-chip="250">
                                             €250
                                         </button>
                                     </div>
@@ -1043,24 +955,15 @@
                                     <label class="demo-field">
                                         <span>Reason</span>
 
-                                        <input
-                                            class="demo-input"
-                                            type="text"
-                                            name="reason"
-                                            placeholder="Dinner, tickets, shared bill..."
-                                            maxlength="80"
-                                            data-request-reason
-                                        >
+                                        <input class="demo-input" type="text" name="reason"
+                                            placeholder="Dinner, tickets, shared bill..." maxlength="80"
+                                            data-request-reason>
                                     </label>
 
                                     <label class="demo-field">
                                         <span>Due date</span>
 
-                                        <select
-                                            class="demo-input request-due-select"
-                                            name="dueDate"
-                                            data-request-due
-                                        >
+                                        <select class="demo-input request-due-select" name="dueDate" data-request-due>
                                             <option value="today">
                                                 Today
                                             </option>
@@ -1079,31 +982,16 @@
                                         </select>
                                     </label>
 
-                                    <p
-                                        class="request-money-error"
-                                        data-request-error
-                                        role="alert"
-                                        hidden
-                                    ></p>
+                                    <p class="request-money-error" data-request-error role="alert" hidden></p>
 
-                                    <button
-                                        class="request-money-submit"
-                                        type="submit"
-                                        data-request-submit
-                                    >
+                                    <button class="request-money-submit" type="submit" data-request-submit>
                                         Create Money Request
                                     </button>
                                 </form>
                             </section>
 
-                            <aside
-                                class="request-preview-card"
-                                aria-label="Money request preview"
-                            >
-                                <div
-                                    class="request-preview-glow"
-                                    aria-hidden="true"
-                                ></div>
+                            <aside class="request-preview-card" aria-label="Money request preview">
+                                <div class="request-preview-glow" aria-hidden="true"></div>
 
                                 <header class="request-preview-header">
                                     <span class="request-preview-eyebrow">
@@ -1116,11 +1004,7 @@
                                 </header>
 
                                 <div class="request-preview-person">
-                                    <span
-                                        class="request-preview-avatar"
-                                        data-request-preview-avatar
-                                        aria-hidden="true"
-                                    >
+                                    <span class="request-preview-avatar" data-request-preview-avatar aria-hidden="true">
                                         MP
                                     </span>
 
@@ -1163,11 +1047,8 @@
 
                                     <div>
                                         <dt>Status</dt>
-                                        <dd
-                                            class="request-preview-status is-pending"
-                                            data-request-preview-status
-                                            aria-live="polite"
-                                        >
+                                        <dd class="request-preview-status is-pending" data-request-preview-status
+                                            aria-live="polite">
                                             Pending
                                         </dd>
                                     </div>
@@ -1180,23 +1061,11 @@
                             </aside>
                         </div>
 
-                        <section
-                            class="request-success"
-                            data-request-success
-                            hidden
-                        >
-                            <div
-                                class="request-success-icon"
-                                aria-hidden="true"
-                            >
+                        <section class="request-success" data-request-success hidden>
+                            <div class="request-success-icon" aria-hidden="true">
                                 <svg viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M4 12 20 4l-6 16-3-7-7-1Z"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
+                                    <path d="M4 12 20 4l-6 16-3-7-7-1Z" stroke="currentColor" stroke-width="1.8"
+                                        stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
 
@@ -1226,18 +1095,10 @@
                                 <span>Payment link</span>
 
                                 <div>
-                                    <input
-                                        type="text"
-                                        data-request-payment-link
-                                        readonly
-                                        aria-label="Payment link"
-                                        value="aswallet.eu/pay/ASW-DEMO"
-                                    >
+                                    <input type="text" data-request-payment-link readonly aria-label="Payment link"
+                                        value="aswallet.eu/pay/ASW-DEMO">
 
-                                    <button
-                                        type="button"
-                                        data-request-copy
-                                    >
+                                    <button type="button" data-request-copy>
                                         Copy
                                     </button>
                                 </div>
@@ -1248,30 +1109,18 @@
                             </p>
 
                             <div class="request-success-actions">
-                                <button
-                                    class="request-money-submit"
-                                    type="button"
-                                    data-request-new
-                                >
+                                <button class="request-money-submit" type="button" data-request-new>
                                     New request
                                 </button>
 
-                                <button
-                                    class="transfer-back"
-                                    type="button"
-                                    data-request-dashboard
-                                >
+                                <button class="transfer-back" type="button" data-request-dashboard>
                                     Back to Dashboard
                                 </button>
                             </div>
                         </section>
                     </section>
 
-                    <section
-                        class="demo-view money-flow-view"
-                        data-demo-view="deposit"
-                        hidden
-                    >
+                    <section class="demo-view money-flow-view" data-demo-view="deposit" hidden>
                         <header class="money-flow-header">
                             <div>
                                 <span class="money-flow-eyebrow">
@@ -1292,37 +1141,16 @@
                             </span>
                         </header>
 
-                        <div
-                            class="money-mode-switch"
-                            role="group"
-                            aria-label="Select transaction type"
-                        >
-                            <button
-                                class="money-mode-button is-active"
-                                type="button"
-                                data-money-mode="deposit"
-                                aria-pressed="true"
-                            >
+                        <div class="money-mode-switch" role="group" aria-label="Select transaction type">
+                            <button class="money-mode-button is-active" type="button" data-money-mode="deposit"
+                                aria-pressed="true">
                                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M12 4v12"
-                                        stroke="currentColor"
-                                        stroke-width="1.7"
-                                        stroke-linecap="round"
-                                    />
-                                    <path
-                                        d="m7 11 5 5 5-5"
-                                        stroke="currentColor"
-                                        stroke-width="1.7"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                    <path
-                                        d="M5 20h14"
-                                        stroke="currentColor"
-                                        stroke-width="1.7"
-                                        stroke-linecap="round"
-                                    />
+                                    <path d="M12 4v12" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path d="m7 11 5 5 5-5" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M5 20h14" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
                                 </svg>
 
                                 <span>
@@ -1331,32 +1159,14 @@
                                 </span>
                             </button>
 
-                            <button
-                                class="money-mode-button"
-                                type="button"
-                                data-money-mode="withdraw"
-                                aria-pressed="false"
-                            >
+                            <button class="money-mode-button" type="button" data-money-mode="withdraw"
+                                aria-pressed="false">
                                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M12 20V8"
-                                        stroke="currentColor"
-                                        stroke-width="1.7"
-                                        stroke-linecap="round"
-                                    />
-                                    <path
-                                        d="m7 13 5-5 5 5"
-                                        stroke="currentColor"
-                                        stroke-width="1.7"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                    <path
-                                        d="M5 4h14"
-                                        stroke="currentColor"
-                                        stroke-width="1.7"
-                                        stroke-linecap="round"
-                                    />
+                                    <path d="M12 20V8" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path d="m7 13 5-5 5 5" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M5 4h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
                                 </svg>
 
                                 <span>
@@ -1367,28 +1177,19 @@
                         </div>
 
                         <div class="money-flow-grid" data-money-flow>
-                            <section
-                                class="money-flow-card"
-                                aria-label="Deposit or withdraw funds"
-                            >
+                            <section class="money-flow-card" aria-label="Deposit or withdraw funds">
                                 <header class="money-flow-card-header">
                                     <div>
                                         <span class="money-flow-card-eyebrow">
                                             Transaction details
                                         </span>
 
-                                        <h2
-                                            class="money-flow-card-title"
-                                            data-money-title
-                                        >
+                                        <h2 class="money-flow-card-title" data-money-title>
                                             Deposit funds
                                         </h2>
                                     </div>
 
-                                    <span
-                                        class="money-flow-type-badge"
-                                        data-money-type-badge
-                                    >
+                                    <span class="money-flow-type-badge" data-money-type-badge>
                                         Money in
                                     </span>
                                 </header>
@@ -1400,24 +1201,13 @@
                                         </span>
 
                                         <span class="money-amount-display">
-                                            <span
-                                                class="money-amount-currency"
-                                                aria-hidden="true"
-                                            >
+                                            <span class="money-amount-currency" aria-hidden="true">
                                                 €
                                             </span>
 
-                                            <input
-                                                class="money-amount-input"
-                                                type="text"
-                                                name="amount"
-                                                value="0.00"
-                                                inputmode="decimal"
-                                                autocomplete="off"
-                                                spellcheck="false"
-                                                data-money-amount
-                                                aria-label="Transaction amount"
-                                            >
+                                            <input class="money-amount-input" type="text" name="amount" value="0.00"
+                                                inputmode="decimal" autocomplete="off" spellcheck="false"
+                                                data-money-amount aria-label="Transaction amount">
                                         </span>
                                     </label>
 
@@ -1428,36 +1218,20 @@
                                         </strong>
                                     </p>
 
-                                    <div
-                                        class="money-amount-chips"
-                                        role="group"
-                                        aria-label="Quick amounts"
-                                    >
-                                        <button
-                                            type="button"
-                                            data-money-chip="50"
-                                        >
+                                    <div class="money-amount-chips" role="group" aria-label="Quick amounts">
+                                        <button type="button" data-money-chip="50">
                                             €50
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            data-money-chip="100"
-                                        >
+                                        <button type="button" data-money-chip="100">
                                             €100
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            data-money-chip="250"
-                                        >
+                                        <button type="button" data-money-chip="250">
                                             €250
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            data-money-chip="500"
-                                        >
+                                        <button type="button" data-money-chip="500">
                                             €500
                                         </button>
                                     </div>
@@ -1467,12 +1241,9 @@
                                             Deposit from
                                         </span>
 
-                                        <select
-                                            class="demo-input money-method-select"
-                                            name="method"
-                                            data-money-method
+                                        <select class="demo-input money-method-select" name="method" data-money-method
                                             required>
-                                        
+
                                             <option value="visa">
                                                 Visa •••• 4582
                                             </option>
@@ -1490,41 +1261,26 @@
                                     <label class="demo-field">
                                         <span>Reference</span>
 
-                                        <input
-                                            class="demo-input"
-                                            type="text"
-                                            name="reference"
-                                            placeholder="Optional note"
-                                            data-money-reference>
-                                        
+                                        <input class="demo-input" type="text" name="reference"
+                                            placeholder="Optional note" data-money-reference>
+
                                     </label>
 
-                                    <p
-                                        class="money-flow-error"
-                                        data-money-error
-                                        role="alert"
-                                        hidden>
+                                    <p class="money-flow-error" data-money-error role="alert" hidden>
                                     </p>
 
-                                    <button
-                                        class="money-flow-submit"
-                                        type="submit"
-                                        data-money-submit>
-                                    
+                                    <button class="money-flow-submit" type="submit" data-money-submit>
+
                                         Confirm Deposit
                                     </button>
                                 </form>
                             </section>
 
-                            <aside
-                                class="money-preview-card"
-                                aria-label="Transaction preview">
-                            
-                                <div
-                                    class="money-preview-glow"
-                                    aria-hidden="true">
+                            <aside class="money-preview-card" aria-label="Transaction preview">
+
+                                <div class="money-preview-glow" aria-hidden="true">
                                 </div>
-                                
+
 
                                 <header class="money-preview-header">
                                     <span class="money-preview-eyebrow">
@@ -1537,25 +1293,19 @@
                                 </header>
 
                                 <div class="money-preview-direction">
-                                    <span
-                                        class="money-preview-wallet"
-                                        aria-hidden="true">
-                                    
+                                    <span class="money-preview-wallet" aria-hidden="true">
+
                                         AS
                                     </span>
 
-                                    <span
-                                        class="money-preview-line"
-                                        aria-hidden="true">
-                                    
+                                    <span class="money-preview-line" aria-hidden="true">
+
                                         <i></i>
                                     </span>
 
-                                    <span
-                                        class="money-preview-method"
-                                        data-money-preview-method-icon
+                                    <span class="money-preview-method" data-money-preview-method-icon
                                         aria-hidden="true">
-                                    
+
                                         VC
                                     </span>
                                 </div>
@@ -1570,10 +1320,8 @@
 
                                     <div>
                                         <dt>Amount</dt>
-                                        <dd
-                                            class="money-preview-amount"
-                                            data-money-preview-amount>
-                                        
+                                        <dd class="money-preview-amount" data-money-preview-amount>
+
                                             + €0.00
                                         </dd>
                                     </div>
@@ -1605,23 +1353,14 @@
                             </aside>
                         </div>
 
-                        <section
-                            class="money-flow-success"
-                            data-money-success
-                            hidden>
-                        
-                            <div
-                                class="money-success-icon"
-                                aria-hidden="true">
-                            
+                        <section class="money-flow-success" data-money-success hidden>
+
+                            <div class="money-success-icon" aria-hidden="true">
+
                                 <svg viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="m5 12.5 4.5 4.5L19 7.5"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"/>
-                                    
+                                    <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+
                                 </svg>
                             </div>
 
@@ -1651,19 +1390,13 @@
                             </p>
 
                             <div class="money-success-actions">
-                                <button
-                                    class="money-flow-submit"
-                                    type="button"
-                                    data-money-new>
-                                
+                                <button class="money-flow-submit" type="button" data-money-new>
+
                                     New transaction
                                 </button>
 
-                                <button
-                                    class="transfer-back"
-                                    type="button"
-                                    data-money-dashboard>
-                                
+                                <button class="transfer-back" type="button" data-money-dashboard>
+
                                     Back to Dashboard
                                 </button>
                             </div>
@@ -1811,9 +1544,9 @@
                                 <span class="transaction-empty-icon" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" fill="none">
                                         <path d="M5 7h14v12H5z" stroke="currentColor" stroke-width="1.6"
-                                            stroke-linejoin="round"/>
+                                            stroke-linejoin="round" />
                                         <path d="M8 4h8v3H8z" stroke="currentColor" stroke-width="1.6"
-                                            stroke-linejoin="round"/>
+                                            stroke-linejoin="round" />
                                     </svg>
                                 </span>
 
@@ -1852,7 +1585,8 @@
                                 <div class="transaction-drawer-layout">
                                     <div class="transaction-drawer-main">
                                         <div class="transaction-drawer-hero">
-                                            <span class="transaction-drawer-avatar" data-drawer-avatar aria-hidden="true">
+                                            <span class="transaction-drawer-avatar" data-drawer-avatar
+                                                aria-hidden="true">
                                                 MP
                                             </span>
 
@@ -1902,21 +1636,17 @@
                                             </div>
                                         </dl>
 
-                                        <button class="transaction-drawer-done" type="button" data-transaction-drawer-close>
+                                        <button class="transaction-drawer-done" type="button"
+                                            data-transaction-drawer-close>
                                             Done
                                         </button>
                                     </div>
 
-                                    <section
-                                        class="transaction-request-details"
-                                        data-detail-request-section
-                                        hidden>
-                                    
+                                    <section class="transaction-request-details" data-detail-request-section hidden>
+
                                         <div class="transaction-request-banner">
-                                            <span
-                                                class="transaction-request-banner-icon"
-                                                aria-hidden="true">
-                                            
+                                            <span class="transaction-request-banner-icon" aria-hidden="true">
+
                                                 ⏳
                                             </span>
 
@@ -1959,36 +1689,25 @@
                                             </label>
 
                                             <div class="transaction-request-link-control">
-                                                <input
-                                                    id="transaction-request-payment-link"
-                                                    type="text"
-                                                    data-detail-request-link
-                                                    readonly
-                                                    aria-label="Payment request link">
-                                                
+                                                <input id="transaction-request-payment-link" type="text"
+                                                    data-detail-request-link readonly aria-label="Payment request link">
 
-                                                <button
-                                                    class="transaction-request-copy"
-                                                    type="button"
+
+                                                <button class="transaction-request-copy" type="button"
                                                     data-detail-request-copy>
-                                                
+
                                                     Copy
                                                 </button>
                                             </div>
 
-                                            <span
-                                                class="transaction-request-copy-status"
-                                                data-detail-request-copy-status
-                                                aria-live="polite">
+                                            <span class="transaction-request-copy-status"
+                                                data-detail-request-copy-status aria-live="polite">
                                             </span>
-                                            
+
                                         </div>
 
-                                        <button
-                                            class="transaction-request-pay"
-                                            type="button"
-                                            data-detail-request-pay>
-                                        
+                                        <button class="transaction-request-pay" type="button" data-detail-request-pay>
+
                                             Simulate Payment
                                         </button>
 
@@ -2005,11 +1724,8 @@
                         </div>
                     </section>
 
-                    <section
-                        class="demo-view reports-view"
-                        data-demo-view="reports"
-                        hidden>
-                    
+                    <section class="demo-view reports-view" data-demo-view="reports" hidden>
+
                         <header class="demo-view-header reports-header">
                             <div>
                                 <p class="demo-view-eyebrow">
@@ -2025,36 +1741,24 @@
                                 </p>
                             </div>
 
-                            <div
-                                class="reports-period-selector"
-                                role="group"
-                                aria-label="Report period"
+                            <div class="reports-period-selector" role="group" aria-label="Report period"
                                 data-reports-period-selector>
-                            
-                                <button
-                                    class="reports-period-button"
-                                    type="button"
-                                    data-report-period="7d"
+
+                                <button class="reports-period-button" type="button" data-report-period="7d"
                                     aria-pressed="false">
-                                
+
                                     7 days
                                 </button>
 
-                                <button
-                                    class="reports-period-button is-active"
-                                    type="button"
-                                    data-report-period="30d"
+                                <button class="reports-period-button is-active" type="button" data-report-period="30d"
                                     aria-pressed="true">
-                                
+
                                     30 days
                                 </button>
 
-                                <button
-                                    class="reports-period-button"
-                                    type="button"
-                                    data-report-period="all"
+                                <button class="reports-period-button" type="button" data-report-period="all"
                                     aria-pressed="false">
-                                
+
                                     All time
                                 </button>
                             </div>
@@ -2073,11 +1777,8 @@
                                     </span>
                                 </div>
 
-                                <strong
-                                    class="reports-summary-value"
-                                    data-report-income
-                                    aria-live="polite">
-                                
+                                <strong class="reports-summary-value" data-report-income aria-live="polite">
+
                                     €0.00
                                 </strong>
 
@@ -2097,11 +1798,8 @@
                                     </span>
                                 </div>
 
-                                <strong
-                                    class="reports-summary-value"
-                                    data-report-expenses
-                                    aria-live="polite">
-                                
+                                <strong class="reports-summary-value" data-report-expenses aria-live="polite">
+
                                     €0.00
                                 </strong>
 
@@ -2121,18 +1819,13 @@
                                     </span>
                                 </div>
 
-                                <strong
-                                    class="reports-summary-value"
-                                    data-report-net-flow
-                                    aria-live="polite">
-                                
+                                <strong class="reports-summary-value" data-report-net-flow aria-live="polite">
+
                                     €0.00
                                 </strong>
 
-                                <span
-                                    class="reports-summary-meta"
-                                    data-report-net-label>
-                                
+                                <span class="reports-summary-meta" data-report-net-label>
+
                                     Income minus expenses
                                 </span>
                             </article>
@@ -2148,10 +1841,7 @@
                                     </span>
                                 </div>
 
-                                <strong
-                                    class="reports-summary-value"
-                                    data-report-transaction-count
-                                    aria-live="polite">
+                                <strong class="reports-summary-value" data-report-transaction-count aria-live="polite">
                                     0
                                 </strong>
 
@@ -2176,13 +1866,10 @@
                                         </h2>
                                     </div>
 
-                                    <div
-                                        class="reports-chart-legend"
-                                        aria-label="Chart legend">
-                                    
+                                    <div class="reports-chart-legend" aria-label="Chart legend">
+
                                         <span class="reports-legend-item">
-                                            <span
-                                                class="reports-legend-dot reports-legend-dot--income"
+                                            <span class="reports-legend-dot reports-legend-dot--income"
                                                 aria-hidden="true">
                                             </span>
 
@@ -2190,8 +1877,7 @@
                                         </span>
 
                                         <span class="reports-legend-item">
-                                            <span
-                                                class="reports-legend-dot reports-legend-dot--expense"
+                                            <span class="reports-legend-dot reports-legend-dot--expense"
                                                 aria-hidden="true">
                                             </span>
 
@@ -2200,35 +1886,25 @@
                                     </div>
                                 </header>
 
-                                <div
-                                    class="reports-chart"
-                                    role="img"
-                                    aria-label="Income and expenses cash flow chart"
+                                <div class="reports-chart" role="img" aria-label="Income and expenses cash flow chart"
                                     data-report-chart>
-                                
-                                    <div
-                                        class="reports-chart-grid"
-                                        aria-hidden="true">
-                                    
+
+                                    <div class="reports-chart-grid" aria-hidden="true">
+
                                         <span></span>
                                         <span></span>
                                         <span></span>
                                         <span></span>
                                     </div>
 
-                                    <div
-                                        class="reports-chart-bars"
-                                        data-report-chart-bars>
+                                    <div class="reports-chart-bars" data-report-chart-bars>
                                     </div>
-                                    
+
                                 </div>
 
-                                <div
-                                    class="reports-chart-labels"
-                                    data-report-chart-labels
-                                    aria-hidden="true">
+                                <div class="reports-chart-labels" data-report-chart-labels aria-hidden="true">
                                 </div>
-                                
+
                             </article>
 
                             <article class="reports-panel reports-spending">
@@ -2245,28 +1921,20 @@
                                 </header>
 
                                 <div class="reports-spending-overview">
-                                    <div
-                                        class="reports-donut"
-                                        data-report-donut
-                                        aria-label="Spending distribution"
+                                    <div class="reports-donut" data-report-donut aria-label="Spending distribution"
                                         role="img">
-                                    
+
                                         <div class="reports-donut-center">
                                             <span>Total spent</span>
 
-                                            <strong
-                                                data-report-donut-total
-                                                aria-live="polite">
+                                            <strong data-report-donut-total aria-live="polite">
                                                 €0.00
                                             </strong>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div
-                                    class="reports-category-list"
-                                    data-report-category-list
-                                >
+                                <div class="reports-category-list" data-report-category-list>
                                     <div class="reports-empty-state">
                                         <span aria-hidden="true">◎</span>
 
@@ -2291,28 +1959,19 @@
                                     ASWallet insight
                                 </p>
 
-                                <strong
-                                    data-report-insight-title
-                                    aria-live="polite">
+                                <strong data-report-insight-title aria-live="polite">
                                     Your financial summary is ready
                                 </strong>
 
-                                <p
-                                    data-report-insight-text
-                                    aria-live="polite">
+                                <p data-report-insight-text aria-live="polite">
                                     Complete wallet activities to generate a personalized insight.
                                 </p>
                             </div>
                         </article>
                     </section>
 
-                    <section
-                        class="demo-view settings-view"
-                        id="demo-settings"
-                        data-demo-view="settings"
-                        data-demo-page="settings"
-                        hidden
-                    >
+                    <section class="demo-view settings-view" id="demo-settings" data-demo-view="settings"
+                        data-demo-page="settings" hidden>
                         <div class="demo-page-header">
                             <div>
                                 <p class="demo-page-eyebrow">
@@ -2327,13 +1986,9 @@
                                     Customize your ASWallet demo experience.
                                 </p>
 
-                                <p
-                                    class="settings-save-status"
-                                    role="status"
-                                    aria-live="polite"
-                                    data-settings-status
+                                <p class="settings-save-status" role="status" aria-live="polite" data-settings-status
                                     hidden>
-                                
+
                                     Settings saved
                                 </p>
                             </div>
@@ -2353,10 +2008,7 @@
                                         </h2>
                                     </div>
 
-                                    <span
-                                        class="settings-card-icon"
-                                        aria-hidden="true"
-                                    >
+                                    <span class="settings-card-icon" aria-hidden="true">
                                         €
                                     </span>
                                 </div>
@@ -2375,15 +2027,9 @@
                                             </span>
                                         </span>
 
-                                        <input
-                                            type="checkbox"
-                                            data-setting="hideBalance"
-                                        >
+                                        <input type="checkbox" data-setting="hideBalance">
 
-                                        <span
-                                            class="settings-switch"
-                                            aria-hidden="true"
-                                        ></span>
+                                        <span class="settings-switch" aria-hidden="true"></span>
                                     </label>
 
                                     <div class="settings-option settings-option-static">
@@ -2398,11 +2044,8 @@
                                             </span>
                                         </span>
 
-                                        <select
-                                            class="settings-select"
-                                            data-setting="currency"
-                                            aria-label="Demo currency"
-                                        >
+                                        <select class="settings-select" data-setting="currency"
+                                            aria-label="Demo currency">
                                             <option value="EUR">
                                                 EUR €
                                             </option>
@@ -2432,10 +2075,7 @@
                                         </h2>
                                     </div>
 
-                                    <span
-                                        class="settings-card-icon"
-                                        aria-hidden="true"
-                                    >
+                                    <span class="settings-card-icon" aria-hidden="true">
                                         ◈
                                     </span>
                                 </div>
@@ -2454,15 +2094,9 @@
                                             </span>
                                         </span>
 
-                                        <input
-                                            type="checkbox"
-                                            data-setting="compactDashboard"
-                                        >
+                                        <input type="checkbox" data-setting="compactDashboard">
 
-                                        <span
-                                            class="settings-switch"
-                                            aria-hidden="true"
-                                        ></span>
+                                        <span class="settings-switch" aria-hidden="true"></span>
                                     </label>
 
                                     <label class="settings-option">
@@ -2477,16 +2111,9 @@
                                             </span>
                                         </span>
 
-                                        <input
-                                            type="checkbox"
-                                            data-setting="showNotifications"
-                                            checked
-                                        >
+                                        <input type="checkbox" data-setting="showNotifications" checked>
 
-                                        <span
-                                            class="settings-switch"
-                                            aria-hidden="true"
-                                        ></span>
+                                        <span class="settings-switch" aria-hidden="true"></span>
                                     </label>
 
                                 </div>
@@ -2504,10 +2131,7 @@
                                         </h2>
                                     </div>
 
-                                    <span
-                                        class="settings-card-icon"
-                                        aria-hidden="true"
-                                    >
+                                    <span class="settings-card-icon" aria-hidden="true">
                                         ↻
                                     </span>
                                 </div>
@@ -2518,11 +2142,7 @@
                                         transactions and preferences.
                                     </p>
 
-                                    <button
-                                        class="demo-button demo-button--danger"
-                                        type="button"
-                                        data-reset-demo
-                                    >
+                                    <button class="demo-button demo-button--danger" type="button" data-reset-demo>
                                         Reset Demo Data
                                     </button>
                                 </div>
@@ -2588,46 +2208,29 @@
 
     <script type="module" src="../js/demo/demo.js"></script>
 
-    <div
-        class="payment-simulator"
-        data-payment-simulator
-        hidden>
-    
-        <div
-            class="payment-simulator-backdrop"
-            data-payment-simulator-close>
-        </div>
-        
+    <div class="payment-simulator" data-payment-simulator hidden>
 
-        <section
-            class="payment-simulator-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="payment-simulator-title"
-            tabindex="-1"
-            data-payment-simulator-dialog>
-        
-            <button
-                class="payment-simulator-close"
-                type="button"
-                aria-label="Close payment simulator"
+        <div class="payment-simulator-backdrop" data-payment-simulator-close>
+        </div>
+
+
+        <section class="payment-simulator-dialog" role="dialog" aria-modal="true"
+            aria-labelledby="payment-simulator-title" tabindex="-1" data-payment-simulator-dialog>
+
+            <button class="payment-simulator-close" type="button" aria-label="Close payment simulator"
                 data-payment-simulator-close>
-            
+
                 x
             </button>
 
-            <div
-                class="payment-simulator-content"
-                data-payment-simulator-content>
-            
+            <div class="payment-simulator-content" data-payment-simulator-content>
+
                 <span class="payment-simulator-eyebrow">
                     Interactive demo
                 </span>
 
-                <div
-                    class="payment-simulator-icon"
-                    aria-hidden="true">
-                
+                <div class="payment-simulator-icon" aria-hidden="true">
+
                     €
                 </div>
 
@@ -2667,33 +2270,22 @@
                 </div>
 
                 <div class="payment-simulator-actions">
-                    <button
-                        class="payment-simulator-cancel"
-                        type="button"
-                        data-payment-simulator-close>
-                    
+                    <button class="payment-simulator-cancel" type="button" data-payment-simulator-close>
+
                         Cancel
                     </button>
 
-                    <button
-                        class="payment-simulator-confirm"
-                        type="button"
-                        data-payment-simulator-confirm>
-                    
+                    <button class="payment-simulator-confirm" type="button" data-payment-simulator-confirm>
+
                         Complete Demo Payment
                     </button>
                 </div>
             </div>
 
-            <div
-                class="payment-simulator-success"
-                data-payment-simulator-success
-                hidden>
-            
-                <div
-                    class="payment-simulator-success-icon"
-                    aria-hidden="true">
-                
+            <div class="payment-simulator-success" data-payment-simulator-success hidden>
+
+                <div class="payment-simulator-success-icon" aria-hidden="true">
+
                     ✓
                 </div>
 
@@ -2710,18 +2302,13 @@
                     balance has been updated.
                 </p>
 
-                <strong
-                    class="payment-simulator-success-amount"
-                    data-payment-simulator-success-amount>
-                
+                <strong class="payment-simulator-success-amount" data-payment-simulator-success-amount>
+
                     + €0.00
                 </strong>
 
-                <button
-                    class="payment-simulator-done"
-                    type="button"
-                    data-payment-simulator-done>
-                
+                <button class="payment-simulator-done" type="button" data-payment-simulator-done>
+
                     Back to Transactions
                 </button>
             </div>

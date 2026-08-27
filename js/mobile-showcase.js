@@ -76,10 +76,10 @@ export function initMobileShowcaseAnimation() {
 
     mobileShowcaseObserver.observe(mobileShowcase);
 
-    document.addEventListener("visibilitychange", () => {
+    // document.addEventListener("visibilitychange", () => {
 
-        if (document.hidden) {
-            mobileShowcase.classList.remove("is-mobile-active");
-        }
-    });
+    //     if (document.hidden) {
+    //         mobileShowcase.classList.remove("is-mobile-active");
+    //     }
+    // });
 }

@@ -18,7 +18,7 @@ export function initFeatures() {
 
         (entries, currentObserver) => {
             entries.forEach((entry) => {
-                
+
                 if (!entry.isIntersecting) {
                     return;
                 }
