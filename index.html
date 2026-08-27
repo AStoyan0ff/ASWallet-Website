@@ -44,6 +44,13 @@
 
 <body>
 
+    <a
+        class="skip-link"
+        href="#main-content"
+    >
+        Skip to main content
+    </a>
+
     <!-- Header -->
     <header class="site-header">
         <div class="container header-container">
@@ -152,7 +159,10 @@
         </nav>
     </header>
 
-    <main>
+    <main
+        id="main-content"
+        tabindex="-1"
+    >
 
         <!-- Hero -->
         <section class="hero" id="home" aria-labelledby="home-title">
@@ -814,7 +824,11 @@
 
                         <button
                             class="button button-primary mobile-showcase-button mobile-showcase-button--flutter mobile-showcase-tech-button"
-                            type="button" disabled title="ASWallet Mobile repository coming soon">
+                            type="button"
+                            disabled
+                            title="ASWallet Mobile repository coming soon"
+                            aria-label="Built with Flutter and Dart. Repository coming soon."
+                        >
                             Built with Flutter and Dart
                         </button>
 
@@ -823,7 +837,11 @@
                 </div>
 
 
-                <div class="mobile-preview" aria-label="ASWallet mobile application preview" inert>
+                <div
+                    class="mobile-preview"
+                    aria-hidden="true"
+                    inert
+                >
                     <div class="mobile-preview-orbit mobile-preview-orbit--one" aria-hidden="true">
                     </div>
 

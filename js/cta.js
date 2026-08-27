@@ -1,4 +1,5 @@
 export function initCta() {
+    
     const section = document.querySelector("[data-cta]");
     const glow = document.querySelector("[data-cta-glow]");
 

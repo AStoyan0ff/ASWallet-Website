@@ -1,4 +1,5 @@
 export function initFeatures() {
+
     const revealItems = document.querySelectorAll("#features .reveal");
 
     if (!revealItems.length) {
@@ -8,13 +9,16 @@ export function initFeatures() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (reduceMotion || !("IntersectionObserver" in window)) {
+
         revealItems.forEach((item) => item.classList.add("is-visible"));
         return;
     }
 
     const observer = new IntersectionObserver(
+
         (entries, currentObserver) => {
             entries.forEach((entry) => {
+                
                 if (!entry.isIntersecting) {
                     return;
                 }

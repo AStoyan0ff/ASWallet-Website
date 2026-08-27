@@ -17,3 +17,71 @@ body {
     width: min(100% - 2 * var(--container-padding), var(--container-width));
     margin-inline: auto;
 }
+
+:where(
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    [tabindex]
+):focus-visible
+{
+    outline: 3px solid var(--color-gold-light);
+    outline-offset: 4px;
+}
+
+.skip-link
+{
+    position: fixed;
+    z-index: 3000;
+    top: 12px;
+    left: 12px;
+
+    padding: 12px 18px;
+
+    border: 1px solid var(--color-gold-light);
+    border-radius: var(--border-radius-small);
+
+    color: #111111;
+    background: var(--color-gold-light);
+
+    font-size: 0.9rem;
+    font-weight: 800;
+
+    box-shadow:
+        0 14px 36px rgba(0, 0, 0, 0.45);
+
+    transform: translateY(-160%);
+
+    transition: transform var(--transition-fast);
+}
+
+.skip-link:focus
+{
+    transform: translateY(0);
+}
+
+#main-content:focus
+{
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce)
+{
+    html
+    {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after
+    {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+    }
+}

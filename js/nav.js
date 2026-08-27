@@ -3,60 +3,158 @@ export function initNavigation() {
 }
 
 function initMobileMenu() {
-    const menuButton = document.querySelector(".mobile-menu-button");
-    const mobileNavigation = document.getElementById("mobile-navigation");
+    const menuButton = document.querySelector(
+        ".mobile-menu-button"
+    );
+
+    const mobileNavigation = document.getElementById(
+        "mobile-navigation"
+    );
 
     if (!menuButton || !mobileNavigation) {
         return;
     }
 
-    const mobileLinks = mobileNavigation.querySelectorAll("a");
-    const setMenuState = (isOpen) => {
+    const mobileLinks = Array.from(
+        mobileNavigation.querySelectorAll("a")
+    );
 
-        menuButton.setAttribute("aria-expanded", String(isOpen));
-        menuButton.setAttribute("aria-label", isOpen
-            ? "Close navigation menu"
-            : "Open navigation menu"
+    function isMenuOpen() {
+        return menuButton.getAttribute(
+            "aria-expanded"
+        ) === "true";
+    }
+
+    function setMenuState(
+        isOpen,
+        restoreButtonFocus = false
+    ) {
+        menuButton.setAttribute(
+            "aria-expanded",
+            String(isOpen)
         );
 
-        mobileNavigation.classList.toggle("is-open", isOpen);
+        menuButton.setAttribute(
+            "aria-label",
+            isOpen
+                ? "Close navigation menu"
+                : "Open navigation menu"
+        );
+
+        mobileNavigation.classList.toggle(
+            "is-open",
+            isOpen
+        );
+
         mobileNavigation.hidden = !isOpen;
-        document.body.classList.toggle("nav-open", isOpen);
-    };
 
-    const closeMenu = () => setMenuState(false);
+        document.body.classList.toggle(
+            "nav-open",
+            isOpen
+        );
 
-    const toggleMenu = () => {
-        const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+        if (isOpen) {
+            window.requestAnimationFrame(() => {
+                mobileLinks[0]?.focus();
+            });
 
-        setMenuState(!isOpen);
-    };
+            return;
+        }
 
-    menuButton.addEventListener("click", toggleMenu);
+        if (restoreButtonFocus) {
+            menuButton.focus();
+        }
+    }
+
+    function closeMenu(restoreButtonFocus = false) {
+        setMenuState(
+            false,
+            restoreButtonFocus
+        );
+    }
+
+    function toggleMenu() {
+        setMenuState(
+            !isMenuOpen()
+        );
+    }
+
+    menuButton.addEventListener(
+        "click",
+        toggleMenu
+    );
 
     mobileLinks.forEach((link) => {
-        link.addEventListener("click", closeMenu);
+        link.addEventListener("click", () => {
+            closeMenu(false);
+        });
     });
 
     document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            closeMenu();
+        if (
+            event.key === "Escape" &&
+            isMenuOpen()
+        ) {
+            event.preventDefault();
+
+            closeMenu(true);
+
+            return;
+        }
+
+        if (
+            event.key !== "Tab" ||
+            !isMenuOpen()
+        ) {
+            return;
+        }
+
+        const focusableElements = [
+            menuButton,
+            ...mobileLinks
+        ];
+
+        const firstElement =
+            focusableElements[0];
+
+        const lastElement =
+            focusableElements[
+            focusableElements.length - 1
+            ];
+
+        if (
+            event.shiftKey &&
+            document.activeElement === firstElement
+        ) {
+            event.preventDefault();
+            lastElement.focus();
+
+            return;
+        }
+
+        if (
+            !event.shiftKey &&
+            document.activeElement === lastElement
+        ) {
+            event.preventDefault();
+            firstElement.focus();
         }
     });
 
     window.addEventListener("resize", () => {
         if (window.matchMedia("(min-width: 1121px)").matches) {
-            closeMenu();
+            closeMenu(false);
         }
     });
 
-    closeMenu();
+    closeMenu(false);
 }
 
 export function initActiveNavigation() {
 
     const navigationLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
     const navigationItems = navigationLinks
+    
         .map((link) => {
             const sectionId = link.getAttribute("href");
 
