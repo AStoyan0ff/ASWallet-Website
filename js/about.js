@@ -1,5 +1,5 @@
 export function initAbout() {
-    
+
     const panel = document.querySelector("[data-about-panel]");
     const universe = document.querySelector("[data-about-universe]");
     const words = [...document.querySelectorAll("[data-about-word]")];
@@ -9,12 +9,11 @@ export function initAbout() {
     }
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     const wordState = words.map((el, index) => ({
-        el,
-        baseAngle: ((Math.PI * 2) / words.length) * index - Math.PI / 2,
 
-        x: 0,
+        el, 
+        baseAngle: ((Math.PI * 2) / words.length) * index - Math.PI / 2,
+        x: 0,  
         y: 0,
     }));
 
@@ -26,18 +25,26 @@ export function initAbout() {
 
     let rafId = 0;
     let primed = false;
+    let isSectionVisible = false;
+    let isPageVisible = !document.hidden;
 
     const startedAt = performance.now();
     const getRadius = () => Math.max(universe.clientWidth * 0.36, 96);
 
     const render = (time) => {
 
+        rafId = 0;
+
+        if (!isSectionVisible || !isPageVisible) {
+            return;
+        }
+
         const rect = universe.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         const radius = getRadius();
-        const spin = reduceMotion 
-            ? 0 
+        const spin = reduceMotion
+            ? 0
             : (time - startedAt) * 0.00028;
 
         wordState.forEach((word) => {
@@ -71,15 +78,42 @@ export function initAbout() {
             }
 
             word.el.style.transform = `translate(-50%, -50%) translate3d(${word.x.toFixed(2)}px, ${word.y.toFixed(2)}px, 0)`;
-                
         });
 
         primed = true;
 
-        if (!reduceMotion) 
+        if (!reduceMotion && isSectionVisible && isPageVisible) {
             rafId = window.requestAnimationFrame(render);
-        
+        }
     };
+
+    function startRendering() {
+
+        if (rafId || !isSectionVisible || !isPageVisible) {
+            return;
+        }
+
+        if (reduceMotion) {
+            render(performance.now());
+
+            return;
+        }
+
+        rafId = window.requestAnimationFrame( render);
+    }
+
+    function stopRendering() {
+
+        if (!rafId) {
+            return;
+        }
+
+        window.cancelAnimationFrame(
+            rafId
+        );
+
+        rafId = 0;
+    }
 
     const setGlare = (clientX, clientY) => {
         const rect = panel.getBoundingClientRect();
@@ -122,10 +156,41 @@ export function initAbout() {
         panel.style.setProperty("--about-my", "40%");
     });
 
-    if (reduceMotion) {
-        render(performance.now());
-        
+    if ("IntersectionObserver" in window) {
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+
+                isSectionVisible = entry.isIntersecting;
+
+                if (isSectionVisible) {
+                    startRendering();
+
+                } else {
+                    stopRendering();
+                }
+            });
+        },
+            {
+                threshold: 0.05,
+                rootMargin: "160px 0px 160px 0px"
+            }
+        );
+
+        aboutObserver.observe(panel);
+
     } else {
-        rafId = window.requestAnimationFrame(render);
+        isSectionVisible = true;
+        startRendering();
     }
+
+    document.addEventListener("visibilitychange", () => {
+        isPageVisible = !document.hidden;
+
+        if (isPageVisible) {
+            startRendering();
+
+        } else {
+            stopRendering();
+        }
+    });
 }

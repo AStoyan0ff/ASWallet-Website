@@ -162,8 +162,8 @@
         mobile-badge-pulse 2.4s ease-in-out infinite;
 }
 
-.mobile-showcase:not(.is-mobile-visible) .mobile-showcase-badge-dot {
-    animation: none;
+.mobile-showcase:not(.is-mobile-active) .mobile-showcase-badge-dot {
+    animation-play-state: paused;
 }
 
 .mobile-feature-list {
@@ -1139,11 +1139,11 @@
     opacity: 0.6;
 }
 
-.mobile-showcase.is-mobile-visible .mobile-preview-orbit--one {
+.mobile-showcase.is-mobile-active .mobile-preview-orbit--one {
     animation: mobile-orbit-rotate 22s linear infinite;
 }
 
-.mobile-showcase.is-mobile-visible .mobile-preview-orbit--two {
+.mobile-showcase.is-mobile-active .mobile-preview-orbit--two {
     animation: mobile-orbit-rotate-reverse 30s linear infinite;
 }
 
@@ -1186,7 +1186,7 @@
     animation: none;
 }
 
-.mobile-showcase.is-mobile-visible .mobile-phone-screen::after {
+.mobile-showcase.is-mobile-active .mobile-phone-screen::after {
     animation: mobile-screen-shine 8s ease-in-out infinite 0.9s;
 }
 
@@ -1240,7 +1240,7 @@
     animation: none;
 }
 
-.mobile-showcase.is-mobile-visible .mobile-showcase-tech-button::after {
+.mobile-showcase.is-mobile-active .mobile-showcase-tech-button::after {
     animation: mobile-tech-button-shimmer 4.8s ease-in-out infinite 1.1s;
 }
 

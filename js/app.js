@@ -14,3 +14,18 @@ initAbout();
 initCta();
 initActiveNavigation();
 initMobileShowcaseAnimation();
+
+function updatePageVisibility() {
+
+    document.documentElement.classList.toggle(
+        "page-hidden",
+        document.hidden
+    );
+}
+
+document.addEventListener(
+    "visibilitychange",
+    updatePageVisibility
+);
+
+updatePageVisibility();

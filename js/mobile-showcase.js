@@ -6,47 +6,80 @@ export function initMobileShowcaseAnimation() {
     }
 
     const revealElements = [
-        mobileShowcase.querySelector(".mobile-showcase-eyebrow"),
-        mobileShowcase.querySelector(".mobile-showcase-title"),
-        mobileShowcase.querySelector(".mobile-showcase-description"),
-        mobileShowcase.querySelector(".mobile-showcase-badges"),
+        mobileShowcase.querySelector(
+            ".mobile-showcase-eyebrow"
+        ),
 
-        ...mobileShowcase.querySelectorAll(".mobile-feature-item"),
+        mobileShowcase.querySelector(
+            ".mobile-showcase-title"
+        ),
 
-        mobileShowcase.querySelector(".mobile-showcase-actions"),
-        mobileShowcase.querySelector(".mobile-preview")
+        mobileShowcase.querySelector(
+            ".mobile-showcase-description"
+        ),
 
+        mobileShowcase.querySelector(
+            ".mobile-showcase-badges"
+        ),
+
+        ...mobileShowcase.querySelectorAll(
+            ".mobile-feature-item"
+        ),
+
+        mobileShowcase.querySelector(
+            ".mobile-showcase-actions"
+        ),
+
+        mobileShowcase.querySelector(
+            ".mobile-preview"
+        )
     ].filter(Boolean);
 
     revealElements.forEach((element, index) => {
+
         element.classList.add("mobile-reveal");
-        element.style.setProperty("--mobile-reveal-delay", `${index * 90}ms`);
-    });
+        element.style.setProperty("--mobile-reveal-delay", `${index * 90}ms`); }
+    );
 
     mobileShowcase.classList.add("has-mobile-animation");
 
     if (!("IntersectionObserver" in window)) {
-        mobileShowcase.classList.add("is-mobile-visible");
+
+        mobileShowcase.classList.add(
+            "is-mobile-visible",
+            "is-mobile-active"
+        );
 
         return;
     }
 
-    const mobileShowcaseObserver = new IntersectionObserver((entries, observer) => {
+    const mobileShowcaseObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
 
-            if (!entry.isIntersecting) {
-                return;
+            mobileShowcase.classList.toggle(
+                "is-mobile-active",
+                entry.isIntersecting
+            );
+
+            if (entry.isIntersecting) {
+                mobileShowcase.classList.add(
+                    "is-mobile-visible"
+                );
             }
-
-            entry.target.classList.add("is-mobile-visible");
-            observer.unobserve(entry.target);
         });
-    }, {
-
-        threshold: 0.16,
-        rootMargin: "0px 0px -8% 0px" }
-        
+    },
+        {
+            threshold: 0.05,
+            rootMargin: "180px 0px 180px 0px"
+        }
     );
 
     mobileShowcaseObserver.observe(mobileShowcase);
+
+    document.addEventListener("visibilitychange", () => {
+
+        if (document.hidden) {
+            mobileShowcase.classList.remove("is-mobile-active");
+        }
+    });
 }
