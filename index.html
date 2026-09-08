@@ -23,14 +23,9 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-
     <meta property="og:site_name" content="ASWallet">
-
     <meta property="og:title" content="ASWallet | Modern Digital Wallet">
-
-    <meta property="og:description"
-        content="Secure payments, fast transfers and complete financial control in one modern digital wallet. Explore the ASWallet interactive demo.">
-
+    <meta property="og:description" content="Secure payments, fast transfers and complete financial control in one modern digital wallet. Explore the ASWallet interactive demo.">
     <meta property="og:url" content="https://aswallet.eu/">
     <meta property="og:image" content="https://aswallet.eu/assets/images/aswallet-website-preview.png">
     <meta property="og:image:secure_url" content="https://aswallet.eu/assets/images/aswallet-website-preview.png">
@@ -51,8 +46,8 @@
     <meta name="twitter:image:alt" content="ASWallet modern digital wallet website preview">
 
     <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
+    <script type="application/ld+json"> {
+    
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "ASWallet",
@@ -86,6 +81,7 @@
 
     <!-- Components -->
     <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/ai-assistant.css">
 
     <!-- Sections -->
     <link rel="stylesheet" href="css/sections/hero.css">
@@ -95,22 +91,20 @@
     <link rel="stylesheet" href="css/sections/about.css">
     <link rel="stylesheet" href="css/sections/mobile-showcase.css">
     <link rel="stylesheet" href="css/sections/cta.css">
-    
+
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
     <a class="skip-link" href="#main-content">
-
         Skip to main content
     </a>
-   
+
     <header class="site-header">
         <div class="container header-container">
 
             <a href="#home" class="brand" aria-label="ASWallet home">
-
                 <span class="brand-mark">AS</span>
                 <span class="brand-name">Wallet</span>
             </a>
@@ -214,7 +208,7 @@
     </header>
 
     <main id="main-content" tabindex="-1">
-        
+
         <section class="hero" id="home" aria-labelledby="home-title">
 
             <div class="container hero-container">
@@ -305,7 +299,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section class="features" id="features" aria-labelledby="features-title">
 
             <div class="container features-container">
@@ -361,7 +355,7 @@
 
             </div>
         </section>
-        
+
         <section class="security" id="security" aria-labelledby="security-title">
 
             <div class="container security-container">
@@ -423,7 +417,7 @@
 
             </div>
         </section>
-        
+
         <section class="roadmap" id="roadmap" aria-labelledby="roadmap-title">
 
             <div class="container roadmap-container">
@@ -692,7 +686,7 @@
 
             </div>
         </section>
-        
+
         <section class="about" id="about" aria-labelledby="about-title">
             <div class="container about-container">
 
@@ -740,7 +734,7 @@
 
             </div>
         </section>
-        
+
         <section class="mobile-showcase" id="mobile" aria-labelledby="mobile-showcase-title" data-mobile-showcase>
             <div class="mobile-showcase-background" aria-hidden="true">
                 <span class="mobile-showcase-glow mobile-showcase-glow--left"></span>
@@ -749,7 +743,7 @@
             </div>
 
             <div class="container mobile-showcase-container">
-               
+
                 <div class="mobile-showcase-content">
 
                     <div class="mobile-showcase-heading">
@@ -1182,7 +1176,7 @@
         </section>
 
     </main>
-    
+
     <footer class="site-footer">
         <div class="container footer-container">
 
@@ -1232,7 +1226,96 @@
         </div>
     </footer>
 
+    <aside class="ai-assistant" data-ai-assistant aria-label="ASWallet assistant">
+
+        <div class="ai-assistant-panel"
+             data-ai-panel
+             role="dialog"
+             aria-modal="false"
+             aria-hidden="true"
+             aria-labelledby="ai-assistant-title"
+             inert>
+
+            <header class="ai-assistant-header">
+
+                <img class="ai-assistant-header-avatar" src="assets/images/asky-assistant.png" alt="">
+
+                <div class="ai-assistant-title">
+                    <strong id="ai-assistant-title">
+                        ASky Assistant
+                    </strong>
+
+                    <span>
+                        ASWallet demo guide · Online
+                    </span>
+                </div>
+
+                <button class="ai-assistant-close" data-ai-close type="button" aria-label="Close assistant">
+                    ✕
+                </button>
+
+            </header>
+
+            <div class="ai-assistant-messages" data-ai-messages aria-live="polite">
+
+                <div class="ai-message bot">
+                    Hi! I'm ASky. I can help you explore ASWallet.
+                    What would you like to know?
+                </div>
+
+            </div>
+
+            <div class="ai-assistant-suggestions" aria-label="Suggested questions">
+
+                <button class="ai-suggestion" type="button" data-ai-question="What can I try in the demo?">
+                    Explore demo
+                </button>
+
+                <button class="ai-suggestion" type="button" data-ai-question="How secure is ASWallet?">
+                    Security
+                </button>
+
+                <button class="ai-suggestion" type="button" data-ai-question="What technology is ASWallet built with?">
+                    Technology
+                </button>
+
+            </div>
+
+            <form class="ai-assistant-form" data-ai-form>
+
+                <label class="visually-hidden" for="ai-assistant-input">
+                    Ask ASky a question
+                </label>
+
+                <input class="ai-assistant-input" id="ai-assistant-input" data-ai-input type="text"
+                    placeholder="Ask about ASWallet..." maxlength="180" autocomplete="off">
+
+                <button class="ai-assistant-send" type="submit" aria-label="Send question">
+                    ➜
+                </button>
+
+            </form>
+
+        </div>
+
+        <button class="ai-assistant-launcher" data-ai-launcher type="button" aria-label="Open ASky assistant"
+            aria-expanded="false">
+
+            <span class="ai-assistant-hint">
+                Have a question?
+            </span>
+
+            <img class="ai-assistant-avatar" src="assets/images/asky-assistant.png" alt="ASky, the ASWallet assistant">
+
+            <span class="ai-assistant-pulse" aria-hidden="true">
+            </span>
+
+        </button>
+
+    </aside>
+
     <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/ai-assistant.js"></script>
 
 </body>
 

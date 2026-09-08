@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="../css/demo/demo-modal.css">
     <link rel="stylesheet" href="../css/demo/demo-payment.css">
     <link rel="stylesheet" href="../css/demo/demo-responsive.css">
+    <link rel="stylesheet" href="../css/components/ai-assistant.css">
 </head>
 
 <body class="demo-page">
@@ -2206,8 +2207,6 @@
         </div>
     </div>
 
-    <script type="module" src="../js/demo/demo.js"></script>
-
     <div class="payment-simulator" data-payment-simulator hidden>
 
         <div class="payment-simulator-backdrop" data-payment-simulator-close>
@@ -2314,6 +2313,130 @@
             </div>
         </section>
     </div>
+
+    <aside class="ai-assistant"
+           data-ai-assistant
+           aria-label="ASWallet assistant">
+
+        <div class="ai-assistant-panel"
+             data-ai-panel
+             role="dialog"
+             aria-modal="false"
+             aria-hidden="true"
+             aria-labelledby="demo-ai-assistant-title"
+             inert>
+
+            <header class="ai-assistant-header">
+
+                <img class="ai-assistant-header-avatar"
+                     src="../assets/images/asky-assistant.png"
+                     alt="">
+
+                <div class="ai-assistant-title">
+
+                    <strong id="demo-ai-assistant-title">
+                        ASky Assistant
+                    </strong>
+
+                    <span>
+                        ASWallet demo guide · Online
+                    </span>
+
+                </div>
+
+                <button class="ai-assistant-close"
+                        data-ai-close
+                        type="button"
+                        aria-label="Close assistant">
+                    ✕
+                </button>
+
+            </header>
+
+            <div class="ai-assistant-messages"
+                 data-ai-messages
+                 aria-live="polite">
+
+                <div class="ai-message bot">
+                    Hi! I’m ASky. I can guide you through this demo.
+                    What would you like to try?
+                </div>
+
+            </div>
+
+            <div class="ai-assistant-suggestions"
+                 aria-label="Suggested questions">
+
+                <button class="ai-suggestion"
+                        type="button"
+                        data-ai-question="How do I make a transfer?">
+                    Transfer
+                </button>
+
+                <button class="ai-suggestion"
+                        type="button"
+                        data-ai-question="How do reports work?">
+                    Reports
+                </button>
+
+                <button class="ai-suggestion"
+                        type="button"
+                        data-ai-question="How secure is ASWallet?">
+                    Security
+                </button>
+
+            </div>
+
+            <form class="ai-assistant-form"
+                  data-ai-form>
+
+                <label class="visually-hidden"
+                       for="demo-ai-assistant-input">
+                    Ask ASky a question
+                </label>
+
+                <input class="ai-assistant-input"
+                       id="demo-ai-assistant-input"
+                       data-ai-input
+                       type="text"
+                       placeholder="Ask about ASWallet..."
+                       maxlength="180"
+                       autocomplete="off">
+
+                <button class="ai-assistant-send"
+                        type="submit"
+                        aria-label="Send question">
+                    ➜
+                </button>
+
+            </form>
+
+        </div>
+
+        <button class="ai-assistant-launcher"
+                data-ai-launcher
+                type="button"
+                aria-label="Open ASky assistant"
+                aria-expanded="false">
+
+            <span class="ai-assistant-hint">
+                Need help?
+            </span>
+
+            <img class="ai-assistant-avatar"
+                 src="../assets/images/asky-assistant.png"
+                 alt="ASky, the ASWallet assistant">
+
+            <span class="ai-assistant-pulse"
+                  aria-hidden="true">
+            </span>
+
+        </button>
+
+    </aside>
+
+    <script type="module" src="../js/demo/demo.js"></script>
+    <script type="module" src="../js/ai-assistant.js"></script>
 
 </body>
 
