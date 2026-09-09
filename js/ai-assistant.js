@@ -1,6 +1,19 @@
 const RESPONSES = [
     {
         keywords: [
+            "transaction",
+            "transactions",
+            "history",
+            "activity",
+            "транзакция",
+            "транзакции",
+            "история"
+        ],
+        answer: "Opening your transaction history.",
+        action: "transactions"
+    },
+    {
+        keywords: [
             "transfer",
             "send",
             "iban",
@@ -9,18 +22,20 @@ const RESPONSES = [
             "изпрати",
             "ибан"
         ],
-        answer: "Open the Transfer area in the interactive demo. Choose a saved recipient or create one, enter an amount, review the details and confirm. Everything is simulated — no real money is moved."
+        answer: "Opening the Transfer area. Choose a saved recipient or create one, enter an amount, review the details and confirm.",
+        action: "transfer"
     },
     {
         keywords: [
             "deposit",
             "withdraw",
             "cash",
-            "теглене",
+            "тегл",
             "депозит",
-            "внеси"
+            "внес"
         ],
-        answer: "The Deposit and Withdraw area lets you test both money flows. Select the operation, enter an amount and method, then confirm to see the demo balance and reports update instantly."
+        answer: "Opening the Deposit and Withdraw area.",
+        action: "deposit"
     },
     {
         keywords: [
@@ -37,6 +52,7 @@ const RESPONSES = [
     {
         keywords: [
             "report",
+            "reports",
             "spending",
             "expense",
             "income",
@@ -45,17 +61,43 @@ const RESPONSES = [
             "приход",
             "отчет"
         ],
-        answer: "Reports visualizes income, expenses, net flow and spending categories for 7 days, 30 days or all time. Demo transactions update these insights automatically."
+        answer: "Opening your financial reports.",
+        action: "reports"
     },
     {
         keywords: [
             "request",
             "payment link",
+            "request money",
             "заявка",
             "поискам",
             "линк"
         ],
-        answer: "Request Money creates a safe demo payment request and shareable link. You can then open the Payment Simulator to see how completing that request updates the wallet."
+        answer: "Opening Request Money.",
+        action: "request"
+    },
+    {
+        keywords: [
+            "dashboard",
+            "home screen",
+            "overview",
+            "начало",
+            "табло",
+            "преглед"
+        ],
+        answer: "Opening your ASWallet dashboard.",
+        action: "dashboard"
+    },
+    {
+        keywords: [
+            "settings",
+            "preferences",
+            "options",
+            "настройки",
+            "опции"
+        ],
+        answer: "Opening ASWallet settings.",
+        action: "settings"
     },
     {
         keywords: [
@@ -128,7 +170,10 @@ const RESPONSES = [
     }
 ];
 
-const FALLBACK_RESPONSE = "I'm a demo assistant, so my knowledge is focused on ASWallet. Try asking about transfers, deposits, security, reports, the technology stack or the interactive demo.";
+const FALLBACK_RESPONSE = {
+    answer: "I'm ASky Assistant, so my knowledge is focused on ASWallet. Try asking about transfers, transactions, deposits, security, reports, settings or the interactive demo.",
+    action: null
+};
 
 function normalize(value) {
     return String(value)
@@ -163,7 +208,89 @@ function findResponse(question) {
         });
     });
 
-    return match?.answer || FALLBACK_RESPONSE;
+    return match || FALLBACK_RESPONSE;
+}
+
+function navigateToDemoView(viewId) {
+    if (!viewId) {
+        return false;
+    }
+
+    const navigationButton = document.querySelector(
+        `[data-demo-nav="${viewId}"]`
+    );
+
+    if (navigationButton) {
+        navigationButton.click();
+        return true;
+    }
+
+    const demoUrl = new URL("/demo/", window.location.origin);
+
+    demoUrl.searchParams.set("view", viewId);
+
+    window.location.href = demoUrl.toString();
+
+    return false;
+}
+
+function focusDemoView(viewId) {
+    const activeView = document.querySelector(
+        `[data-demo-view="${viewId}"]`
+    );
+
+    if (!activeView) {
+        return;
+    }
+
+    if (!activeView.hasAttribute("tabindex")) {
+        activeView.setAttribute("tabindex", "-1");
+    }
+
+    window.requestAnimationFrame(() => {
+        activeView.focus({
+            preventScroll: true
+        });
+    });
+}
+
+function openRequestedDemoView() {
+    const parameters = new URLSearchParams(window.location.search);
+    const requestedView = parameters.get("view");
+
+    if (!requestedView) {
+        return;
+    }
+
+    const allowedViews = [
+        "dashboard",
+        "transfer",
+        "request",
+        "deposit",
+        "transactions",
+        "reports",
+        "settings"
+    ];
+
+    if (!allowedViews.includes(requestedView)) {
+        return;
+    }
+
+    const navigationButton = document.querySelector(
+        `[data-demo-nav="${requestedView}"]`
+    );
+
+    if (!navigationButton) {
+        return;
+    }
+
+    navigationButton.click();
+
+    window.history.replaceState(
+        {},
+        "",
+        window.location.pathname
+    );
 }
 
 function createMessage(text, sender) {
@@ -191,6 +318,7 @@ export function initAiAssistant() {
     const hint = assistant.querySelector(".ai-assistant-hint");
 
     let responseTimer = null;
+    let navigationTimer = null;
     let typingIndicator = null;
     let isTyping = false;
 
@@ -234,6 +362,11 @@ export function initAiAssistant() {
         if (responseTimer !== null) {
             window.clearTimeout(responseTimer);
             responseTimer = null;
+        }
+
+        if (navigationTimer !== null) {
+            window.clearTimeout(navigationTimer);
+            navigationTimer = null;
         }
 
         if (typingIndicator !== null) {
@@ -287,12 +420,29 @@ export function initAiAssistant() {
             responseTimer = null;
 
             const response = findResponse(cleanQuestion);
-            const botMessage = createMessage(response, "bot");
+            const botMessage = createMessage(response.answer, "bot");
 
             messages.append(botMessage);
 
             setBusy(false);
             scrollToLatest();
+
+            if (response.action) {
+                navigationTimer = window.setTimeout(() => {
+                    navigationTimer = null;
+
+                    const navigatedInsideDemo = navigateToDemoView(
+                        response.action
+                    );
+
+                    if (navigatedInsideDemo) {
+                        setOpen(false);
+                        focusDemoView(response.action);
+                    }
+                }, 700);
+
+                return;
+            }
 
             input.focus();
         }, 650);
@@ -337,11 +487,7 @@ export function initAiAssistant() {
         }
     });
 
-    window.setTimeout(() => {
-        if (!assistant.classList.contains("is-open")) {
-            hint.hidden = true;
-        }
-    }, 8000);
+    openRequestedDemoView();
 }
 
 initAiAssistant();
