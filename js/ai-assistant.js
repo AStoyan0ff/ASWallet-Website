@@ -679,17 +679,13 @@ function focusDemoView(viewId) {
     });
 }
 
-function updateContextualSuggestions(
-    viewId,
-    buttons,
-    language = "en"
-) {
+function updateContextualSuggestions(viewId, buttons, language = "en") {
+
     const suggestionCollection = language === "bg"
         ? CONTEXTUAL_SUGGESTIONS_BG
         : CONTEXTUAL_SUGGESTIONS;
 
-    const contextualSuggestions =
-        suggestionCollection[viewId]
+    const contextualSuggestions = suggestionCollection[viewId]
         || suggestionCollection.default;
 
     buttons.forEach((button, index) => {
@@ -707,9 +703,7 @@ function updateContextualSuggestions(
 }
 
 function getActiveDemoView() {
-    const activeNavigationButton = document.querySelector(
-        "[data-demo-nav].is-active"
-    );
+    const activeNavigationButton = document.querySelector("[data-demo-nav].is-active");
 
     return activeNavigationButton
         ? activeNavigationButton.dataset.demoNav
@@ -796,10 +790,7 @@ function createBotMessage(text, action = null, language = "en") {
         return message;
     }
 
-    const actionButton = createActionButton(
-        action,
-        language
-    );
+    const actionButton = createActionButton(action, language);
 
     if (actionButton) {
         message.append(actionButton);
@@ -943,11 +934,7 @@ export function initAiAssistant() {
     let isTyping = false;
     let currentLanguage = getStoredChatLanguage();
 
-    assistant.setAttribute(
-        "lang",
-        currentLanguage
-    );
-
+    assistant.setAttribute("lang", currentLanguage);
     clearButton.dataset.confirming = "false";
 
     function scrollToLatest() {
@@ -1009,18 +996,13 @@ export function initAiAssistant() {
 
         clearButton.classList.remove("is-confirming");
         clearButton.textContent = "↻";
-        clearButton.setAttribute(
-            "aria-label",
-            "Clear conversation"
-        );
-
+        clearButton.setAttribute("aria-label", "Clear conversation");
         clearButton.title = "Clear conversation";
         clearButton.dataset.confirming = "false";
     }
 
     function requestClearConversation() {
-        const isConfirming =
-            clearButton.dataset.confirming === "true";
+        const isConfirming = clearButton.dataset.confirming === "true";
 
         if (isConfirming) {
             clearConversation();
@@ -1029,11 +1011,7 @@ export function initAiAssistant() {
 
         clearButton.classList.add("is-confirming");
         clearButton.textContent = "✓";
-        clearButton.setAttribute(
-            "aria-label",
-            "Confirm clear conversation"
-        );
-
+        clearButton.setAttribute("aria-label", "Confirm clear conversation");
         clearButton.title = "Click again to confirm";
         clearButton.dataset.confirming = "true";
 
@@ -1047,39 +1025,21 @@ export function initAiAssistant() {
         resetClearConfirmation();
 
         try {
-            sessionStorage.removeItem(
-                CHAT_HISTORY_STORAGE_KEY
-            );
+            sessionStorage.removeItem(CHAT_HISTORY_STORAGE_KEY);
+
         } catch (error) {
-            console.warn(
-                "ASky chat history could not be cleared.",
-                error
-            );
+            console.warn("ASky chat history could not be cleared.", error);
         }
 
         const greeting = currentLanguage === "bg"
             ? "Здравей! Аз съм ASky Assistant. С какво мога да ти помогна?"
-            : "Hi! I’m ASky Assistant. How can I help you?";
+            : "Hi! I'm ASky Assistant. How can I help you?";
 
-        const greetingMessage = createMessage(
-            greeting,
-            "bot"
-        );
+        const greetingMessage = createMessage(greeting, "bot");
 
         messages.replaceChildren(greetingMessage);
-
-        saveChatMessage(
-            greeting,
-            "bot",
-            null,
-            currentLanguage
-        );
-
-        updateContextualSuggestions(
-            getActiveDemoView(),
-            suggestions,
-            currentLanguage
-        );
+        saveChatMessage(greeting, "bot", null, currentLanguage);
+        updateContextualSuggestions(getActiveDemoView(), suggestions, currentLanguage);
 
         scrollToLatest();
         input.focus();
@@ -1129,19 +1089,9 @@ export function initAiAssistant() {
             responseTimer = null;
 
             const language = detectLanguage(cleanQuestion);
-
             currentLanguage = language;
-
-            assistant.setAttribute(
-                "lang",
-                currentLanguage
-            );
-
-            updateContextualSuggestions(
-                getActiveDemoView(),
-                suggestions,
-                currentLanguage
-            );
+            assistant.setAttribute("lang", currentLanguage)
+            updateContextualSuggestions(getActiveDemoView(), suggestions, currentLanguage);
 
             const response = findResponse(cleanQuestion);
             const navigationRequested = shouldNavigate(cleanQuestion, response);
@@ -1206,12 +1156,7 @@ export function initAiAssistant() {
     demoNavigationButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const viewId = button.dataset.demoNav;
-
-            updateContextualSuggestions(
-                viewId,
-                suggestions,
-                currentLanguage
-            );
+            updateContextualSuggestions(viewId, suggestions, currentLanguage);
         });
     });
 
@@ -1238,13 +1183,7 @@ export function initAiAssistant() {
     }
 
     const initialView = getActiveDemoView();
-
-    updateContextualSuggestions(
-        initialView,
-        suggestions,
-        currentLanguage
-    );
-
+    updateContextualSuggestions(initialView, suggestions, currentLanguage);
     openRequestedDemoView();
 }
 
