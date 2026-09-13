@@ -160,6 +160,29 @@
     letter-spacing: 0.02em;
 }
 
+.legal-footer-links {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 24px;
+}
+
+.legal-footer-links a {
+
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.legal-footer-links a:hover,
+.legal-footer-links a[aria-current="page"] {
+
+    color: var(--color-gold-light);
+}
+
 @media (max-width: 900px) {
 
     .footer-top {
