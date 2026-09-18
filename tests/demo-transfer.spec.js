@@ -156,6 +156,7 @@ test.describe("ASWallet demo transfer", () => {
         const nameInput = transferView.locator('[data-recipient-field="name"]');
         const ibanInput = transferView.locator('[data-recipient-field="iban"]');
         const bankInput = transferView.locator('[data-recipient-field="bank"]');
+        const amountInput = transferView.locator("[data-amount-input]");
         const reviewPanel = transferView.locator('[data-transfer-panel="3"]');
 
         await page.locator('[data-demo-nav="transfer"]').click();
@@ -168,7 +169,8 @@ test.describe("ASWallet demo transfer", () => {
 
         await expect(transferView.locator('[data-transfer-panel="2"]')).toBeVisible();
 
-        await transferView.locator("[data-amount-input]").fill("75");
+        await amountInput.fill("75");
+        await amountInput.blur();
         await transferView.locator("[data-reference-input]").fill("New recipient test");
 
         await expect(transferView.locator("[data-preview-to]")).toHaveText("Test Recipient");
