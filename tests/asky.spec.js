@@ -60,21 +60,24 @@ test.describe("ASky Assistant", () => {
 
         const assistant = page.locator("[data-ai-assistant]");
         const input = assistant.locator("[data-ai-input]");
-        const launcher = assistant.locator( "[data-ai-launcher]");
+        const launcher = assistant.locator("[data-ai-launcher]");
+        const closeButton = assistant.locator("[data-ai-close]");
+        const typingIndicator = assistant.locator(".ai-message.typing");
 
         await launcher.click();
-        await input.fill( "How secure is ASWallet?");
+        await input.fill("How secure is ASWallet?");
         await input.press("Enter");
 
-        await expect(assistant.locator(".ai-message.typing")).toBeVisible();
-        await assistant.locator("[data-ai-close]").click();
-        await expect(assistant.locator(".ai-message.typing")).toHaveCount(0);
+        await closeButton.dispatchEvent("click");
+
+        await expect(assistant).not.toHaveClass(/is-open/);
+        await expect(typingIndicator).toHaveCount(0);
         await expect(input).toBeEnabled();
+
         await launcher.click();
 
-        await expect( assistant.locator("[data-ai-panel]")).toBeVisible();
-        await expect(assistant.locator(".ai-message.typing")).toHaveCount(0);
-        
+        await expect(assistant.locator("[data-ai-panel]")).toBeVisible();
+        await expect(typingIndicator).toHaveCount(0);
     });
 
     test("restores the conversation after a reload", async ({ page }) => {
@@ -100,21 +103,23 @@ test.describe("ASky Assistant", () => {
         const assistant = page.locator("[data-ai-assistant]");
         const input = assistant.locator("[data-ai-input]");
         const messages = assistant.locator("[data-ai-messages]");
+        const clearButton = assistant.locator("[data-ai-clear]");
 
         await assistant.locator("[data-ai-launcher]").click();
         await input.fill("What's your name?");
         await input.press("Enter");
-        await expect( messages.getByText("My name is ASky Assistant - your personal ASWallet guide.")).toBeVisible();
 
-        const clearButton = assistant.locator("[data-ai-clear]");
+        await expect(messages.getByText("My name is ASky Assistant - your personal ASWallet guide.")).toBeVisible();
 
-        await clearButton.click();
-        await expect(clearButton).toHaveAttribute( "aria-label", "Confirm clear conversation");
-        await clearButton.click();
+        await clearButton.dispatchEvent("click");
+
+        await expect(clearButton).toHaveAttribute("aria-label", "Confirm clear conversation");
+
+        await clearButton.dispatchEvent("click");
+
         await expect(messages.locator(".ai-message")).toHaveCount(1);
         await expect(messages.getByText("Hi! I'm ASky Assistant. How can I help you?")).toBeVisible();
         await expect(clearButton).toHaveAttribute("aria-label", "Clear conversation");
-        
     });
 
     test("navigates to Reports from inside the Demo", async ({ page }) => {

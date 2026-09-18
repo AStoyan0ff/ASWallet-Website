@@ -17,6 +17,7 @@ test.describe("ASWallet demo transactions", () => {
         const successPanel = depositView.locator("[data-money-success]");
 
         await page.locator('[data-demo-nav="deposit"]').click();
+        await depositView.locator('[data-money-mode="deposit"]').click();
 
         await expect(depositView).toBeVisible();
         await expect(currentBalance).toContainText("€12,480.75");
@@ -82,9 +83,12 @@ test.describe("ASWallet demo transactions", () => {
         const transactionList = transactionsView.locator("[data-transactions-list]");
 
         await page.locator('[data-demo-nav="deposit"]').click();
+
+        await moneyView.locator('[data-money-mode="deposit"]').click();
         await moneyView.locator("[data-money-amount]").fill("100");
         await moneyView.locator("[data-money-reference]").fill("Playwright deposit history test");
         await moneyView.locator("[data-money-submit]").click();
+        
         await expect(moneyView.locator("[data-money-success]")).toBeVisible();
 
         await page.locator('[data-demo-nav="transactions"]').click();
@@ -104,8 +108,8 @@ test.describe("ASWallet demo transactions", () => {
         const errorMessage = moneyView.locator("[data-money-error]");
 
         await page.locator('[data-demo-nav="deposit"]').click();
-        await moneyView.locator('[data-money-mode="withdraw"]').click();
 
+        await moneyView.locator('[data-money-mode="withdraw"]').click();
         await amountInput.fill("20000");
         await moneyView.locator("[data-money-submit]").click();
 
@@ -123,7 +127,7 @@ test.describe("ASWallet demo transactions", () => {
         const errorMessage = moneyView.locator("[data-money-error]");
 
         await page.locator('[data-demo-nav="deposit"]').click();
-
+        await moneyView.locator('[data-money-mode="deposit"]').click();
         await amountInput.fill("0");
         await moneyView.locator("[data-money-submit]").click();
 
@@ -144,6 +148,7 @@ test.describe("ASWallet demo transactions", () => {
         const previewBalance = moneyView.locator("[data-money-preview-balance]");
 
         await page.locator('[data-demo-nav="deposit"]').click();
+        await moneyView.locator('[data-money-mode="deposit"]').click();
         await amountChip.click();
 
         await expect(amountChip).toHaveClass(/is-active/);
@@ -163,13 +168,11 @@ test.describe("ASWallet demo transactions", () => {
         await moneyView.locator("[data-money-amount]").fill("200");
         await moneyView.locator("[data-money-reference]").fill("Playwright withdrawal history test");
         await moneyView.locator("[data-money-submit]").click();
-
         await expect(moneyView.locator("[data-money-success]")).toBeVisible();
 
         await page.locator('[data-demo-nav="transactions"]').click();
 
         await expect(transactionsView).toBeVisible();
-
         const newestTransaction = transactionList.locator(".transaction-item").first();
 
         await expect(newestTransaction).toContainText("Wallet Withdrawal");
