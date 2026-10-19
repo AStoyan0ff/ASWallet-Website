@@ -98,7 +98,7 @@ test.describe("ASWallet demo transfer", () => {
         await transferView.locator("[data-details-form] button[type='submit']").click();
 
         await expect(amountError).toBeVisible();
-        await expect(amountError).toHaveText("Enter an amount greater than €0.00.");
+        await expect(amountError).toHaveText("Enter an amount greater than zero.");
         await expect(amountInput).toHaveAttribute("aria-invalid", "true");
         await expect(amountInput).toBeFocused();
         await expect(transferView.locator('[data-transfer-panel="2"]')).toBeVisible();

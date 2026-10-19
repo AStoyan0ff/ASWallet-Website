@@ -132,7 +132,7 @@ test.describe("ASWallet demo transactions", () => {
         await moneyView.locator("[data-money-submit]").click();
 
         await expect(errorMessage).toBeVisible();
-        await expect(errorMessage).toHaveText("Enter an amount greater than €0.00.");
+        await expect(errorMessage).toHaveText("Enter an amount greater than zero.");
         await expect(amountInput).toHaveAttribute("aria-invalid", "true");
         await expect(amountInput).toBeFocused();
         await expect(moneyView.locator("[data-money-success]")).not.toBeVisible();

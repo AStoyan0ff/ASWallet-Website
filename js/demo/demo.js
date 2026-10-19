@@ -284,17 +284,33 @@ function parseDemoAmount(rawValue) {
         : 0;
 }
 
+function renderCurrencySymbols() {
+    const symbol = demoState.settings.currency === "USD" ? "$" : "€";
+
+    document.querySelectorAll(".amount-currency, .money-amount-currency, .request-amount-currency")
+        .forEach((element) => {
+            element.textContent = symbol;
+    });
+}
+
 function formatCurrency(amount) {
+
     const currency = demoState.settings?.currency || "EUR";
+    const value = Number(amount) || 0;
 
-    const locale = "en-GB";
-
-    return new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency,
+    const formattedAmount = new Intl.NumberFormat("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-    }).format(Number(amount) || 0);
+    }).format(Math.abs(value));
+
+    const sign = value < 0 
+        ? "-" 
+        : "";
+    const prefix = currency === "USD" 
+        ? "$" 
+        : "€";
+
+    return `${sign}${prefix}${formattedAmount}`;
 }
 
 function getTransactionInitials(name) {
@@ -3123,6 +3139,7 @@ function applyDemoSetting(settingName, settingValue) {
 
         case "currency": {
 
+            renderCurrencySymbols();
             renderDemoBalance();
             renderDashboardTransactions();
             renderFilteredTransactions();
@@ -3456,11 +3473,7 @@ function initTransferFlow() {
     let bridgeTimer = 0;
     let isTransferConfirmed = false;
 
-    const formatAmount = (value) =>
-        value.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
+    const formatAmount = (value) => Number(value).toFixed(2);
 
     const renderTransferBalance = () => {
         if (!transferAvailableBalance) {
@@ -3501,7 +3514,7 @@ function initTransferFlow() {
     const validateTransferAmount = () => {
 
         if (transferState.amount <= 0) {
-            showAmountError("Enter an amount greater than €0.00.");
+            showAmountError("Enter an amount greater than zero.");
             amountInput?.focus();
 
             return false;
@@ -3648,7 +3661,7 @@ function initTransferFlow() {
         }
 
         if (previewAmount) {
-            previewAmount.textContent = `€${formatAmount(transferState.amount)}`;
+            previewAmount.textContent = formatCurrency(transferState.amount);
         }
 
         if (previewNote) {
@@ -3666,7 +3679,7 @@ function initTransferFlow() {
         }
 
         if (reviewAmount) {
-            reviewAmount.textContent = `€${formatAmount(transferState.amount)}`;
+            reviewAmount.textContent = formatCurrency(transferState.amount);
         }
 
         if (reviewName) {
@@ -3682,14 +3695,14 @@ function initTransferFlow() {
         }
 
         if (reviewRemaining) {
-            reviewRemaining.textContent = `€${formatAmount(remaining)}`;
+            reviewRemaining.textContent = formatCurrency(remaining);
         }
     };
 
     const updateSuccess = () => {
 
         if (successAmount) {
-            successAmount.textContent = `€${formatAmount(transferState.amount)}`;
+            successAmount.textContent = formatCurrency(transferState.amount);
         }
 
         if (successName) {
@@ -4014,11 +4027,7 @@ function initMoneyFlow() {
 
     const parseMoneyAmount = parseDemoAmount;
 
-    const formatMoneyAmount = (value) =>
-        Number(value).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
+    const formatMoneyAmount = (value) => Number(value).toFixed(2);
 
     const generateMoneyReference = () => {
         const now = new Date();
@@ -4150,7 +4159,7 @@ function initMoneyFlow() {
 
     const validateMoneyTransaction = () => {
         if (moneyState.amount <= 0) {
-            showMoneyError("Enter an amount greater than €0.00.");
+            showMoneyError("Enter an amount greater than zero.");
 
             return false;
         }
@@ -4465,13 +4474,7 @@ function initRequestMoneyFlow() {
     const parseAmount = parseDemoAmount;
 
     function formatAmount(amount) {
-
-        return new Intl.NumberFormat("en-IE", {
-            style: "currency",
-            currency: "EUR",
-            minimumFractionDigits: 2
-
-        }).format(amount);
+        return formatCurrency(amount);
     }
 
     function getSelectedOptionLabel(selectElement) {
@@ -4565,7 +4568,7 @@ function initRequestMoneyFlow() {
         }
 
         if (requestState.amount <= 0) {
-            showError("Please enter an amount greater than €0.00.");
+            showError("Please enter an amount greater than zero.");
             return false;
         }
 
@@ -4840,13 +4843,7 @@ function initPaymentSimulator() {
     let previousFocus = null;
 
     function formatPaymentAmount(value) {
-
-        return new Intl.NumberFormat("en-IE", {
-            style: "currency",
-            currency: "EUR",
-            minimumFractionDigits: 2
-
-        }).format(Number(value));
+        return formatCurrency(value);
     }
 
     function findTransaction() {
