@@ -807,7 +807,7 @@ function exportTransactionStatement() {
 
                         <div>
                             <dt>Currency</dt>
-                            <dd>EUR</dd>
+                            <dd>${escapeHtml(demoState.settings.currency)}</dd>
                         </div>
                     </dl>
                 </header>
